@@ -1370,6 +1370,7 @@ main(void)
 		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 		SEGGER_RTT_WriteString(0, "\r[  \t\t\t\t      Cambridge / Physcomplab   \t\t\t\t  ]\n\n");
 		OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+		devSSD1331init();
 
 #ifdef WARP_BUILD_ENABLE_SEGGER_RTT_PRINTF
 		SEGGER_RTT_printf(0, "\r\tSupply=%dmV,\tDefault Target Read Register=0x%02x\n",
