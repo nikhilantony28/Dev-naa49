@@ -165,8 +165,12 @@ devSSD1331init(void)
 	writeCommand(0x02);
 	writeCommand(0x03);
 	writeCommand(0x15);
-	writeCommand(28,0,0);
-	writeCommand(0, 0, 40);
+	writeCommand(28);
+	writeCommand(0);
+	writeCommand(0);
+	writeCommand(0);
+	writeCommand(0);	
+	writeCommand(40);
 
 
 	return 0;
