@@ -1870,6 +1870,7 @@ main(void)
 	 */
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
+	devSSD1331init();
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
@@ -1899,8 +1900,7 @@ main(void)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		#if (WARP_BUILD_ENABLE_DEVIS25xP)
-			devSSD1331init();	
-		
+					
 			warpPrint("About to read IS25xP JEDEC ID...\n");
 			//spiTransactionIS25xP({0x9F /* op0 */,  0x00 /* op1 */,  0x00 /* op2 */, 0x00 /* op3 */, 0x00 /* op4 */, 0x00 /* op5 */, 0x00 /* op6 */}, 5 /* opCount */);
 			warpPrint("IS25xP JEDEC ID = [0x%X] [0x%X] [0x%X]\n", deviceIS25xPState.spiSinkBuffer[1], deviceIS25xPState.spiSinkBuffer[2], deviceIS25xPState.spiSinkBuffer[3]);
