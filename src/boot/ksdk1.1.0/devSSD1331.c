@@ -84,7 +84,7 @@ devSSD1331init(void)
 	 *
 	 *	Reconfigure to use as GPIO.
 	 */
-	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 11u, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
 
@@ -161,16 +161,17 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
-	writeCommand(kSSD1331CommandDRAWRECT);
-	writeCommand(0x02);
-	writeCommand(0x03);
-	writeCommand(0x15);
-	writeCommand(0x28);
-	writeCommand(0);
-	writeCommand(0);
-	writeCommand(0);
-	writeCommand(0);	
-	writeCommand(0x40);
+writeCommand(kSSD1331CommandDRAWRECT);
+writeCommand(0x00); // Column Address of Start
+writeCommand(0x00); // Row Address of Start
+writeCommand(0x5F); // Column Address of End
+writeCommand(0x3F); // Row Address of End
+writeCommand(0x00); // Colour C of the line
+writeCommand(0x39); // Colour B of the line
+writeCommand(0x00); // Colour A of the line
+writeCommand(0x00); // Colour C of the fill area
+writeCommand(0x39); // Colour B of the fill area
+writeCommand(0x00); // Colour A of the fill area
 
 
 	return 0;

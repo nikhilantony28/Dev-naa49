@@ -61,7 +61,6 @@
 #include "errstrs.h"
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
-#include "devSSD1331.h"
 
 
 
@@ -69,6 +68,7 @@
 #define							kWarpConstantStringErrorInvalidVoltage	"\rInvalid supply voltage [%d] mV!"
 #define							kWarpConstantStringErrorSanity		"\rSanity check failed!"
 
+#include "devSSD1331.h"
 
 #if (WARP_BUILD_ENABLE_DEVADXL362)
 	#include "devADXL362.h"
@@ -1870,7 +1870,7 @@ main(void)
 	 */
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
-	devSSD1331init();
+	
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
@@ -2020,7 +2020,7 @@ main(void)
 			warpPrint("Should not get here...");
 		}
 	#endif
-
+	devSSD1331init();
 	while (1)
 	{
 		/*
