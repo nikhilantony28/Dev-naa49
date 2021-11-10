@@ -61,7 +61,7 @@
 #include "errstrs.h"
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
-#include "SSD1331.c"
+#include "devSSD1331.c"
 
 
 
