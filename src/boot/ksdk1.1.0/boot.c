@@ -1870,7 +1870,7 @@ main(void)
 	 */
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
-	devD1331init();
+	devSSD1331init();
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
