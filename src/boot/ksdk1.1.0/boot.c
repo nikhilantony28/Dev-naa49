@@ -1604,10 +1604,8 @@ main(void)
 	/*
 	 *	Initialize all the sensors
 	 */
-	 #if (WARP_BUILD_ENABLE_INA219)
+	#if (WARP_BUILD_ENABLE_INA219)
  		initINA219(	0x40	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
-		configureSensorINA219(0x399F, /* Configuration register*/ 0x0000 /*Calibration Register*/);
-		printSensorDataINA219(1);
  	#endif
 	 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
@@ -2823,7 +2821,11 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 							0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
 							0b00001000	/*	payloadGas_0: Turn off heater							*/
 					);
-
+	#if (WARP_BUILD_ENABLE_INA219)
+		configureSensorINA219(0x399F, /* Configuration register*/ 0x0000 /*Calibration Register*/);
+		
+	#endif
+	
 	if (printHeadersAndCalibration)
 	{
 		warpPrint("\r\n\nBME680 Calibration Data: ");
@@ -2959,7 +2961,9 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 		#if (WARP_BUILD_ENABLE_DEVHDC1000)
 			printSensorDataHDC1000(hexModeFlag);
 		#endif
-
+		#if (WARP_BUILD_ENABLE_INA219)
+			printSensorDataINA219(1);
+		#endif
 		warpPrint(" %12d, %6d, %2u\n", RTC->TSR, RTC->TPR, numberOfConfigErrors);
 
 		if (menuDelayBetweenEachRun > 0)
