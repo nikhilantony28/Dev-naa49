@@ -1605,7 +1605,7 @@ main(void)
 	 *	Initialize all the sensors
 	 */
 	 #if (WARP_BUILD_ENABLE_INA219)
- 		initINA219(	0x40	/* i2cAddress */,	&deviceINA219State,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
+ 		initINA219(	0x40	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
 		configureSensorINA219(0x399F /* Configuration register*/, 0x0000 /*Calibration Register*/);
 		printSensorDataINA219();
  	#endif
