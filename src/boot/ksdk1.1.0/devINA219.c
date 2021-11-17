@@ -64,7 +64,6 @@ writeSensorRegisterINA219(uint8_t deviceRegister, uint16_t payload)
 
 	warpScaleSupplyVoltage(deviceINA219State.operatingVoltageMillivolts);
 	commandByte[0] = deviceRegister;
-	// Are these the right way around?
 	payloadByte[0] = payload >> 8; // Right shift by 8 to get top half
 	payloadByte[1] = payload & 0xFF; // and with 8 1s to just get bottom half
 	warpEnableI2Cpins();
@@ -168,7 +167,7 @@ printSensorDataINA219(bool hexModeFlag)
 	*/
 
 
-	i2cReadStatus = readSensorRegisterINA219(0x02 /* Voltage*/ , 2 /* numberOfBytes */);
+	i2cReadStatus = readSensorRegisterINA219(0x01 /* Voltage*/ , 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB);
