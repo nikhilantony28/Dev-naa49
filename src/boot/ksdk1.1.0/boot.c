@@ -2962,7 +2962,7 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 			//printSensorDataHDC1000(hexModeFlag);
 		#endif
 		#if (WARP_BUILD_ENABLE_INA219)
-			printSensorDataINA219(1);
+			printSensorDataINA219(hexModeFlag);
 		#endif
 		warpPrint(" %12d, %6d, %2u\n", RTC->TSR, RTC->TPR, numberOfConfigErrors);
 
