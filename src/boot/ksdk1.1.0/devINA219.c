@@ -184,7 +184,7 @@ printSensorDataINA219(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint("Voltage: %d,", readSensorRegisterValueCombined/10);
+			warpPrint("Current[mA]: %d,", readSensorRegisterValueCombined/10);
 		}
 	}
 }
