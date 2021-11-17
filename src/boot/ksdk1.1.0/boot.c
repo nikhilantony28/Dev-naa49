@@ -176,6 +176,12 @@
 	volatile WarpUARTDeviceState			deviceBGXState;
 #endif
 
+#if (WARP_BUILD_ENABLE_INA219)
+	#include "INA219.h"
+	volatile WarpI2CDeviceState			deviceINA219State;
+#endif
+
+
 
 volatile i2c_master_state_t				i2cMasterState;
 volatile spi_master_state_t				spiMasterState;
@@ -1598,6 +1604,12 @@ main(void)
 	/*
 	 *	Initialize all the sensors
 	 */
+	 #if (WARP_BUILD_ENABLE_INA219)
+ 		initINA219(	0x40	/* i2cAddress */,	&deviceINA219State,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
+		configureSensorINA219(0x399F /* Configuration register*/, 0x0000 /*Calibration Register*/);
+		printSensorDataINA219();
+ 	#endif
+	 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	&deviceBMX055accelState,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
 		initBMX055gyro(	0x68	/* i2cAddress */,	&deviceBMX055gyroState,		kWarpDefaultSupplyVoltageMillivoltsBMX055gyro	);
