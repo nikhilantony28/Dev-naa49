@@ -167,7 +167,7 @@ printSensorDataINA219(bool hexModeFlag)
 	*/
 
 
-	i2cReadStatus = readSensorRegisterINA219(0x02 /* Voltage*/ , 2 /* numberOfBytes */);
+	i2cReadStatus = readSensorRegisterINA219(0x04 /* Voltage*/ , 2 /* numberOfBytes */);
 	readSensorRegisterValueMSB = deviceINA219State.i2cBuffer[0];
 	readSensorRegisterValueLSB = deviceINA219State.i2cBuffer[1];
 	readSensorRegisterValueCombined = ((readSensorRegisterValueMSB & 0xFF) << 8) | (readSensorRegisterValueLSB);

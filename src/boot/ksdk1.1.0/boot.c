@@ -2822,7 +2822,7 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 							0b00001000	/*	payloadGas_0: Turn off heater							*/
 					);
 	#if (WARP_BUILD_ENABLE_INA219)
-		configureSensorINA219(0x399F, /* Configuration register*/ 0x0000 /*Calibration Register*/);
+		configureSensorINA219(0x399F, /* Configuration register*/ 0x1000 /*Calibration Register*/);
 		
 	#endif
 	
