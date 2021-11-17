@@ -2925,41 +2925,41 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 		warpPrint("%12u, %12d, %6d,\t\t", readingCount, RTC->TSR, RTC->TPR);
 
 		#if (WARP_BUILD_ENABLE_DEVADXL362)
-			printSensorDataADXL362(hexModeFlag);
+			//printSensorDataADXL362(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVAMG8834)
-			printSensorDataAMG8834(hexModeFlag);
+			//printSensorDataAMG8834(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVMMA8451Q)
-			printSensorDataMMA8451Q(hexModeFlag);
+			//printSensorDataMMA8451Q(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVMAG3110)
-			printSensorDataMAG3110(hexModeFlag);
+			//printSensorDataMAG3110(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVL3GD20H)
-			printSensorDataL3GD20H(hexModeFlag);
+			//printSensorDataL3GD20H(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVBME680)
-			printSensorDataBME680(hexModeFlag);
+			//printSensorDataBME680(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVBMX055)
-			printSensorDataBMX055accel(hexModeFlag);
-			printSensorDataBMX055mag(hexModeFlag);
-			printSensorDataBMX055gyro(hexModeFlag);
+			//printSensorDataBMX055accel(hexModeFlag);
+			//printSensorDataBMX055mag(hexModeFlag);
+			//printSensorDataBMX055gyro(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVCCS811)
-			printSensorDataCCS811(hexModeFlag);
+			//printSensorDataCCS811(hexModeFlag);
 		#endif
 
 		#if (WARP_BUILD_ENABLE_DEVHDC1000)
-			printSensorDataHDC1000(hexModeFlag);
+			//printSensorDataHDC1000(hexModeFlag);
 		#endif
 		#if (WARP_BUILD_ENABLE_INA219)
 			printSensorDataINA219(1);
