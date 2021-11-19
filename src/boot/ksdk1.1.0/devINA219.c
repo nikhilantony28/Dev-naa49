@@ -28,7 +28,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
 void
-initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts) // remove operating voltage?
+initINA219(const uint8_t i2cAddress, uint16_t operatingVoltageMillivolts)
 {
 	deviceINA219State.i2cAddress			= i2cAddress;
 	deviceINA219State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
@@ -184,7 +184,7 @@ printSensorDataINA219(bool hexModeFlag)
 		}
 		else
 		{
-			warpPrint("Current[mA]: %d,", readSensorRegisterValueCombined/10);
+			warpPrint("Current[mA]: %d,", readSensorRegisterValueCombined);
 		}
 	}
 }
