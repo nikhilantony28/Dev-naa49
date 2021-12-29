@@ -2844,44 +2844,44 @@ main(void)
 			}
 			case '#':
 			{
-			  SEGGER_RTT_printf(0, "\r\n\t1. Save UID for tag: ");
-			  SEGGER_RTT_printf(0, "\r\n\t2. Test UID: ");
+			  warpPrint("\r\n\t1. Save UID for tag: ");
+			  warpPrint("\r\n\t2. Test UID: ");
 			  OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-			  key = SEGGER_RTT_WaitKey();
+			  key = warpWaitKey();
 			  switch(key)
 			  {
 					//uint8_t data_rfid[16];
 			    case '1':
 			    {
 						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-						SEGGER_RTT_printf(0, "\nSaved UID: ");
+						warpPrint("\nSaved UID: ");
 			      if( request_tag(0x26, data_rfid) == 0){
 			        if(mfrc522_get_card_serial(data_rfid) == 0){
 			          for(int datcop =0; datcop <5; datcop++){
 			            uid[datcop] = data_rfid[datcop];
-			            SEGGER_RTT_printf(0, "0x%02x ", uid[datcop]);
+			            warpPrint("0x%02x ", uid[datcop]);
 			          }
 
 			        }
 			      }
 			      else{
-			        SEGGER_RTT_WriteString(0, "No card present");
+			        warpPrint("No card present");
 			      }
 			      break;
 			    }
 			    case '2':
 			    {
-						SEGGER_RTT_WriteString(0, "\n2. Saved UID: ");
+						warpPrint("\n2. Saved UID: ");
 						for(int datcop =0; datcop <5; datcop++){
-			      	SEGGER_RTT_printf(0, "0x%02x ", uid[datcop]);
+			      	warpPrint("0x%02x ", uid[datcop]);
 						}
-						SEGGER_RTT_WriteString(0, "\n2. Test UID (1s delay): ");
+						warpPrint("\n2. Test UID (1s delay): ");
 						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds*200);
 			      if( request_tag(0x26, data_rfid) == 0){
 			        if(mfrc522_get_card_serial( data_rfid) == 0){
 			          for(int datcop =0; datcop <5; datcop++){
 			            uid2[datcop] = data_rfid[datcop];
-			            SEGGER_RTT_printf(0, "0x%02x ", uid2[datcop]);
+			            warpPrint("0x%02x ", uid2[datcop]);
 			          }
 								int correct = 1;
 								for(int datcop =0; datcop <5; datcop++){
@@ -2890,15 +2890,15 @@ main(void)
 									}
 								}
 								if (correct == 1){
-									SEGGER_RTT_WriteString(0, "\r\n\tCorrect card present");
+									warpPrint("\r\n\tCorrect card present");
 								}
 								else{
-									SEGGER_RTT_WriteString(0, "\r\n\tIncorrect card present");
+									warpPrint("\r\n\tIncorrect card present");
 								}
 							}
 			      }
 			      else{
-			        SEGGER_RTT_WriteString(0, "No card present");
+			        warpPrint("No card present");
 			      }
 			      break;
 			    }
