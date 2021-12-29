@@ -181,6 +181,11 @@
 	volatile WarpI2CDeviceState			deviceINA219State;
 #endif
 
+#if (WARP_BUILD_ENABLE_MFRC522)
+	#include "devMFRC522.h"
+	volatile WarpI2CDeviceState			deviceINA219State;
+#endif
+
 
 
 volatile i2c_master_state_t				i2cMasterState;
