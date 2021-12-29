@@ -1923,7 +1923,7 @@ main(void)
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
 
-	devMFRC522init(&deviceMFRC522State);
+	devMFRC522init();
 	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
 
 	uint8_t uid[5];
@@ -2850,7 +2850,7 @@ main(void)
 			  key = SEGGER_RTT_WaitKey();
 			  switch(key)
 			  {
-					uint8_t data_rfid[16];
+					//uint8_t data_rfid[16];
 			    case '1':
 			    {
 						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
