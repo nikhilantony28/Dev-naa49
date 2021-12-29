@@ -25,9 +25,8 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 
 
-volatile uint8_t	inBuffer[32];
-volatile uint8_t	payloadBytes[32];
-extern volatile WarpSPIDeviceState	deviceMFRC522State;
+volatile uint8_t	inBuffer[1];
+volatile uint8_t	payloadBytes[1];
 extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
 extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
@@ -46,16 +45,14 @@ extern volatile uint32_t		gWarpSPIBaudRateKbps;
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
  };
 
-WarpStatus
+static int
 writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
 	spi_status_t status;
 
-	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
-	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
+	payloadBytes[0] = deviceRegister;
+	payloadBytes[1] = writeValue;
 
-	deviceMFRC522State.spiSinkBuffer[0] = 0x00;
-	deviceMFRC522State.spiSinkBuffer[1] = 0x00;
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
@@ -64,8 +61,8 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
-					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
+					(const uint8_t * restrict)payloadBytes,
+					(uint8_t * restrict)inBuffer,
 					2 /* transfer size */,
 					gWarpSpiTimeoutMicroseconds);
 
@@ -87,7 +84,7 @@ write_RFID(uint8_t addr, uint8_t payload)
 }
 
 
-WarpStatus
+static int
 readSensorRegisterMFRC522(uint8_t deviceRegister)
 {
 	return writeSensorRegisterMFRC522(deviceRegister, 0x00);
