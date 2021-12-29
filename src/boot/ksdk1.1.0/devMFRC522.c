@@ -24,6 +24,7 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 #include "devMFRC522.h"
 
 
+
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
 extern volatile WarpSPIDeviceState	deviceMFRC522State;
@@ -274,7 +275,7 @@ devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
  	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAlt3);
 
- 	warpenableSPIpins();
+ 	WarpEnableSPIpins();
 
  	/*
  	 *	Override Warp firmware's use of these pins.
