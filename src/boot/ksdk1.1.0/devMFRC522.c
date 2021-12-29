@@ -101,7 +101,7 @@ read_RFID(uint8_t addr)
   */
 	readSensorRegisterMFRC522(((addr<<1)&0x7E) | 0x80);
 
-	return deviceMFRC522State.spiSinkBuffer[1];
+	return inBuffer[1];
 }
 
 //
@@ -272,7 +272,7 @@ devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
  	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAlt3);
 
- 	WarpEnableSPIpins();
+ 	warpEnableSPIpins();
 
  	/*
  	 *	Override Warp firmware's use of these pins.
