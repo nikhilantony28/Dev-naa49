@@ -21,8 +21,8 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 
 
-volatile uint8_t	inBuffer[1];
-volatile uint8_t	payloadBytes[1];
+volatile uint8_t	inBuffer[2];
+volatile uint8_t	payloadBytes[2];
 extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
 extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
@@ -257,7 +257,7 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 
 
 void
-devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
+devMFRC522init()
 {
 	/*
 	 *	Override Warp firmware's use of these pins.
