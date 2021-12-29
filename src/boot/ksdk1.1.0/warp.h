@@ -256,14 +256,6 @@ typedef enum
 	kWarpMiscMarkerForAbsentByte					= 0xFF,
 } WarpMisc;
 
-typedef enum
-{
-	kWarpSizesI2cBufferBytes		= 4,
-	kWarpSizesSpiBufferBytes		= 4, /* Was 3 bytes */
-	kWarpSizesUartBufferBytes		= 4, /* Was 3 bytes */
-	kWarpSizesBME680CalibrationValuesCount	= 41,
-} WarpSizes;
-
 typedef struct
 {
 	bool			isInitialized;
