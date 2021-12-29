@@ -2088,7 +2088,7 @@ main(void)
 		 *	want to use menu to progressiveley change the machine state with various
 		 *	commands.
 		 */
-		uint8_t data_rfid[MAX_LEN];
+		uint8_t data_rfid[16];
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		warpPrint("\rSelect:\n");
@@ -2856,7 +2856,7 @@ main(void)
 						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 						SEGGER_RTT_printf(0, "\nSaved UID: ");
 			      if( request_tag(0x26, data_rfid) == 0){
-			        if(mfrc522_get_card_serial(data_rfid) == MI_OK){
+			        if(mfrc522_get_card_serial(data_rfid) == 0){
 			          for(int datcop =0; datcop <5; datcop++){
 			            uid[datcop] = data_rfid[datcop];
 			            SEGGER_RTT_printf(0, "0x%02x ", uid[datcop]);
@@ -2877,8 +2877,8 @@ main(void)
 						}
 						SEGGER_RTT_WriteString(0, "\n2. Test UID (1s delay): ");
 						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds*200);
-			      if( request_tag(MF1_REQIDL, data_rfid) == MI_OK){
-			        if(mfrc522_get_card_serial( data_rfid) == MI_OK){
+			      if( request_tag(0x26, data_rfid) == 0){
+			        if(mfrc522_get_card_serial( data_rfid) == 0){
 			          for(int datcop =0; datcop <5; datcop++){
 			            uid2[datcop] = data_rfid[datcop];
 			            SEGGER_RTT_printf(0, "0x%02x ", uid2[datcop]);
