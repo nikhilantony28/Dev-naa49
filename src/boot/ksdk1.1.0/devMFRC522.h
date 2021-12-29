@@ -139,8 +139,8 @@ Miguel Balboa (https://github.com/miguelbalboa/rfid).
 #define     Reserved34            0x3F
 
 
-int readSensorRegisterMFRC522(uint8_t deviceRegister);
-int writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue);
+static int readSensorRegisterMFRC522(uint8_t deviceRegister);
+static int writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue);
 void devMFRC522init(WarpSPIDeviceState volatile *  deviceStatePointer);
 uint8_t read_RFID(uint8_t addr);
 void write_RFID(uint8_t addr, uint8_t val);
