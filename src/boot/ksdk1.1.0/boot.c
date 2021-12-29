@@ -2850,12 +2850,12 @@ main(void)
 			  key = SEGGER_RTT_WaitKey();
 			  switch(key)
 			  {
-					uint8_t data_rfid[MAX_LEN];
+					uint8_t data_rfid[16];
 			    case '1':
 			    {
 						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 						SEGGER_RTT_printf(0, "\nSaved UID: ");
-			      if( request_tag(MF1_REQIDL, data_rfid) == MI_OK){
+			      if( request_tag(0x26, data_rfid) == 0){
 			        if(mfrc522_get_card_serial(data_rfid) == MI_OK){
 			          for(int datcop =0; datcop <5; datcop++){
 			            uid[datcop] = data_rfid[datcop];
