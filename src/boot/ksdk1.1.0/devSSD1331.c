@@ -353,12 +353,12 @@ devSSD1331init(void)
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
-	writeString("STEPS:");
+	writeString("STEPS are stupid");
 
 	locate(3,30);
 	int value = 0;
 	uint16_t value2 = 1;
-	display(value, value2);
+	//display(value, value2);
 	
 	return 0;
 
