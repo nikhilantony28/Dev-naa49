@@ -2080,7 +2080,7 @@ main(void)
 			warpPrint("Should not get here...");
 		}
 	#endif
-	//devSSD1331init();
+	devSSD1331init();
 	while (1)
 	{
 		/*
