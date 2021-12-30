@@ -274,7 +274,7 @@ devSSD1331init(void)
 	 *	Reconfigure to use as GPIO.
 	 */
 	PORT_HAL_SetMuxMode(PORTB_BASE, 11u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 0u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
 
 
