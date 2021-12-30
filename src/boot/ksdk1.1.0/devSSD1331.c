@@ -157,6 +157,77 @@ writeCommand(uint8_t commandByte)
 	return status;
 }
 
+writeCommandMulti(uint8_t *commandByte, uint8_t count)
+{
+	spi_status_t status;
+
+	/*
+	 *	Drive /CS low.
+	 *
+	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
+	 */
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
+	OSA_TimeDelay(10);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
+
+	/*
+	 *	Drive DC low (command).
+	 */
+	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
+	for(int i=0; i<count; i++) {
+		payloadBytes[0] = commandByte[i];
+		status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
+						NULL		/* spi_master_user_config_t */,
+						(const uint8_t * restrict)&payloadBytes[0],
+						(uint8_t * restrict)&inBuffer[0],
+						1		/* transfer size */,
+						100		/* timeout in microseconds (unlike I2C which is ms) */);
+	}
+	/*
+	 *	Drive /CS high
+	 */
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
+
+	return status;
+}
+
+static int
+writeData(uint16_t commandByte)
+{
+	spi_status_t status;
+
+	/*
+	 *	Drive /CS low.
+	 *
+	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
+	 */
+	GPIO_DRV_SetPinOutput(kSSD1331PinDC);
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
+	OSA_TimeDelay(10);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
+	payloadBytes[0] = (commandByte >> 8);
+	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
+					NULL		/* spi_master_user_config_t */,
+					(const uint8_t * restrict)&payloadBytes[0],
+					(uint8_t * restrict)&inBuffer[0],
+					1		/* transfer size */,
+					1000		/* timeout in microseconds (unlike I2C which is ms) */);
+
+	payloadBytes[0] = (commandByte);
+	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
+					NULL		/* spi_master_user_config_t */,
+					(const uint8_t * restrict)&payloadBytes[0],
+					(uint8_t * restrict)&inBuffer[0],
+					1		/* transfer size */,
+					1000		/* timeout in microseconds (unlike I2C which is ms) */);
+	/*
+	 *	Drive /CS high
+	 */
+	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
+
+	return status;
+}
+
 static void FontSizeConvert()
 {
     switch( chr_size ) {
