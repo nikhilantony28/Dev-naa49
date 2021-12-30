@@ -118,7 +118,7 @@ enum
 	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
 	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 11),
-	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOB, 10),
+	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 0),
 	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
 };
 
@@ -274,7 +274,7 @@ devSSD1331init(void)
 	 *	Reconfigure to use as GPIO.
 	 */
 	PORT_HAL_SetMuxMode(PORTB_BASE, 11u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTB_BASE, 10u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTA_BASE, 0u, kPortMuxAsGpio);
 	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
 
 
@@ -350,7 +350,6 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
-	/*
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
@@ -360,7 +359,7 @@ devSSD1331init(void)
 	int value = 0;
 	uint16_t value2 = 1;
 	//display(value, value2);
-	*/
+	
 	return 0;
 
 }
