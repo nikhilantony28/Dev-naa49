@@ -8,7 +8,7 @@
 #define WH      3
 #define WHx36   4
 #define X_width 6 
-#define Y_height 16
+#define Y_height 8
 
 // Screen Settings
 #define WIDTH   96       // Max X axial direction in screen

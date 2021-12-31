@@ -377,12 +377,12 @@ void writeChar(int value)
 	uint8_t chMode = 0;
 	if(value == '\n') {
 		char_x = 0;
-		char_y = char_y + Y_height;
+		char_y = char_y + Y_height*2;
 	}
 	if ((value < 31) || (value > 127)) return;   // test char range
 	if (char_x + X_width > width) {
 		char_x = 0;
-		char_y = char_y + Y_height;
+		char_y = char_y + Y_height*2;
 		if (char_y >= height - Y_height) {
 			char_y = 0;
 		}
