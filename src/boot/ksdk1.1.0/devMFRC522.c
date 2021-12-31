@@ -9,10 +9,14 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 #include <stdint.h>
 
-#include "config.h"
-
 #include "fsl_spi_master_driver.h"
 #include "fsl_port_hal.h"
+#include "fsl_misc_utilities.h"
+#include "fsl_device_registers.h"
+#include "fsl_rtc_driver.h"
+#include "fsl_clock_manager.h"
+#include "fsl_power_manager.h"
+#include "fsl_mcglite_hal.h"
 
 #include "SEGGER_RTT.h"
 #include "gpio_pins.h"
@@ -20,18 +24,7 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 #include "devMFRC522.h"
 
 
-
 volatile uint8_t	inBuffer[32];
-volatile uint8_t	payloadBytes[32];
-//extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-//extern volatile uint32_t		gWarpSPIBaudRateKbps;
-#define _BV(bit) (1<<(bit))
-
-
-/*
- *	Override Warp firmware's use of these pins and define new aliases.
- */
- volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
 extern volatile WarpSPIDeviceState	deviceMFRC522State;
 extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
@@ -77,11 +70,6 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	if (status != kStatus_SPI_Success)
-	{
-		return kWarpStatusDeviceCommunicationFailed;
-	}
-
 	return kWarpStatusOK;
 }
 
@@ -115,7 +103,7 @@ read_RFID(uint8_t addr)
   */
 	readSensorRegisterMFRC522(((addr<<1)&0x7E) | 0x80);
 
-	return inBuffer[1];
+	return deviceMFRC522State.spiSinkBuffer[1];
 }
 
 //
