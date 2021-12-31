@@ -358,7 +358,7 @@ devSSD1331init(void)
 	 */
 	//...
 
-	/*
+	
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
@@ -369,7 +369,7 @@ devSSD1331init(void)
 	uint16_t value2 = 1;
 	//display(value, value2);
 	return 0;
-	*/
+	
 }
 
 void writeChar(int value)
