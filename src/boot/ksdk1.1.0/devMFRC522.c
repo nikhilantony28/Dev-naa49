@@ -34,18 +34,16 @@ extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
 extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
 
-extern uint8_t				gWarpSpiCommonSourceBuffer[];
-extern uint8_t				gWarpSpiCommonSinkBuffer[];
 
 /*
  *	Override Warp firmware's use of these pins and define new aliases.
  */
  enum
  {
- 	//kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8),
- 	//kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6),
- 	//kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
- 	//kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5),
+ 	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8),
+ 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6),
+ 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
+ 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5),
  	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
  };
@@ -55,53 +53,17 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
 	spi_status_t	status;
 
-    warpScaleSupplyVoltage(deviceMFRC522State.operatingVoltageMillivolts);
-
-	/*
-	 *	First, configure chip select pins of the various SPI slave devices
-	 *	as GPIO and drive all of them high.
-	 */
-	warpDeasserAllSPIchipSelects();
-
-	/*
-	 *	Configure the four ISL23415 DCPs over SPI.
-	 *
-	 *	It takes two bytes (16 bit clocks) to complete a write transaction. The ISL23415 at 1.8V can
-	 *	operate at bit clocks of up to 5MHz and so can change value in principle at rates of up to 312.5k
-	 *	times a second. This rate is in principle fast enough for changing  the pull-up resistor values
-	 *	at I2C line speeds.
-	 */
-
-	/*
-	 *	Send the register/instruction, followed by the payload byte.
-	 *
-	 *	Write operations on the ISL23415, unlike read operations, are two-byte sequences.
-	 *	See Figure 27 of the ISL23415 manual.
-	 */
-
 	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
 	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
 
 	deviceMFRC522State.spiSinkBuffer[0] = 0x00;
 	deviceMFRC522State.spiSinkBuffer[1] = 0x00;
 
-
-	/*
-	 *	Drive /CS low.
-	 *
-	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
-	 */
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
 	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
 
-	/*
-	 *	The result of the SPI transaction will be stored in deviceISL23415State.spiSinkBuffer.
-	 *
-	 *	Providing a spi_master_user_config_t is optional since it is already provided when we did
-	 *	SPI_DRV_MasterConfigureBus(), so we pass in NULL. The "master instance" is always 0 for
-	 *	the KL03 since there is only one SPI peripheral.
-	 */
+
 	warpEnableSPIpins();
 	status = SPI_DRV_MasterTransferBlocking(
 					0								/*	master instance			*/,
@@ -112,20 +74,16 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 					gWarpSpiTimeoutMicroseconds);
 	warpDisableSPIpins();
 
-	/*
-	 *	Drive /CS high
-	 */
-	OSA_TimeDelay(50);
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
 	if (status != kStatus_SPI_Success)
 	{
 		return kWarpStatusDeviceCommunicationFailed;
 	}
-
 	return kWarpStatusOK;
-
 }
+
+
 void
 write_RFID(uint8_t addr, uint8_t payload)
 {
@@ -315,19 +273,24 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 
 
 void
-devMFRC522init(int chipSelectIoPinID, uint16_t operatingVoltageMillivolts)
+devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
 {
 	/*
 	 *	Override Warp firmware's use of these pins.
 	 *
 	 *	Re-configure SPI to be on PTA8 and PTA9 for MOSI, MISO and SCK respectively.
 	 */
-	deviceMFRC522State.chipSelectIoPinID		= chipSelectIoPinID;
-	deviceMFRC522State.spiSourceBuffer		= gWarpSpiCommonSourceBuffer;
-	deviceMFRC522State.spiSinkBuffer		= gWarpSpiCommonSinkBuffer;
-	deviceMFRC522State.spiBufferLength		= kWarpMemoryCommonSpiBufferBytes;
-	deviceMFRC522State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
+	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
+ 	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
+ 	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAlt3);
 
+ 	warpEnableSPIpins();
+
+ 	/*
+ 	 *	Override Warp firmware's use of these pins.
+ 	 *
+ 	 *	Reconfigure to use as GPIO.
+ 	 */
  	PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
@@ -351,8 +314,8 @@ devMFRC522init(int chipSelectIoPinID, uint16_t operatingVoltageMillivolts)
 	write_RFID(TReloadRegH, 0);
 
 	write_RFID(TxAutoReg, 0x40);      /* 100%ASK */
-	write_RFID(ModeReg, 0x3D);
+	//write_RFID(ModeReg, 0x3D);
 
-	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	//setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
 	return;
 }
