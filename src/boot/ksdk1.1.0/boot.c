@@ -1826,42 +1826,6 @@ main(void)
 		}
 	#endif
 
-	#if (WARP_BUILD_ENABLE_DEVISL23415)
-		/*
-		 *	Only supported in main Warp variant.
-		 */
-		initMFRC522();
-		/*
-		 *	Take the DCPs out of shutdown by setting the SHDN bit in the ACR register
-		 */
-		/*
-		status = writeDeviceRegisterISL23415(kWarpSensorConfigurationRegisterISL23415ACRwriteInstruction, 0x40);
-		if (status != kWarpStatusOK)
-		{
-			warpPrint("ISL23415: SPI transaction to write ACR failed...\n");
-		}
-
-		status = readDeviceRegisterISL23415(kWarpSensorConfigurationRegisterISL23415ACRreadInstruction);
-		if (status != kWarpStatusOK)
-		{
-			warpPrint("ISL23415: SPI transaction to read ACR failed...\n");
-		}
-		else
-		{
-			warpPrint("ISL23415 ACR=[0x%02X], ", deviceISL23415State.spiSinkBuffer[3]);
-		}
-
-		status = readDeviceRegisterISL23415(kWarpSensorConfigurationRegisterISL23415WRreadInstruction);
-		if (status != kWarpStatusOK)
-		{
-			warpPrint("ISL23415: SPI transaction to read WR failed...\n");
-		}
-		else
-		{
-			warpPrint("WR=[0x%02X]\n", deviceISL23415State.spiSinkBuffer[3]);
-		}
-		*/
-	#endif
 
 	#if (WARP_BUILD_ENABLE_DEVAT45DB)
 		/*
