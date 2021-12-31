@@ -291,6 +291,7 @@ devSSD1331init(void)
 	/*
 	 *	Initialization sequence, borrowed from https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino
 	 */
+	/*
 	writeCommand(kSSD1331CommandDISPLAYOFF);	// 0xAE
 	writeCommand(kSSD1331CommandSETREMAP);		// 0xA0
 	writeCommand(0x72);				// RGB Color
@@ -332,24 +333,29 @@ devSSD1331init(void)
 	/*
 	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
 	 */
+
+	/*
 	writeCommand(kSSD1331CommandFILL);
 	writeCommand(0x01);
-
+	*/
 	/*
 	 *	Clear Screen
 	 */
+	/*
 	writeCommand(kSSD1331CommandCLEAR);
 	writeCommand(0x00);
 	writeCommand(0x00);
 	writeCommand(0x5F);
 	writeCommand(0x3F);
-
+	*/
 
 
 	/*
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
+
+	/*
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
@@ -359,7 +365,7 @@ devSSD1331init(void)
 	int value = 0;
 	uint16_t value2 = 1;
 	//display(value, value2);
-	
+	*/
 	return 0;
 
 }
