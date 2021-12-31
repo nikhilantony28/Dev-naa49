@@ -57,8 +57,8 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes[0],
-					(uint8_t * restrict)inBuffer[0],
+					(const uint8_t * restrict)payloadBytes,
+					(uint8_t * restrict)inBuffer,
 					2 /* transfer size */,
 					2000);
 
