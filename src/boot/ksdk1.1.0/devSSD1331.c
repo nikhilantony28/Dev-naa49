@@ -3,6 +3,8 @@
 #include "fsl_spi_master_driver.h"
 #include "fsl_port_hal.h"
 
+#include "config.h"
+
 #include "SEGGER_RTT.h"
 #include "gpio_pins.h"
 #include "warp.h"
