@@ -126,6 +126,7 @@ static int
 writeCommand(uint8_t commandByte)
 {
 	spi_status_t status;
+	
 
 	/*
 	 *	Drive /CS low.
