@@ -31,24 +31,37 @@ volatile uint8_t	payloadBytes[32];
 /*
  *	Override Warp firmware's use of these pins and define new aliases.
  */
+ volatile uint8_t	inBuffer[32];
+volatile uint8_t	payloadBytes[32];
+extern volatile WarpSPIDeviceState	deviceMFRC522State;
+extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
+extern volatile uint32_t		gWarpSPIBaudRateKbps;
+#define _BV(bit) (1<<(bit))
+
+
+/*
+ *	Override Warp firmware's use of these pins and define new aliases.
+ */
  enum
  {
- 	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8), //GREEN WIRE
- 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6), //YELLOW WIRE
- 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
- 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5), //WHITE WIRE
- 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIRE
- 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0), //ORANGE WIRE
+ 	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8),
+ 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6),
+ 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
+ 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5),
+ 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
+ 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
  };
 
 WarpStatus
 writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
-	spi_status_t status;
+	spi_status_t	status;
 
-	payloadBytes[0] = deviceRegister;
-	payloadBytes[1] = writeValue;
+	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
+	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
 
+	deviceMFRC522State.spiSinkBuffer[0] = 0x00;
+	deviceMFRC522State.spiSinkBuffer[1] = 0x00;
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
@@ -57,14 +70,19 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes,
-					(uint8_t * restrict)inBuffer,
+					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
+					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
 					2 /* transfer size */,
-					2000);
+					gWarpSpiTimeoutMicroseconds);
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	return status;
+	if (status != kStatus_SPI_Success)
+	{
+		return kWarpStatusDeviceCommunicationFailed;
+	}
+
+	return kWarpStatusOK;
 }
 
 
@@ -257,7 +275,7 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 
 
 void
-devMFRC522init()
+devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
 {
 	/*
 	 *	Override Warp firmware's use of these pins.
@@ -268,7 +286,7 @@ devMFRC522init()
  	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAlt3);
 
- 	warpEnableSPIpins();
+ 	enableSPIpins();
 
  	/*
  	 *	Override Warp firmware's use of these pins.
