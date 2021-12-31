@@ -38,7 +38,7 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
  	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5), //WHITE WIRE
  	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIRE
- 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOA, 2), //ORANGE WIRE
+ 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 10), //ORANGE WIRE
  };
 
 WarpStatus
@@ -277,7 +277,7 @@ devMFRC522init()
  	 */
  	PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
- 	PORT_HAL_SetMuxMode(PORTA_BASE, 2u, kPortMuxAsGpio);
+ 	PORT_HAL_SetMuxMode(PORTB_BASE, 10u, kPortMuxAsGpio);
 
 	// Set CS pin high
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
