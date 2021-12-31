@@ -69,7 +69,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
 					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
 					2 /* transfer size */,
-					gWarpSpiTimeoutMicroseconds);
+					2000);
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
@@ -304,7 +304,7 @@ devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
 	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
 	OSA_TimeDelay(100);
 
-	/*
+	
 	write_RFID(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
 	write_RFID(TPrescalerReg, 0x3E);
 	write_RFID(TReloadRegL, 30);
