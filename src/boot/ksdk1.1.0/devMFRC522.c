@@ -36,7 +36,7 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8), //GREEN WIRE
  	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6), //YELLOW WIRE
  	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
- 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5), //WHITE WIRE
+ 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13), //WHITE WIRE
  	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIRE
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0), //ORANGE WIRE
  };
@@ -275,7 +275,7 @@ devMFRC522init()
  	 *
  	 *	Reconfigure to use as GPIO.
  	 */
- 	PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAsGpio);
+ 	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
 
