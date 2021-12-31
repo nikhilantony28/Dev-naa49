@@ -51,7 +51,7 @@ extern volatile uint32_t		gWarpSPIBaudRateKbps;
 WarpStatus
 writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
-	spi_status_t	status;
+	//spi_status_t	status;
 
 	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
 	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
@@ -64,7 +64,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
 
 
-	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
+	deviceMFRC522State.ksdk_spi_status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
 					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
 					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
@@ -73,7 +73,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	if (status != kStatus_SPI_Success)
+	if (deviceMFRC522State.ksdk_spi_status != kStatus_SPI_Success)
 	{
 		return kWarpStatusDeviceCommunicationFailed;
 	}
