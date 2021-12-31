@@ -273,7 +273,7 @@ typedef struct
 	 *	For holding the SPI CS I/O pin idnetifier to make
 	 *	the driver independent of board config.
 	 */
-	spi_status_t		ksdk_spi_status;
+	//spi_status_t		ksdk_spi_status;
 	int			chipSelectIoPinID;
 
 	uint8_t *		spiSourceBuffer;
