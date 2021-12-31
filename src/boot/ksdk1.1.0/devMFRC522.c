@@ -48,28 +48,20 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	payloadBytes[0] = deviceRegister;
 	payloadBytes[1] = writeValue;
-	
-	warpDeasserAllSPIchipSelects();
 
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
 	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
 
-	warpEnableSPIpins();
+
 	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes,
-					(uint8_t * restrict)inBuffer,
+					(const uint8_t * restrict)payloadBytes[0],
+					(uint8_t * restrict)inBuffer[0],
 					2 /* transfer size */,
 					gWarpSpiTimeoutMicroseconds);
 
-	warpDisableSPIpins();
-
-	/*
-	 *	Drive /CS high
-	 */
-	OSA_TimeDelay(50);
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
 	return status;
