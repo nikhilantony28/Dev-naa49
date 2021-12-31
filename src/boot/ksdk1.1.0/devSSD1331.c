@@ -115,12 +115,11 @@ static const char alphabet[0x60][6] = {
  */
 enum
 {
-	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8), //GREEN WIRE
- 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6), //YELLOW WIRE
- 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
-	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 11),
-	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOB, 10),
-	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 7),
+	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
+	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
+	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
+	kSSD1331PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
+	kSSD1331PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 3),
 };
 
 static int
@@ -275,9 +274,10 @@ devSSD1331init(void)
 	 *
 	 *	Reconfigure to use as GPIO.
 	 */
-	PORT_HAL_SetMuxMode(PORTB_BASE, 11u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTB_BASE, 10u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTB_BASE, 7u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
+	PORT_HAL_SetMuxMode(PORTB_BASE, 3u, kPortMuxAsGpio);
+
 
 
 	/*
