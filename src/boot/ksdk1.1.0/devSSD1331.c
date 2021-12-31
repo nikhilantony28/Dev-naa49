@@ -71,7 +71,6 @@ devSSD1331init(void)
 	 *
 	 *	Re-configure SPI to be on PTA8 and PTA9 for MOSI and SCK respectively.
 	 */
-
 	//PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
 	//PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
 
@@ -90,18 +89,17 @@ devSSD1331init(void)
 	/*
 	 *	RST high->low->high.
 	 */
-	/*
+	
 	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
 	GPIO_DRV_ClearPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
 	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
-	*/
+
 	/*
 	 *	Initialization sequence, borrowed from https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino
 	 */
-	/*
 	writeCommand(kSSD1331CommandDISPLAYOFF);	// 0xAE
 	writeCommand(kSSD1331CommandSETREMAP);		// 0xA0
 	writeCommand(0x72);				// RGB Color
@@ -140,25 +138,24 @@ devSSD1331init(void)
 	writeCommand(0x7D);
 	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with initialization sequence...\n");
-	*/
+
 	/*
 	 *	To use fill commands, you will have to issue a command to the display to enable them. See the manual.
 	 */
-	//writeCommand(kSSD1331CommandFILL);
-	//writeCommand(0x01);
+	writeCommand(kSSD1331CommandFILL);
+	writeCommand(0x01);
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with enabling fill...\n");
 
 	/*
 	 *	Clear Screen
 	 */
-	/*
 	writeCommand(kSSD1331CommandCLEAR);
 	writeCommand(0x00);
 	writeCommand(0x00);
 	writeCommand(0x5F);
 	writeCommand(0x3F);
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with screen clear...\n");
-	*/
+
 
 
 	/*
@@ -166,7 +163,7 @@ devSSD1331init(void)
 	 *	out how to fill the entire screen with the brightest shade
 	 *	of green.
 	 */
-	/*
+
 	writeCommand(kSSD1331CommandDRAWRECT);
 	writeCommand(0x00);
 	writeCommand(0x00);
@@ -182,7 +179,7 @@ devSSD1331init(void)
 
 	SEGGER_RTT_WriteString(0, "\r\n\tDone with draw rectangle...\n");
 
-	*/
+
 
 	return 0;
 }
