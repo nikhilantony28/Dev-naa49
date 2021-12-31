@@ -115,6 +115,7 @@ static const char alphabet[0x60][6] = {
  */
 enum
 {
+
 	kSSD1331PinMOSI		= GPIO_MAKE_PIN(HW_GPIOA, 8),
 	kSSD1331PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
 	kSSD1331PinCSn		= GPIO_MAKE_PIN(HW_GPIOB, 13),
@@ -357,7 +358,7 @@ devSSD1331init(void)
 	 */
 	//...
 
-	
+	/*
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
@@ -368,7 +369,7 @@ devSSD1331init(void)
 	uint16_t value2 = 1;
 	//display(value, value2);
 	return 0;
-
+	*/
 }
 
 void writeChar(int value)
