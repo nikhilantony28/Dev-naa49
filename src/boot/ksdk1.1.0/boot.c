@@ -2806,7 +2806,7 @@ main(void)
 			{
 				warpPrint("\r\tInvalid selection '%c' !\n", key);
 			}
-			/*
+			
 			case '#':
 			{
 			  warpPrint("\r\n\t1. Save UID for tag: ");
@@ -2869,7 +2869,7 @@ main(void)
 			    }
 			  }
 			  break;
-			}*/
+			}
 		}
 	}
 

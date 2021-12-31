@@ -351,8 +351,8 @@ devMFRC522init(int chipSelectIoPinID, uint16_t operatingVoltageMillivolts)
 	write_RFID(TReloadRegH, 0);
 
 	write_RFID(TxAutoReg, 0x40);      /* 100%ASK */
-	//write_RFID(ModeReg, 0x3D);
+	write_RFID(ModeReg, 0x3D);
 
-	//setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
 	return;
 }
