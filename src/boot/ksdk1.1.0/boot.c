@@ -1887,7 +1887,7 @@ main(void)
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
 
-	devMFRC522init(kMFRC522PinCSn, kWarpDefaultSupplyVoltageMillivoltsISL23415);
+	devMFRC522init(kMFRC522PinCSn, kWarpDefaultSupplyVoltageMillivoltsBGX);
 	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
 
 	uint8_t uid[5];
