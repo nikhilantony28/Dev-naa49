@@ -89,14 +89,14 @@ devSSD1331init(void)
 	/*
 	 *	RST high->low->high.
 	 */
-	
+	/*
 	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
 	GPIO_DRV_ClearPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
 	GPIO_DRV_SetPinOutput(kSSD1331PinRST);
 	OSA_TimeDelay(100);
-
+	*/
 	/*
 	 *	Initialization sequence, borrowed from https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino
 	 */
