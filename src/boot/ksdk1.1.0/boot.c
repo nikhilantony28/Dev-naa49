@@ -184,8 +184,8 @@
 #endif
 
 //#if (WARP_BUILD_ENABLE_MFRC522)
-	#include "devMFRC522.h"
-	volatile WarpSPIDeviceState deviceMFRC522State;
+	//#include "devMFRC522.h"
+	//volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
 
@@ -2806,6 +2806,7 @@ main(void)
 			{
 				warpPrint("\r\tInvalid selection '%c' !\n", key);
 			}
+			/*
 			case '#':
 			{
 			  warpPrint("\r\n\t1. Save UID for tag: ");
@@ -2868,7 +2869,7 @@ main(void)
 			    }
 			  }
 			  break;
-			}
+			}*/
 		}
 	}
 
