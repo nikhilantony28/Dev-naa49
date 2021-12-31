@@ -71,19 +71,20 @@ devSSD1331init(void)
 	 *
 	 *	Re-configure SPI to be on PTA8 and PTA9 for MOSI and SCK respectively.
 	 */
-	PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
 
-	warpEnableSPIpins();
+	//PORT_HAL_SetMuxMode(PORTA_BASE, 8u, kPortMuxAlt3);
+	//PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
+
+	//warpEnableSPIpins();
 
 	/*
 	 *	Override Warp firmware's use of these pins.
 	 *
 	 *	Reconfigure to use as GPIO.
 	 */
-	PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
-	PORT_HAL_SetMuxMode(PORTB_BASE, 3u, kPortMuxAsGpio);
+	//PORT_HAL_SetMuxMode(PORTB_BASE, 13u, kPortMuxAsGpio);
+	//PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
+	//PORT_HAL_SetMuxMode(PORTB_BASE, 3u, kPortMuxAsGpio);
 
 
 	/*
