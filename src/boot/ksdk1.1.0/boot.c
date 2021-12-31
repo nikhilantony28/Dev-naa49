@@ -2044,7 +2044,7 @@ main(void)
 			warpPrint("Should not get here...");
 		}
 	#endif
-	
+	devSSD1331init();
 	while (1)
 	{
 		/*
@@ -2818,7 +2818,7 @@ main(void)
 					//uint8_t data_rfid[16];
 			    case '1':
 			    {
-					devSSD1331init();
+					
 						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
 						warpPrint("\nSaved UID: ");
 			      if( request_tag(0x26, data_rfid) == 0){
