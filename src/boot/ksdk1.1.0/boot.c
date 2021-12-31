@@ -184,8 +184,8 @@
 #endif
 
 //#if (WARP_BUILD_ENABLE_MFRC522)
-	//#include "devMFRC522.h"
-	//volatile WarpSPIDeviceState deviceMFRC522State;
+	#include "devMFRC522.h"
+	volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
 

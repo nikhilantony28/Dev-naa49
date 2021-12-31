@@ -73,6 +73,10 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
+	if (status != kStatus_SPI_Success)
+	{
+		return kWarpStatusDeviceCommunicationFailed;
+	}
 	return kWarpStatusOK;
 }
 
