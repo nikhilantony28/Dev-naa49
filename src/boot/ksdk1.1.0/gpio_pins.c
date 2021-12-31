@@ -65,7 +65,7 @@ gpio_output_pin_user_config_t	outputPins[] = {
 			.config.driveStrength = kPortLowDriveStrength,
 		},
 		{
-			.pinName = kWarpPinISL23415_SPI_nCS,
+			.pinName = kMFRC522PinCSn,
 			.config.outputLogic = 1,
 			.config.slewRate = kPortSlowSlewRate,
 			.config.driveStrength = kPortLowDriveStrength,
