@@ -286,7 +286,7 @@ devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
  	PORT_HAL_SetMuxMode(PORTA_BASE, 9u, kPortMuxAlt3);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 6u, kPortMuxAlt3);
 
- 	enableSPIpins();
+ 	warpEnableSPIpins();
 
  	/*
  	 *	Override Warp firmware's use of these pins.
