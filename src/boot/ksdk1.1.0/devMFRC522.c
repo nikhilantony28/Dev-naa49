@@ -53,6 +53,14 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
 	spi_status_t	status;
 
+	warpScaleSupplyVoltage(3300);
+
+	/*
+	 *	First, configure chip select pins of the various SPI slave devices
+	 *	as GPIO and drive all of them high.
+	 */
+	warpDeasserAllSPIchipSelects();
+
 	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
 	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
 
