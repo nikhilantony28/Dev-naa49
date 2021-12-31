@@ -8,30 +8,23 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 
 #include <stdint.h>
+
 #include "config.h"
 
-#include "fsl_misc_utilities.h"
-#include "fsl_device_registers.h"
-#include "fsl_i2c_master_driver.h"
 #include "fsl_spi_master_driver.h"
-#include "fsl_rtc_driver.h"
-#include "fsl_clock_manager.h"
-#include "fsl_power_manager.h"
-#include "fsl_mcglite_hal.h"
 #include "fsl_port_hal.h"
 
-#include "errstrs.h"
-#include "gpio_pins.h"
 #include "SEGGER_RTT.h"
+#include "gpio_pins.h"
 #include "warp.h"
 #include "devMFRC522.h"
 
 
+
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
-extern volatile WarpSPIDeviceState	deviceMFRC522State;
-extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-extern volatile uint32_t		gWarpSPIBaudRateKbps;
+//extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
+//extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
 
 
@@ -40,55 +33,38 @@ extern volatile uint32_t		gWarpSPIBaudRateKbps;
  */
  enum
  {
- 	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8),
- 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6),
- 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9),
- 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5),
- 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12),
- 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0),
+ 	kMFRC522PinMOSI	= GPIO_MAKE_PIN(HW_GPIOA, 8), //GREEN WIRE
+ 	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6), //YELLOW WIRE
+ 	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
+ 	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5), //WHITE WIRE
+ 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIRE
+ 	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 0), //ORANGE WIRE
  };
 
 WarpStatus
 writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
-	spi_status_t	status;
+	spi_status_t status;
 
-	warpScaleSupplyVoltage(3300);
+	payloadBytes[0] = deviceRegister;
+	payloadBytes[1] = writeValue;
 
-	/*
-	 *	First, configure chip select pins of the various SPI slave devices
-	 *	as GPIO and drive all of them high.
-	 */
-	warpDeasserAllSPIchipSelects();
-
-	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister;
-	deviceMFRC522State.spiSourceBuffer[1] = writeValue;
-
-	deviceMFRC522State.spiSinkBuffer[0] = 0x00;
-	deviceMFRC522State.spiSinkBuffer[1] = 0x00;
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
 	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
 
 
-	warpEnableSPIpins();
-	status = SPI_DRV_MasterTransferBlocking(
-					0								/*	master instance			*/,
-					NULL								/*	spi_master_user_config_t	*/,
-					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
-					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
-					2								/*	reg ID + payload		*/,
-					gWarpSpiTimeoutMicroseconds);
-	warpDisableSPIpins();
+	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
+					NULL /* spi_master_user_config_t */,
+					(const uint8_t * restrict)payloadBytes,
+					(uint8_t * restrict)inBuffer,
+					2 /* transfer size */,
+					2000);
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	if (status != kStatus_SPI_Success)
-	{
-		return kWarpStatusDeviceCommunicationFailed;
-	}
-	return kWarpStatusOK;
+	return status;
 }
 
 
@@ -121,7 +97,7 @@ read_RFID(uint8_t addr)
   */
 	readSensorRegisterMFRC522(((addr<<1)&0x7E) | 0x80);
 
-	return deviceMFRC522State.spiSinkBuffer[1];
+	return inBuffer[1];
 }
 
 //
@@ -281,7 +257,7 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 
 
 void
-devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
+devMFRC522init()
 {
 	/*
 	 *	Override Warp firmware's use of these pins.
@@ -315,15 +291,15 @@ devMFRC522init(WarpSPIDeviceState volatile* deviceStatePointer)
 	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
 	OSA_TimeDelay(100);
 
-	
 	write_RFID(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
 	write_RFID(TPrescalerReg, 0x3E);
 	write_RFID(TReloadRegL, 30);
 	write_RFID(TReloadRegH, 0);
 
 	write_RFID(TxAutoReg, 0x40);      /* 100%ASK */
-	//write_RFID(ModeReg, 0x3D);
+	write_RFID(ModeReg, 0x3D);
 
-	//setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+//	SEGGER_RTT_printf(0, "Firmware Version: %d", getFirmwareVersion());
 	return;
 }
