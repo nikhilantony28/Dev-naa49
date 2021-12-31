@@ -21,8 +21,8 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 extern volatile WarpSPIDeviceState	deviceMFRC522State;
 extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-extern uint8_t				gWarpSpiCommonSourceBuffer[];
-extern uint8_t				gWarpSpiCommonSinkBuffer[];
+//extern uint8_t				gWarpSpiCommonSourceBuffer[];
+//extern uint8_t				gWarpSpiCommonSinkBuffer[];
 
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
@@ -54,7 +54,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 	 *	First, configure chip select pins of the various SPI slave devices
 	 *	as GPIO and drive all of them high.
 	 */
-	warpDeasserAllSPIchipSelects();
+	//warpDeasserAllSPIchipSelects();
 
 	//payloadBytes[0] = deviceRegister;
 	//payloadBytes[1] = writeValue;
@@ -282,8 +282,8 @@ void
 devMFRC522init(uint16_t operatingVoltageMillivolts)
 {
 	//deviceMFRC522State.chipSelectIoPinID		= chipSelectIoPinID;
-	deviceMFRC522State.spiSourceBuffer		= gWarpSpiCommonSourceBuffer;
-	deviceMFRC522State.spiSinkBuffer		= gWarpSpiCommonSinkBuffer;
+	//deviceMFRC522State.spiSourceBuffer		= gWarpSpiCommonSourceBuffer;
+	//deviceMFRC522State.spiSinkBuffer		= gWarpSpiCommonSinkBuffer;
 	//deviceMFRC522State.spiBufferLength		= kWarpMemoryCommonSpiBufferBytes;
 	deviceMFRC522State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	/*
