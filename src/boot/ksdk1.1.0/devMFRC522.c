@@ -19,14 +19,12 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 #include "warp.h"
 #include "devMFRC522.h"
 
-extern volatile WarpSPIDeviceState	deviceMFRC522State;
-extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-//extern uint8_t				gWarpSpiCommonSourceBuffer[];
-//extern uint8_t				gWarpSpiCommonSinkBuffer[];
+
 
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
-
+//extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
+//extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
 
 
@@ -48,42 +46,22 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
 	spi_status_t status;
 
-	warpScaleSupplyVoltage(deviceMFRC522State.operatingVoltageMillivolts);
+	payloadBytes[0] = deviceRegister;
+	payloadBytes[1] = writeValue;
 
-	/*
-	 *	First, configure chip select pins of the various SPI slave devices
-	 *	as GPIO and drive all of them high.
-	 */
-	//warpDeasserAllSPIchipSelects();
-
-	//payloadBytes[0] = deviceRegister;
-	//payloadBytes[1] = writeValue;
-
-	deviceMFRC522State.spiSourceBuffer[0] = deviceRegister						/*	See Table 4 of manual	*/;
-	deviceMFRC522State.spiSourceBuffer[1] = writeValue						/*	Register value to set	*/;
-
-	deviceMFRC522State.spiSinkBuffer[0] = 0x00;
-	deviceMFRC522State.spiSinkBuffer[1] = 0x00;
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 	OSA_TimeDelay(50);
 	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
 
 
-	warpEnableSPIpins();
-	status = SPI_DRV_MasterTransferBlocking(
-					0								/*	master instance			*/,
-					NULL								/*	spi_master_user_config_t	*/,
-					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
-					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
-					2								/*	reg ID + payload		*/,
-					gWarpSpiTimeoutMicroseconds);
-	warpDisableSPIpins();
+	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
+					NULL /* spi_master_user_config_t */,
+					(const uint8_t * restrict)payloadBytes[0],
+					(uint8_t * restrict)inBuffer[0],
+					2 /* transfer size */,
+					2000);
 
-	/*
-	 *	Drive /CS high
-	 */
-	OSA_TimeDelay(50);
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
 	return status;
@@ -279,13 +257,8 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 
 
 void
-devMFRC522init(uint16_t operatingVoltageMillivolts)
+devMFRC522init()
 {
-	//deviceMFRC522State.chipSelectIoPinID		= chipSelectIoPinID;
-	//deviceMFRC522State.spiSourceBuffer		= gWarpSpiCommonSourceBuffer;
-	//deviceMFRC522State.spiSinkBuffer		= gWarpSpiCommonSinkBuffer;
-	//deviceMFRC522State.spiBufferLength		= kWarpMemoryCommonSpiBufferBytes;
-	deviceMFRC522State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 	/*
 	 *	Override Warp firmware's use of these pins.
 	 *
