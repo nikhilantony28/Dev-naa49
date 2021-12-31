@@ -21,10 +21,10 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 
 
-volatile uint8_t	inBuffer[2];
-volatile uint8_t	payloadBytes[2];
-extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-extern volatile uint32_t		gWarpSPIBaudRateKbps;
+volatile uint8_t	inBuffer[32];
+volatile uint8_t	payloadBytes[32];
+//extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
+//extern volatile uint32_t		gWarpSPIBaudRateKbps;
 #define _BV(bit) (1<<(bit))
 
 
@@ -57,10 +57,10 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 
 	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
 					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes,
-					(uint8_t * restrict)inBuffer,
+					(const uint8_t * restrict)payloadBytes[0],
+					(uint8_t * restrict)inBuffer[0],
 					2 /* transfer size */,
-					gWarpSpiTimeoutMicroseconds);
+					2000);
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
