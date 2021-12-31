@@ -69,7 +69,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 					(const uint8_t * restrict)deviceMFRC522State.spiSourceBuffer,
 					(uint8_t * restrict)deviceMFRC522State.spiSinkBuffer,
 					2 /* transfer size */,
-					gWarpSpiTimeoutMicroseconds);
+					2000);
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
