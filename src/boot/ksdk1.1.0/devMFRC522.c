@@ -328,7 +328,7 @@ devMFRC522init(int chipSelectIoPinID, uint16_t operatingVoltageMillivolts)
 	deviceMFRC522State.spiBufferLength		= kWarpMemoryCommonSpiBufferBytes;
 	deviceMFRC522State.operatingVoltageMillivolts	= operatingVoltageMillivolts;
 
- 	//PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAsGpio);
+ 	PORT_HAL_SetMuxMode(PORTA_BASE, 5u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTA_BASE, 12u, kPortMuxAsGpio);
  	PORT_HAL_SetMuxMode(PORTB_BASE, 0u, kPortMuxAsGpio);
 
