@@ -92,7 +92,7 @@
 	#define		WARP_BUILD_ENABLE_DEVCCS811		0
 	#define		WARP_BUILD_ENABLE_DEVHDC1000		0
 	#define		WARP_BUILD_ENABLE_DEVIS25xP		0
-	#define		WARP_BUILD_ENABLE_DEVISL23415		1
+	#define		WARP_BUILD_ENABLE_DEVISL23415		0
 	#define		WARP_BUILD_ENABLE_DEVAT45DB		0
 	#define		WARP_BUILD_ENABLE_DEVICE40		0
 	#define		WARP_BUILD_ENABLE_DEVL3GD20H		0
@@ -187,5 +187,4 @@ typedef enum
 	kWarpDefaultSupplyVoltageMillivoltsAT45DB		= 1800,
 	kWarpDefaultSupplyVoltageMillivoltsICE40		= 1800,
 	kWarpDefaultSupplyVoltageMillivoltsINA219		= 1800,
-	kWarpDefaultSupplyVoltageMillivoltsMFRC522		= 3300,
 } WarpDefaults;
