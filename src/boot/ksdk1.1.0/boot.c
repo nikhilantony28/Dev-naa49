@@ -1886,7 +1886,9 @@ main(void)
 	 */
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
-
+	warpPrint(warpBootDate.day);
+	RTC_DRV_GetDatetime(0,&warpBootDate);
+	warpPrint(warpBootDate.day);
 	devMFRC522init(&deviceMFRC522State);
 	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
 
