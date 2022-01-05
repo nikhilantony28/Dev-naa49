@@ -2931,16 +2931,17 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 		configureSensorDS1307();
 	#endif
 
+	#if (WARP_BUILD_ENABLE_INA219)
+		configureSensorINA219(0x399F, /* Configuration register*/ 0x1000 /*Calibration Register*/);
+		
+	#endif
+
 	#if (WARP_BUILD_ENABLE_DEVBME680)
 	numberOfConfigErrors += configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 							0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
 							0b00001000	/*	payloadGas_0: Turn off heater							*/
 					);
 					
-	#if (WARP_BUILD_ENABLE_INA219)
-		configureSensorINA219(0x399F, /* Configuration register*/ 0x1000 /*Calibration Register*/);
-		
-	#endif
 	
 	if (printHeadersAndCalibration)
 	{
