@@ -1614,6 +1614,10 @@ main(void)
 	#if (WARP_BUILD_ENABLE_INA219)
  		initINA219(	0x40	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsINA219	);
  	#endif
+
+	#if (WARP_BUILD_ENABLE_DS1307)
+		initDS1307(	0x68	/* i2cAddress */,		kWarpDefaultSupplyVoltageMillivoltsDS1307);
+	#endif
 	 
 	#if (WARP_BUILD_ENABLE_DEVBMX055)
 		initBMX055accel(0x18	/* i2cAddress */,	&deviceBMX055accelState,	kWarpDefaultSupplyVoltageMillivoltsBMX055accel	);
@@ -2047,6 +2051,7 @@ main(void)
 		}
 	#endif
 	devSSD1331init();
+
 	while (1)
 	{
 		/*
@@ -2079,6 +2084,7 @@ main(void)
 		warpPrint("\r- 't': dump processor state.\n");
 		warpPrint("\r- 'u': set I2C address.\n");
 		warpPrint("\r '#': RFID Menu.\n");
+		warpPrint("\r '[': Timecheck.\n");
 
 
 		#if (WARP_BUILD_ENABLE_DEVAT45DB)
@@ -2096,7 +2102,7 @@ main(void)
 
 		warpPrint("\r- 'x': disable SWD and spin for 10 secs.\n");
 		warpPrint("\r- 'z': perpetually dump all sensor data.\n");
-
+		warpPrint(warpBootDate.second);
 		warpPrint("\rEnter selection> ");
 		key = warpWaitKey();
 
@@ -2808,7 +2814,10 @@ main(void)
 			{
 				warpPrint("\r\tInvalid selection '%c' !\n", key);
 			}
-			
+			case '[':
+			{
+			printSensorDataDS1307();
+			}
 			case '#':
 			{
 			  warpPrint("\r\n\t1. Save UID for tag: ");
@@ -2912,11 +2921,17 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 					0b00000000/* normal mode, disable FIFO, disable high pass filter */
 					);
 	#endif
+
+	#if (WARP_BUILD_ENABLE_DS1307)
+		configureSensorDS1307();
+	#endif
+
 	#if (WARP_BUILD_ENABLE_DEVBME680)
 	numberOfConfigErrors += configureSensorBME680(	0b00000001,	/*	payloadCtrl_Hum: Humidity oversampling (OSRS) to 1x				*/
 							0b00100100,	/*	payloadCtrl_Meas: Temperature oversample 1x, pressure overdsample 1x, mode 00	*/
 							0b00001000	/*	payloadGas_0: Turn off heater							*/
 					);
+					
 	#if (WARP_BUILD_ENABLE_INA219)
 		configureSensorINA219(0x399F, /* Configuration register*/ 0x1000 /*Calibration Register*/);
 		
