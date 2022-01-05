@@ -152,7 +152,7 @@ readSensorRegisterDS1307(uint8_t deviceRegister,  int numberOfBytes)
 }
 
 void
-printSensorDataDS1307(bool hexModeFlag)
+printSensorDataDS1307()
 {
 	uint16_t	readSensorRegisterValueLSB;
 	uint16_t	readSensorRegisterValueMSB;
