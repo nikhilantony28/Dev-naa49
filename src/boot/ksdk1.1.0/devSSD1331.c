@@ -358,7 +358,7 @@ devSSD1331init(void)
 	 */
 	//...
 
-	
+	/*
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
@@ -367,7 +367,21 @@ devSSD1331init(void)
 	locate(3,30);
 	int value = 0;
 	uint16_t value2 = 1;
+	*/
 	//display(value, value2);
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0xFF);
+
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
 	return 0;
 	
 }
