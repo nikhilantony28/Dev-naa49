@@ -183,6 +183,11 @@
 	volatile WarpI2CDeviceState			deviceINA219State;
 #endif
 
+#if (WARP_BUILD_ENABLE_DS1307)
+	#include "devDS1307.h"
+	volatile WarpI2CDeviceState			deviceDS1307State;
+#endif
+
 //#if (WARP_BUILD_ENABLE_MFRC522)
 #include "devMFRC522.h"
 volatile WarpSPIDeviceState deviceMFRC522State;
