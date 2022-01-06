@@ -2964,10 +2964,6 @@ printAllSensors(bool printHeadersAndCalibration, bool hexModeFlag, int menuDelay
 					);
 	#endif
 
-	#if (WARP_BUILD_ENABLE_DS1307)
-		configureSensorDS1307();
-	#endif
-
 	#if (WARP_BUILD_ENABLE_INA219)
 		configureSensorINA219(0x399F, /* Configuration register*/ 0x1000 /*Calibration Register*/);
 		
