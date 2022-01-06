@@ -2958,7 +2958,7 @@ uint64_t pillCodes[2];
 								}
 								else{
 									warpPrint("not5");
-									alarmM[0] = 5;
+									alarmM[0] = 7;
 								}
 							}
 						}
