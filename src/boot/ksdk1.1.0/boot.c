@@ -2941,7 +2941,7 @@ uint64_t pillCodes[2];
 									read12letter();
 									warpPrint(inputText);
 									pillNames[key-'0'] = inputText;
-									writeString(inputText);
+									writeString(pillNames[key - '0']);
 
 								}
 								else
