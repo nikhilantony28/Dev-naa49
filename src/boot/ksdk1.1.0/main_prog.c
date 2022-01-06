@@ -37,7 +37,7 @@ void main_printTime()
 {
     configureSensorDS1307();
     for (int i = 0 ; i< 100; i++){
-    if(timeChange)
+    if(timeChange())
     {
         showTime();
     }
