@@ -35,14 +35,13 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    setLine(2);
     configureSensorDS1307();
     for (int i = 0 ; i< 100; i++){
-    updateTime();
+    if(timeChange)
+    {
+        showTime();
+    }
     warpPrint(" 0x%02x 0x%02x,", hours, mins);
-    clearLine(2);
-    setLine(2);
-    writeTime(hours,mins);
     OSA_TimeDelay(2000);
     }
     
@@ -51,5 +50,25 @@ void updateTime()
 {
     mins = outputTimeDS1307(0x01);
     hours = outputTimeDS1307(0x02);
+}
 
+bool timeChange()
+{
+    uint8_t minsOld;
+
+    minsOld = mins;
+    updateTime();
+    if (minsOld == mins)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
+void showTime()
+{
+    writeTime(hours,mins);
 }

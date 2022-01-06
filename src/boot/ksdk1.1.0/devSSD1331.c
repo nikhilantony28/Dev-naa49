@@ -526,6 +526,8 @@ void writeString(const char *pString)
 
 void writeTime(uint8_t hours, uint8_t mins)
 {
+	clearLine(1);
+	setLine(1);
 	writeChar((hours/10) + 48);
 	writeChar((hours%10) + 48);
 	writeString(":");

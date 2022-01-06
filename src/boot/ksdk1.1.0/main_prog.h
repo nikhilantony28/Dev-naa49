@@ -3,3 +3,5 @@ uint8_t hours;
 
 void		main_printTime();
 void		updateTime();
+bool        timeChange();
+void        showTime();

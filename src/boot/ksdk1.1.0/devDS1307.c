@@ -96,6 +96,8 @@ configureSensorDS1307()
 
 	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
 
+	writeSensorRegisterDS1307(0x02 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
+
 	return (i2cWriteStatus1 | i2cWriteStatus2);
 }
 
