@@ -86,19 +86,19 @@ writeSensorRegisterDS1307(uint8_t deviceRegister, uint8_t payload)
 }
 
 WarpStatus
-configureSensorDS1307()
+setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
 {
-	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
+	WarpStatus	i2cWriteStatus1, i2cWriteStatus2, i2cWriteStatus3;
 
 
 	warpScaleSupplyVoltage(deviceDS1307State.operatingVoltageMillivolts);
-	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /* register address Config Reg */,							0x00 /* payload default: 0x399F*/);
+	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /*set seconds value  */,		seconds);
 
-	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
+	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /*set minutes value  */,		minutes);
 
-	writeSensorRegisterDS1307(0x02 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
+	i2cWriteStatus3 = writeSensorRegisterDS1307(0x02 /*set hours value  */,			hours);
 
-	return (i2cWriteStatus1 | i2cWriteStatus2);
+	return (i2cWriteStatus1 | i2cWriteStatus2 | i2cWriteStatus3);
 }
 
 WarpStatus
@@ -171,4 +171,20 @@ outputTimeDS1307(uint8_t reg)
 	else{
 		return deviceDS1307State.i2cBuffer[0];
 	}
+}
+
+WarpStatus
+configureSensorDS1307()
+{
+	WarpStatus	i2cWriteStatus1, i2cWriteStatus2;
+
+
+	warpScaleSupplyVoltage(deviceDS1307State.operatingVoltageMillivolts);
+	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /* register address Config Reg */,							0x00 /* payload default: 0x399F*/);
+
+	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
+
+	writeSensorRegisterDS1307(0x02 /* register address Calibration */,						0x00	 /* payload default: 0x0000 but need to calculate what it should be*/);
+
+	return (i2cWriteStatus1 | i2cWriteStatus2);
 }

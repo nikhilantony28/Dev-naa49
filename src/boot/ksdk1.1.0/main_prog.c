@@ -35,7 +35,6 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    configureSensorDS1307();
     uint8_t alarmH[10] = {0,0,1};
     uint8_t alarmM[10] = {2,3,1};
     char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
@@ -46,7 +45,7 @@ void main_printTime()
     
     int alarmNum = 0;
     checkTag(0x880404D850);
-    for (int i = 0 ; i< 100; i++){
+    while(1){
     //checkTag(0x880404D850);
     if(timeChange())
     {

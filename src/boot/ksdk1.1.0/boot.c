@@ -2095,6 +2095,7 @@ main(void)
 		warpPrint("\r- 'u': set I2C address.\n");
 		warpPrint("\r '#': RFID Menu.\n");
 		warpPrint("\r '[': Timecheck.\n");
+		warpPrint("\r '?': Pill tracker settings.\n");
 
 
 		#if (WARP_BUILD_ENABLE_DEVAT45DB)
@@ -2824,10 +2825,6 @@ main(void)
 			{
 				warpPrint("\r\tInvalid selection '%c' !\n", key);
 			}
-			case '[':
-			{
-			//printSensorDataDS1307();
-			}
 			case '#':
 			{
 			  warpPrint("\r\n\t1. Save UID for tag: ");
@@ -2891,6 +2888,41 @@ main(void)
 			    }
 			  }
 			  break;
+			}
+			case '?':
+			{
+				int fourDig;
+				warpPrint("\r '1' : Set time");
+				warpPrint("\r '2' : Edit pill data");
+				warpPrint("\r '3' : View time");
+				warpPrint("\r Enter Selection >");
+				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+			  	key = warpWaitKey();
+			  	switch(key)
+				{
+					case '1' :
+					{
+						warpPrint("\r\n\t  Write time in HHMM (H = Hours, M = Minutes) >");
+						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+			  			fourDig = read4digits();
+						setTimeDS1307(0x00,fourDig%100,fourDig/100);
+						break
+					}
+					case '2' :
+					{
+
+					}
+					case '3' :
+					{
+						uint8_t mins;
+						uint8_t hours;
+						mins = outputTimeDS1307(0x01);
+    					hours = outputTimeDS1307(0x02);
+						warpPrint("%d ,%d",hours,mins);
+						writeTime(hours,mins);
+
+					}
+				}
 			}
 		}
 	}
@@ -3799,7 +3831,6 @@ read4digits(void)
 
 	return (digit1 - '0')*1000 + (digit2 - '0')*100 + (digit3 - '0')*10 + (digit4 - '0');
 }
-
 
 
 WarpStatus
