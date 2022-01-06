@@ -1904,10 +1904,10 @@ main(void)
 
 	uint8_t uid[5];
 	uint8_t uid2[5];
-	uint8_t alarmH[10];
-uint8_t alarmM[10];
-char*  pillNames[10];
-uint64_t pillCodes[10];
+	uint8_t alarmH[2];
+uint8_t alarmM[2];
+char*  pillNames[2];
+uint64_t pillCodes[2];
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
