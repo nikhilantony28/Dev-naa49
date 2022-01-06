@@ -2934,9 +2934,11 @@ main(void)
 								key = warpWaitKey();
 								if((key>47)||(key<58))
 								{
+
 									warpPrint("\n Name:");
 									read10letter();
 									warpPrint(inputText);
+									pillNames[key-'0'] = inputText;
 
 								}
 								else
