@@ -74,7 +74,7 @@ void main_printTime()
                 
             }
             pillCode = pillCodes[alarmNum];
-            checkTag(pillCodes[0]);
+            checkTag(pillCode);
             }
 
         }
