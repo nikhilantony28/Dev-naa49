@@ -72,7 +72,7 @@ void main_printTime()
                 j = 20;
                 
             }
-            checkTag(pillCodes[alarmNum]);
+            checkTag(pillCodes[0]);
             }
 
         }
