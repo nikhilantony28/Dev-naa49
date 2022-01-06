@@ -42,12 +42,12 @@ volatile uint8_t	payloadBytes[32];
  };
 
 WarpStatus
-write_RFID(uint8_t addr, uint8_t writeValue)
+write_RFID(uint8_t addr, uint8_t val)
 {
 	spi_status_t status;
 
 	payloadBytes[0] = (addr<<1)&0x7E;
-	payloadBytes[1] = writeValue;
+	payloadBytes[1] = val;
 
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
@@ -67,7 +67,7 @@ write_RFID(uint8_t addr, uint8_t writeValue)
 	return status;
 }
 
-
+/*
 void
 writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t payload)
 {
@@ -77,7 +77,7 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t payload)
     command and 0 for a write
     */
 	//writeSensorRegisterMFRC522(((addr<<1)&0x7E), payload);
-}
+//}
 
 
 WarpStatus
