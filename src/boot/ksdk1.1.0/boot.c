@@ -2953,7 +2953,7 @@ uint64_t pillCodes[2];
 							}
 							case '2' :
 							{
-								if(alarmM[0] == 5){
+								if(alarmM[0] == 7){
 									warpPrint("5!");
 								}
 								else{
