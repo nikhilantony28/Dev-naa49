@@ -35,27 +35,20 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    //configureSensorDS1307();
-    warpPrint("hello");
-
+    configureSensorDS1307();
     uint8_t alarmH[20] = {0,0,1};
     uint8_t alarmM[20] = {2,3,1};
     char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
-    uint64_t pillCodes[20] = {0x880404D850,0x8804D5BEE7,0x880495829B};
     //0x88 0x04 0x04 0xD8 0x50
-    //0x88 0x04 0xD5 0xBE 0xE7
-    //0x88 0x04 0x95 0x82 0x9B
     
     uint8_t alarmNum = 100;
-    //checkTag(0x880404D850);
+    checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
     //checkTag(0x880404D850);
-    warpPrint(" 0x%02x 0x%02x,", hours, mins);
-    warpPrint(alarmNum);
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
-        //readTag();
+        readTag();
         if(alarmNum == 100)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
@@ -68,16 +61,12 @@ void main_printTime()
             writeString(" Take");
             setLine(2);
             writeString(pillNames[alarmNum]);
-            for (int j =0; j<40;j++)
+            for (int i =0; i<20;i++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            if(checkTag(pillCodes[alarmNum]))
-            {
-                //i = 40;
-            }
             }
 
         }
@@ -156,8 +145,21 @@ uint8_t data[5];
 
 bool
 checkTag(uint64_t savedData)
-{  
+{
     readTag();
+    uint8_t savedTag[5];
+    savedTag[4] = lastReadTag;
+    savedTag[3] = lastReadTag >> 8;
+    savedTag[2] = lastReadTag >> 16;
+    savedTag[1] = lastReadTag >> 24;
+    savedTag[0] = lastReadTag >> 32;
+    for(int i =0; i <5; i++)
+            {
+			    warpPrint("0x%02x ", savedTag[i]);
+		    }
+    
+    readTag();
+    //if((savedTag[0] == lastReadTag[0])&&(savedTag[1] == lastReadTag[1])&&(savedTag[2] == lastReadTag[2])&&(savedTag[3] == lastReadTag[3])&&(savedTag[4] == lastReadTag[4]))
     if (lastReadTag == savedData)
     {
         warpPrint("Success!");
