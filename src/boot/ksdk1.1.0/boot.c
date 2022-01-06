@@ -2058,7 +2058,10 @@ main(void)
 	#endif
 	devSSD1331init();
 	warpPrint("hello");
-	main_printTime();
+	if(!checkTag(0xC4C62B6049))//Checks to see if debug tag is added on
+	{
+		main_printTime();	
+	}
 	while (1)
 	{
 		/*

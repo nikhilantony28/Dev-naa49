@@ -62,6 +62,7 @@ void main_printTime()
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
+            clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
             for (int j =0; j<20;j++)
