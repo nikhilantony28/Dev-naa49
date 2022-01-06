@@ -83,4 +83,4 @@ int16_t getCurrentDisplay();
 uint16_t countDigits(uint16_t i);
 void splitInt(int *arr, int num);
 void bottomRECT(uint8_t red, uint8_t green, uint8_t blue);
-void clearLine(uint8_t line)
+void clearLine(uint8_t line);
