@@ -128,16 +128,15 @@ writeCommand(uint8_t commandByte)
 {
 	spi_status_t status;
 	
-	//GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
-	GPIO_DRV_SetPinOutput(kSSD1331PinDC);
+
 	/*
 	 *	Drive /CS low.
 	 *
 	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
 	 */
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-	OSA_TimeDelay(10);
-	//GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
+	OSA_TimeDelay(1);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
 
 	/*
 	 *	Drive DC low (command).
@@ -475,9 +474,9 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
 		uint16_t white = 0xffff;
-		writeCommand(0xff);
-		writeCommand(0xff);
-		//writeData(TEXT_COLOUR);
+		//writeCommand(0xff);
+		//writeCommand(0xff);
+		writeData(TEXT_COLOUR);
 	}
 	else
 		return;
