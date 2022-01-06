@@ -114,6 +114,7 @@ uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 void
 readTag()
 {
+warpPrint("reading");
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
