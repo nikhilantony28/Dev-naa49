@@ -113,7 +113,7 @@ void showTime()
     writeTime(hours,mins);
 }
 
-uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
+int checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 {
     for(int i = 0; i<20;i++)
     {
