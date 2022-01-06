@@ -111,11 +111,12 @@ uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
     }
     return 100;
 }
-
+void
 readTag()
 {
 uint8_t data[5];
-    if(request_tag(0x26, data) == 0){ //checks for a tag
+    if(request_tag(0x26, data) == 0)
+    { //checks for a tag
 	    if(mfrc522_get_card_serial(data) == 0)
         {
 		    for(int i =0; i <5; i++)
@@ -123,7 +124,7 @@ uint8_t data[5];
 			    lastReadTag[i] = data[i];
 			    warpPrint("0x%02x ", lastReadTag[i]);
 		    }
-	    }
+        }
 	    else
         {
 		    warpPrint("No card present");
