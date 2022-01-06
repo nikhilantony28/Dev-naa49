@@ -2,7 +2,6 @@ uint8_t mins;
 uint8_t hours;
 uint8_t flashCol;
 uint64_t lastReadTag;
-uint64_t pillCodes[5];
 bool alarmState;
 
 void		main_printTime();
