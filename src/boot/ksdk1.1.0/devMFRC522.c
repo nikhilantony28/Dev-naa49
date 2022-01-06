@@ -41,35 +41,10 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 2), //ORANGE WIRE
  };
 
+
+
 WarpStatus
-writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
-{
-	spi_status_t status;
-
-	payloadBytes[0] = deviceRegister;
-	payloadBytes[1] = writeValue;
-
-
-	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-	OSA_TimeDelay(50);
-	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
-
-
-	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
-					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes,
-					(uint8_t * restrict)inBuffer,
-					2 /* transfer size */,
-					2000);
-
-	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-
-	return status;
-}
-
-
-void
-write_RFID(uint8_t addr, uint8_t payload)
+writeSensorRegisterMFRC522(uint8_t addr, uint8_t payload)
 {
     spi_status_t status;
 
@@ -93,16 +68,17 @@ write_RFID(uint8_t addr, uint8_t payload)
 
 }
 
-
+/*
 WarpStatus
 readSensorRegisterMFRC522(uint8_t deviceRegister)
 {
 	return writeSensorRegisterMFRC522(deviceRegister, 0x00);
 }
+*/
 
 
 uint8_t
-read_RFID(uint8_t addr)
+readSensorRegisterMFRC522(uint8_t addr)
 {
 	spi_status_t status;
 
@@ -132,16 +108,16 @@ void
 clearBitMask(uint8_t addr, uint8_t mask)
 {
 	uint8_t current;
-	current = read_RFID(addr);
-	write_RFID(addr, current & (~mask));
+	current = readSensorRegisterMFRC522(addr);
+	writeSensorRegisterMFRC522(addr, current & (~mask));
 }
 
 
 void
 setBitMask(uint8_t addr, uint8_t mask)
 {
-	uint8_t current = read_RFID(addr);
-	write_RFID(addr, current | mask);
+	uint8_t current = readSensorRegisterMFRC522(addr);
+	writeSensorRegisterMFRC522(addr, current | mask);
 }
 
 
@@ -152,7 +128,7 @@ uint8_t
 getFirmwareVersion(void)
 {
 	volatile uint8_t response;
-	response = read_RFID(VersionReg);
+	response = readSensorRegisterMFRC522(VersionReg);
 	return response;
 
 }
@@ -175,19 +151,19 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
   	int i;
 
 
-	write_RFID(CommIEnReg, irqEn|0x80);    /* IRQ sent to the tag */
+	writeSensorRegisterMFRC522(CommIEnReg, irqEn|0x80);    /* IRQ sent to the tag */
 	clearBitMask(CommIrqReg, 0x80);             /* Clear all interrupt requests bits. */
 	setBitMask(FIFOLevelReg, 0x80);             /* FlushBuffer=1, FIFO initialization */
 
-	write_RFID(CommandReg, MFRC522_IDLE);  // Cancel current command - no action
+	writeSensorRegisterMFRC522(CommandReg, MFRC522_IDLE);  // Cancel current command - no action
 
 	/* Write data to FIFO */
 	for (i=0; i < dlen; i++) {
-		write_RFID(FIFODataReg, data[i]);
+		writeSensorRegisterMFRC522(FIFODataReg, data[i]);
 	}
 
 	/* Execute the command. */
-	write_RFID(CommandReg, cmd);
+	writeSensorRegisterMFRC522(CommandReg, cmd);
 	if (cmd == MFRC522_TRANSCEIVE) {
 		setBitMask(BitFramingReg, 0x80);  // StartSend=1, transmission of data starts
 	}
@@ -196,22 +172,22 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 	i = 25;
 	do {
 		OSA_TimeDelay(1); // added in additional 1ms time delay - need to wait for command to finish
-		n = read_RFID(CommIrqReg);
+		n = readSensorRegisterMFRC522(CommIrqReg);
 		i--;
 	} while ((i!=0) && !(n&0x01) && !(n&waitIRq));
 
 	clearBitMask(BitFramingReg, 0x80);  /* StartSend=0 */
 
 	if (i != 0) { /* Request receieved a reply from tag reader. */
-		if(!(read_RFID(ErrorReg) & 0x1B)) {  /* No errors were generated in the command */
+		if(!(readSensorRegisterMFRC522(ErrorReg) & 0x1B)) {  /* No errors were generated in the command */
 		status = MI_OK;
 		if (n & irqEn & 0x01) {
 			status = MI_NOTAGERR;
 		}
 
 		if (cmd == MFRC522_TRANSCEIVE) {
-			n = read_RFID(FIFOLevelReg);
-			lastBits = read_RFID(ControlReg) & 0x07;
+			n = readSensorRegisterMFRC522(FIFOLevelReg);
+			lastBits = readSensorRegisterMFRC522(ControlReg) & 0x07;
 			if (lastBits) {
 				*rlen = (n-1)*8 + lastBits;
 			} else {
@@ -228,7 +204,7 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 
 			/* Read the recieved data from FIFO */
 			for (i=0; i<n; i++) {
-			result[i] = read_RFID(FIFODataReg);
+			result[i] = readSensorRegisterMFRC522(FIFODataReg);
 			}
 		}
 		} else {
@@ -243,7 +219,7 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 uint8_t request_tag(uint8_t mode, uint8_t *data)
 {
 	int status, len;
-	write_RFID(BitFramingReg, 0x07);
+	writeSensorRegisterMFRC522(BitFramingReg, 0x07);
 	data[0] = mode;
 
 	status = commandTag(MFRC522_TRANSCEIVE, data, 1, data, &len);
@@ -261,7 +237,7 @@ uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 	int status, i, len;
 	uint8_t check = 0x00;
 
-	write_RFID(BitFramingReg, 0x00);
+	writeSensorRegisterMFRC522(BitFramingReg, 0x00);
 
 	serial_out[0] = MF1_ANTICOLL;
 	serial_out[1] = 0x20;
@@ -318,13 +294,13 @@ devMFRC522init()
 	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
 	OSA_TimeDelay(100);
 
-	write_RFID(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
-	write_RFID(TPrescalerReg, 0x3E);
-	write_RFID(TReloadRegL, 30);
-	write_RFID(TReloadRegH, 0);
+	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
+	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
+	writeSensorRegisterMFRC522(TReloadRegL, 30);
+	writeSensorRegisterMFRC522(TReloadRegH, 0);
 
-	write_RFID(TxAutoReg, 0x40);      /* 100%ASK */
-	write_RFID(ModeReg, 0x3D);
+	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      /* 100%ASK */
+	writeSensorRegisterMFRC522(ModeReg, 0x3D);
 
 	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
 //	SEGGER_RTT_printf(0, "Firmware Version: %d", getFirmwareVersion());
