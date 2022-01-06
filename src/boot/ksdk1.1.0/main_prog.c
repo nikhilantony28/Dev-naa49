@@ -39,8 +39,12 @@ void main_printTime()
     uint8_t alarmH[20] = {0,0,1};
     uint8_t alarmM[20] = {2,3,1};
     char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
+    //0x88 0x04 0x04 0xD8 0x50
+    
     uint8_t alarmNum = 100;
+    checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
+    //checkTag(0x880404D850);
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
@@ -130,5 +134,31 @@ uint8_t data[5];
         {
 		    warpPrint("No card present");
 	    }   
+    }
+}
+
+bool
+checkTag(uint64_t savedData)
+{
+    uint8_t savedTag[5];
+    savedTag[0] = savedData;
+    savedTag[1] = savedData >> 8;
+    savedTag[2] = savedData >> 16;
+    savedTag[3] = savedData >> 24;
+    savedTag[4] = savedData >> 32;
+    for(int i =0; i <5; i++)
+            {
+			    warpPrint("0x%02x ", savedTag[i]);
+		    }
+    
+    readTag();
+    if((savedTag[0] == lastReadTag[0])&&(savedTag[1] == lastReadTag[1])&&(savedTag[2] == lastReadTag[2])&&(savedTag[3] == lastReadTag[3])&&(savedTag[4] == lastReadTag[4]))
+    {
+        warpPrint("Success!");
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
