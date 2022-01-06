@@ -401,6 +401,7 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	return 0;
 	*/
+	bottomRECT();
 }
 
 void writeChar(int value)
@@ -493,7 +494,7 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		uint16_t white = 0xffff;
 		DCPin = true;
 		writeCommand(0xff);
-		writeCommand(0xff);
+		writeCommand(0xaa);
 		DCPin = false;
 	}
 	else
@@ -614,7 +615,23 @@ void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
 	writeCommand(x_end);
 	writeCommand(y_end);
 }
+void bottomRECT()
+{
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(0x68);
+	writeCommand(0x68);
+	writeCommand(0x68);
 
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+
+	writeCommand(0x00);
+	writeCommand(0xFF);
+	writeCommand(0x00);
+	return 0;
+}
 /*
 Function: countDigits 
 * Counts the number of digits in the input integer
