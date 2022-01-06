@@ -138,12 +138,13 @@ uint8_t data[5];
 bool
 checkTag(uint64_t savedData)
 {
+    readTag();
     uint8_t savedTag[5];
-    savedTag[4] = savedData;
-    savedTag[3] = savedData >> 8;
-    savedTag[2] = savedData >> 16;
-    savedTag[1] = savedData >> 24;
-    savedTag[0] = savedData >> 32;
+    savedTag[4] = lastReadTag;
+    savedTag[3] = lastReadTag >> 8;
+    savedTag[2] = lastReadTag >> 16;
+    savedTag[1] = lastReadTag >> 24;
+    savedTag[0] = lastReadTag >> 32;
     for(int i =0; i <5; i++)
             {
 			    warpPrint("0x%02x ", savedTag[i]);
