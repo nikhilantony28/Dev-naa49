@@ -140,7 +140,7 @@ Miguel Balboa (https://github.com/miguelbalboa/rfid).
 
 
 WarpStatus readSensorRegisterMFRC522(uint8_t deviceRegister);
-WarpStatus writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue);
+//WarpStatus writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue);
 void devMFRC522init();
 uint8_t read_RFID(uint8_t addr);
-void write_RFID(uint8_t addr, uint8_t val);
+WarpStatus write_RFID(uint8_t addr, uint8_t val);
