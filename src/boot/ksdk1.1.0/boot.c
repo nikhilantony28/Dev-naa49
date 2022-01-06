@@ -198,7 +198,7 @@ uint8_t alarmH[10] = {0,0,1};
 uint8_t alarmM[10] = {2,3,1};
 char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
 uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
-char inputText[12];
+char inputText[13];
 
 volatile i2c_master_state_t				i2cMasterState;
 volatile spi_master_state_t				spiMasterState;
@@ -3869,6 +3869,7 @@ read4digits(void)
 void
 read12letter(void)
 {
+	inputText[12] = '/0';
 	for(int letter = 0; letter<12; letter++)
 	{
 		inputText[letter] = warpWaitKey();
