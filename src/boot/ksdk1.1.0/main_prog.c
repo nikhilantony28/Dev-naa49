@@ -48,7 +48,7 @@ void main_printTime()
     //checkTag(0x880404D850);
     if(timeChange())
     {
-        alarmNum = checkAlarm(alarmH,alarmM,alarmState);
+        alarmNum = checkAlarm(alarmH,alarmM);
         readTag();
         if(!alarmState)
         {
@@ -68,9 +68,9 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            /*if(checkTag(pillCodes[alarmNum])){
+            if(checkTag(pillCodes[alarmNum])){
                 j = 20;
-            }*/
+            }
             }
 
         }
@@ -108,13 +108,13 @@ void showTime()
     writeTime(hours,mins);
 }
 
-uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM, bool alarmOn)
+uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 {
     for(int i = 0; i<20;i++)
     {
         if((alarmH[i] == hours)&&(alarmM[i] == mins))
         {
-            alarmOn = true;
+            alarmState = true;
             return i;
         }
     }
