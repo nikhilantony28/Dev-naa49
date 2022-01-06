@@ -36,6 +36,8 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 void main_printTime()
 {
     configureSensorDS1307();
+    warpPrint("hello");
+
     uint8_t alarmH[20] = {0,0,1};
     uint8_t alarmM[20] = {2,3,1};
     char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
