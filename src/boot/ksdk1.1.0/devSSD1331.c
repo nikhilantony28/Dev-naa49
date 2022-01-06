@@ -491,9 +491,10 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
 		uint16_t white = 0xffff;
-		//writeCommand(0xff);
-		//writeCommand(0xff);
-		writeData(TEXT_COLOUR);
+		DCPin = true;
+		writeCommand(0xff);
+		writeCommand(0xff);
+		DCPin = false;
 	}
 	else
 		return;
