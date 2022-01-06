@@ -41,13 +41,13 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 2), //ORANGE WIRE
  };
 
-void
-write_RFID(uint8_t deviceRegister, uint8_t payload)
+WarpStatus
+writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue)
 {
 	spi_status_t status;
 
-	payloadBytes[0] = (deviceRegister<<1)&0x7E;
-	payloadBytes[1] = payload;
+	payloadBytes[0] = deviceRegister;
+	payloadBytes[1] = writeValue;
 
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
@@ -64,46 +64,26 @@ write_RFID(uint8_t deviceRegister, uint8_t payload)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	//return status;
+	return status;
 }
 
-/*
+
 void
-writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t payload)
+write_RFID(uint8_t addr, uint8_t payload)
 {
     /*
     MFRC uses addresses such that it is 1XXXXXX0 for a read command,
     where XXXXXX is the 6 bit actual address. The MSB is always 1 for a read
     command and 0 for a write
     */
-	//writeSensorRegisterMFRC522(((addr<<1)&0x7E), payload);
-///}
+	writeSensorRegisterMFRC522(((addr<<1)&0x7E), payload);
+}
 
 
-void
+WarpStatus
 readSensorRegisterMFRC522(uint8_t deviceRegister)
 {
-	spi_status_t status;
-
-	payloadBytes[0] = (((deviceRegister<<1)&0x7E) | 0x80);
-	payloadBytes[1] = 0x00;
-
-
-	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-	OSA_TimeDelay(50);
-	GPIO_DRV_ClearPinOutput(kMFRC522PinCSn);
-
-
-	status = SPI_DRV_MasterTransferBlocking(0 /* master instance */,
-					NULL /* spi_master_user_config_t */,
-					(const uint8_t * restrict)payloadBytes,
-					(uint8_t * restrict)inBuffer,
-					2 /* transfer size */,
-					2000);
-
-	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-
-	//return inBuffer[1];
+	return writeSensorRegisterMFRC522(deviceRegister, 0x00);
 }
 
 
