@@ -48,10 +48,12 @@ void main_printTime()
     checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
     //checkTag(0x880404D850);
+    warpPrint(" 0x%02x 0x%02x,", hours, mins);
+    warpPrint(alarmNum);
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
-        readTag();
+        //readTag();
         if(alarmNum == 100)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
