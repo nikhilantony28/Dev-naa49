@@ -160,7 +160,7 @@ outputTimeDS1307(uint8_t reg)
 	i2cReadStatus = readSensorRegisterDS1307(reg /* Voltage*/ , 1 /* numberOfBytes */);
 	
 	
-	/*
+	
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
@@ -169,6 +169,4 @@ outputTimeDS1307(uint8_t reg)
 	else{
 		return deviceDS1307State.i2cBuffer[0];
 	}
-	*/
-	return deviceDS1307State.i2cBuffer[0];
 }
