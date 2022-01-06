@@ -38,19 +38,31 @@ void main_printTime()
     configureSensorDS1307();
     uint8_t alarmH[20] = {0,0,1};
     uint8_t alarmM[20] = {2,3,1};
+    char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
     uint8_t alarmNum = 100;
     for (int i = 0 ; i< 100; i++){
     if(timeChange())
     {
-        showTime();
         alarmNum = checkAlarm(alarmH,alarmM);
         if(alarmNum == 100)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
+            showTime();
         }
         else
         {
-            warpPrint(" 0x%02x", alarmNum);
+            warpPrint(pillNames[alarmNum]);
+            showTime();
+            writeString(" Take");
+            setLine(2);
+            writeString(pillNames[alarmNum]);
+            for (int i =0; i<20;i++)
+            {
+            bottomRECT(0x00,0x00,0x00);
+            OSA_TimeDelay(500);
+            bottomRECT(0xff,0xff,0xff);
+            }
+
         }
 
     }
