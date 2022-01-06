@@ -34,5 +34,6 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
+    setLine(2);
     writeString("12:45");
 }

@@ -361,7 +361,8 @@ devSSD1331init(void)
 	chr_size = HIGH;
 	FontSizeConvert();
 	locate(3,10);
-	writeString("STEPS are stupid");
+	setLine(1);
+	writeString("STEPS are");
 
 	locate(3,30);
 	int value = 0;
@@ -388,11 +389,14 @@ devSSD1331init(void)
 void writeChar(int value)
 {
 	uint8_t chMode = 0;
+	/*
 	if(value == '\n') {
 		char_x = 0;
 		char_y = char_y + Y_height*2;
 	}
+	*/
 	if ((value < 31) || (value > 127)) return;   // test char range
+	/*
 	if (char_x + X_width > width) {
 		char_x = 0;
 		char_y = char_y + Y_height*2;
@@ -400,6 +404,7 @@ void writeChar(int value)
 			char_y = 0;
 		}
 	}
+	*/
 	int i,j,w,k,l,xw;
 	unsigned char Temp=0;
 	j = 0; i = 0;
@@ -431,6 +436,11 @@ void locate(uint8_t column, uint8_t row)
 {
     char_x  = column;
     char_y = row;
+}
+void setLine(uint8_t Line)
+{
+	char_y = 10 + (Line-1)* Y_height*2;
+	char_x = 3;
 }
 
 /*
