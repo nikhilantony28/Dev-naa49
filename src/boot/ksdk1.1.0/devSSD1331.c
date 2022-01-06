@@ -619,9 +619,9 @@ void bottomRECT()
 {
 	writeCommand(kSSD1331CommandDRAWRECT);
 	writeCommand(0x00);
-	writeCommand(0x68);
-	writeCommand(0x68);
-	writeCommand(0x68);
+	writeCommand(0x2F);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
 
 	writeCommand(0x00);
 	writeCommand(0xFF);
