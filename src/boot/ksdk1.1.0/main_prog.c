@@ -35,7 +35,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    configureSensorDS1307();
+    //configureSensorDS1307();
     warpPrint("hello");
 
     uint8_t alarmH[20] = {0,0,1};
