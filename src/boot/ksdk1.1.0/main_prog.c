@@ -39,7 +39,7 @@ void main_printTime()
     uint8_t alarmH[10] = {0,0,1};
     uint8_t alarmM[10] = {2,3,1};
     char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
-    pillCodes[0] = 0x880404D850;
+    uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
     //0x8804D5BEE7,0x880495829;
     uint64_t pillCode; 
     //0x88 0x04 0x04 0xD8 0x50
@@ -70,7 +70,7 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            if(false){
+            if(pillCodes[alarmNum]){
                 j = 20;
                 
             }
