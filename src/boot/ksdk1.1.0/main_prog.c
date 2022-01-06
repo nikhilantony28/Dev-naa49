@@ -67,6 +67,9 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
+            if(checkTag(0x880404D850)){
+                i = 20;
+            }
             }
 
         }
@@ -133,7 +136,6 @@ uint8_t data[5];
             lastReadTag += data[3];
             lastReadTag <<= 8;
             lastReadTag += data[4];
-            warpPrint("%x" , lastReadTag);
 
         }
 	    else
