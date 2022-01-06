@@ -68,10 +68,10 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            /*if(false){
+            if(false){
                 j = 20;
                 
-            }*/
+            }
             //checkTag(pillCodes[alarmNum]);
             }
 
