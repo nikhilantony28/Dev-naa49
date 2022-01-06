@@ -401,7 +401,12 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	return 0;
 	*/
-	bottomRECT();
+	for (int i=0, i<50, i++){
+	bottomRECT(0xff,0x00,0x00);
+	OSA_TimeDelay(1000);
+	bottomRECT(0x00,0x00,0xff);
+	OSA_TimeDelay(1000);
+	}
 }
 
 void writeChar(int value)
@@ -615,7 +620,7 @@ void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
 	writeCommand(x_end);
 	writeCommand(y_end);
 }
-void bottomRECT()
+void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
 {
 	writeCommand(kSSD1331CommandDRAWRECT);
 	writeCommand(0x00);
@@ -623,13 +628,13 @@ void bottomRECT()
 	writeCommand(0x5F);
 	writeCommand(0x3F);
 
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
+	writeCommand(red);
+	writeCommand(green);
+	writeCommand(blue);
 
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
+	writeCommand(red);
+	writeCommand(green);
+	writeCommand(blue);
 	return 0;
 }
 /*
