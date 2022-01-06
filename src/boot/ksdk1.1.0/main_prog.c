@@ -40,9 +40,10 @@ void main_printTime()
     uint8_t alarmM[20] = {2,3,1};
     char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
     uint64_t pillCodes[20] = {0x880404D850,0x8804D5BEE7,0x880495829B};
+    uint64_t pillCode; 
     //0x88 0x04 0x04 0xD8 0x50
     
-    uint8_t alarmNum = 0;
+    int alarmNum = 0;
     checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
     //checkTag(0x880404D850);
@@ -72,6 +73,7 @@ void main_printTime()
                 j = 20;
                 
             }
+            pillCode = pillCodes[alarmNum];
             checkTag(pillCodes[0]);
             }
 
