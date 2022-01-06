@@ -2892,10 +2892,10 @@ main(void)
 			case '?':
 			{
 				int fourDig;
-				warpPrint("\r '1' : Set time");
-				warpPrint("\r '2' : Edit pill data");
-				warpPrint("\r '3' : View time");
-				warpPrint("\r Enter Selection >");
+				warpPrint("\n '1' : Set time");
+				warpPrint("\n '2' : Edit pill data");
+				warpPrint("\n '3' : View time");
+				warpPrint("\n Enter Selection >");
 				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 			  	key = warpWaitKey();
 			  	switch(key)
@@ -2918,7 +2918,7 @@ main(void)
 						uint8_t hours;
 						mins = outputTimeDS1307(0x01);
     					hours = outputTimeDS1307(0x02);
-						warpPrint("%d ,%d",hours,mins);
+						warpPrint("%d :,%d",hours,mins);
 						writeTime(hours,mins);
 						break;
 
