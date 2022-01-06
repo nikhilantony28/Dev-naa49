@@ -466,11 +466,16 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		cmd[2] = x;
 		cmd[4] = y;
 		cmd[5] = y;
-		writeCommandMulti(cmd,6);
-
+		//writeCommandMulti(cmd,6);
+		writeCommand(cmd[0]);
+		writeCommand(cmd[1]);
+		writeCommand(cmd[2]);
+		writeCommand(cmd[3]);
+		writeCommand(cmd[4]);
+		writeCommand(cmd[5]);
 		uint16_t white = 0xffff;
 
-		writeData(white);
+		writeData(TEXT_COLOUR);
 	}
 	else
 		return;

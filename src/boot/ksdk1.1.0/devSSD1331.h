@@ -9,7 +9,9 @@
 #define WHx36   4
 #define X_width 6 
 #define Y_height 8
-
+#define TEXT_COLOUR 0xffff
+#define WHITE 0xffff
+#define GREEN 0xffff
 // Screen Settings
 #define WIDTH   96       // Max X axial direction in screen
 #define HEIGHT  64      // Max Y axial direction in screen
@@ -69,6 +71,7 @@ int	devSSD1331init(void);
 void writeChar(int value);
 void pixel(uint8_t x,uint8_t y,char colour);
 void locate(uint8_t column, uint8_t row);
+void setLine(uint8_t Line);
 void writeString(const char *pString);
 void writeInt(int* pString, int size);
 void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end);
