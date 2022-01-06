@@ -2954,10 +2954,11 @@ main(void)
 							}
 							case '2':
 							{
-								warpPrint(alarmM[0]);
+								warpPrint(alarmM[0]+48);
 								alarmM[0] = 5;
 							}
 						}
+						break;
 					}
 					case '3' :
 					{
