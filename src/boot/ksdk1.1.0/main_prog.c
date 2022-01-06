@@ -124,11 +124,9 @@ uint8_t data[5];
     { //checks for a tag
 	    if(mfrc522_get_card_serial(data) == 0)
         {
-		    for(int i =0; i <5; i++)
-            {
-			    lastReadTag[i] = data[i];
-			    warpPrint("0x%02x ", lastReadTag[i]);
-		    }
+		    lastReadTag = (data[0] << 32)&(data[1] << 24)&(data[2] << 16)&(data[3] << 8)&(data[4]);
+            warpPrint("%x" , lastReadTag);
+
         }
 	    else
         {
@@ -152,7 +150,8 @@ checkTag(uint64_t savedData)
 		    }
     
     readTag();
-    if((savedTag[0] == lastReadTag[0])&&(savedTag[1] == lastReadTag[1])&&(savedTag[2] == lastReadTag[2])&&(savedTag[3] == lastReadTag[3])&&(savedTag[4] == lastReadTag[4]))
+    //if((savedTag[0] == lastReadTag[0])&&(savedTag[1] == lastReadTag[1])&&(savedTag[2] == lastReadTag[2])&&(savedTag[3] == lastReadTag[3])&&(savedTag[4] == lastReadTag[4]))
+    if (lastReadTag == savedData)
     {
         warpPrint("Success!");
         return true;

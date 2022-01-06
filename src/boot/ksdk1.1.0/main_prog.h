@@ -1,7 +1,7 @@
 uint8_t mins;
 uint8_t hours;
 uint8_t flashCol;
-uint8_t lastReadTag[5];
+uint64_t lastReadTag;
 
 void		main_printTime();
 void		updateTime();
