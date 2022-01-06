@@ -2928,6 +2928,7 @@ uint64_t pillCodes[2];
 								
 								for(int item = 0; item < 2; item++)
 								{
+									warpPrint("\n");
 									warpPrint(pillNames[item]);
 								}
 								
