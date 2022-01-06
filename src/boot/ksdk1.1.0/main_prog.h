@@ -2,6 +2,7 @@ uint8_t mins;
 uint8_t hours;
 uint8_t flashCol;
 uint64_t lastReadTag;
+bool alarmState;
 
 void		main_printTime();
 void		updateTime();

@@ -42,15 +42,15 @@ void main_printTime()
     uint64_t pillCodes[20] = {0x880404D850,0x8804D5BEE7,0x880495829B};
     //0x88 0x04 0x04 0xD8 0x50
     
-    uint8_t alarmNum = 100;
+    uint8_t alarmNum = 0;
     checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
     //checkTag(0x880404D850);
     if(timeChange())
     {
-        alarmNum = checkAlarm(alarmH,alarmM);
+        alarmNum = checkAlarm(alarmH,alarmM,alarmState);
         readTag();
-        if(alarmNum == 100)
+        if(!alarmState)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
@@ -108,16 +108,17 @@ void showTime()
     writeTime(hours,mins);
 }
 
-uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
+uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM, bool alarmOn)
 {
     for(int i = 0; i<20;i++)
     {
         if((alarmH[i] == hours)&&(alarmM[i] == mins))
         {
+            alarmOn = true;
             return i;
         }
     }
-    return 100;
+    return 0;
 }
 void
 readTag()
