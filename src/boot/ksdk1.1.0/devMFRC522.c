@@ -103,7 +103,7 @@ read_RFID(uint8_t deviceRegister)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	return status;
+	return inBuffer[1];
 }
 
 /*
