@@ -207,6 +207,7 @@ writeData(uint16_t commandByte)
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 	OSA_TimeDelay(10);
 	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
+	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 	payloadBytes[0] = (commandByte >> 8);
 	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
 					NULL		/* spi_master_user_config_t */,
