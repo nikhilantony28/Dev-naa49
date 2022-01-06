@@ -194,7 +194,11 @@
 volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
-
+uint8_t alarmH[10] = {0,0,1};
+uint8_t alarmM[10] = {2,3,1};
+char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
+uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
+char inputText[10];
 
 volatile i2c_master_state_t				i2cMasterState;
 volatile spi_master_state_t				spiMasterState;
@@ -2910,7 +2914,37 @@ main(void)
 					}
 					case '2' :
 					{
+						warpPrint("\n '1' : Edit name of existing pill");
+						warpPrint("\n '2' : Edit Alarm time of existing pill");
+						warpPrint("\n '3' : Add new pill");
+						warpPrint("\n '3' : Note only one alarm allow per pill. If needed to be taken more than once a day please add the second time as another entry");
+						warpPrint("\n Enter Selection >");
+						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+			  			key = warpWaitKey();
+			  			switch(key)
+						{
+							case '1':
+							{
+								for(int item = 0; item < 10; item++)
+								{
+									warpPrint(pillNames[item]);
+								}
+								warpPrint("\n Enter Selection >");
+								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+								key = warpWaitKey();
+								if((key>47)||(key<58))
+								{
+									warpPrint("\n Name:");
+									read10letter();
+									warpPrint(read10letter);
 
+								}
+								else
+								{
+									warpPrint("Invalid selection")
+								}
+							}
+						}
 					}
 					case '3' :
 					{
@@ -3828,7 +3862,15 @@ read4digits(void)
 
 	return (digit1 - '0')*1000 + (digit2 - '0')*100 + (digit3 - '0')*10 + (digit4 - '0');
 }
+void
+read10letter(void)
+{
 
+	for(int letter = 0; letter<10; letter++)
+	{
+		inputText[letter] = warpWaitKey();
+	}
+}
 
 WarpStatus
 writeByteToI2cDeviceRegister(uint8_t i2cAddress, bool sendCommandByte, uint8_t commandByte, bool sendPayloadByte, uint8_t payloadByte)
