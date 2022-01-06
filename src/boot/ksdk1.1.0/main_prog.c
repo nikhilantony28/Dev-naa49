@@ -45,7 +45,7 @@ void main_printTime()
     //0x88 0x04 0x95 0x82 0x9B
     
     uint8_t alarmNum = 100;
-    checkTag(0x880404D850);
+    //checkTag(0x880404D850);
     for (int i = 0 ; i< 100; i++){
     //checkTag(0x880404D850);
     warpPrint(" 0x%02x 0x%02x,", hours, mins);
@@ -66,7 +66,7 @@ void main_printTime()
             writeString(" Take");
             setLine(2);
             writeString(pillNames[alarmNum]);
-            for (int i =0; i<40;i++)
+            for (int j =0; j<40;j++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
@@ -74,7 +74,7 @@ void main_printTime()
             OSA_TimeDelay(500);
             if(checkTag(pillCodes[alarmNum]))
             {
-                i = 40;
+                //i = 40;
             }
             }
 
