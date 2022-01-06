@@ -380,7 +380,7 @@ devSSD1331init(void)
 	locate(3,10);
 	setLine(1);
 	writeString("STEPS are");
-
+	writeTime(12,45);
 	locate(3,30);
 	int value = 0;
 	uint16_t value2 = 1;
@@ -401,7 +401,7 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	return 0;
 	*/
-	for (int i=0; i<50; i++){
+	for (int i=0; i<5; i++){
 	bottomRECT(0xff,0x00,0x00);
 	OSA_TimeDelay(1000);
 	bottomRECT(0x00,0x00,0xff);
@@ -522,6 +522,16 @@ void writeString(const char *pString)
         writeChar(charAscii);
         pString++;
     }
+}
+
+void writeTime(uint8_t hours, uint8_t mins)
+{
+	writeChar((hours/10) + 48);
+	writeChar((hours%10) + 48);
+	writeString(":");
+	writeChar((mins/10) + 48);
+	writeChar((mins%10) + 48);
+	
 }
 
 /*
