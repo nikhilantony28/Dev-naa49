@@ -37,7 +37,7 @@ void main_printTime()
 {
     setLine(2);
     for (int i = 0 ; i< 100; i++){
-    updateTime;
+    updateTime();
     setLine(2);
     writeTime(hours,mins);
     OSA_TimeDelay(2000);
