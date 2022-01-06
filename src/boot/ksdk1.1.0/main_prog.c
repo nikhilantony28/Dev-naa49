@@ -44,6 +44,7 @@ void main_printTime()
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
+        readTag();
         if(alarmNum == 100)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
@@ -61,6 +62,7 @@ void main_printTime()
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
+            OSA_TimeDelay(500);
             }
 
         }
@@ -108,4 +110,23 @@ uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
         }
     }
     return 100;
+}
+
+readTag()
+{
+uint8_t data[5];
+    if(request_tag(0x26, data) == 0){ //checks for a tag
+	    if(mfrc522_get_card_serial(data) == 0)
+        {
+		    for(int i =0; i <5; i++)
+            {
+			    lastReadTag[i] = data[i];
+			    warpPrint("0x%02x ", lastReadTag[i]);
+		    }
+	    }
+	    else
+        {
+		    warpPrint("No card present");
+	    }   
+    }
 }
