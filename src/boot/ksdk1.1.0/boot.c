@@ -194,10 +194,6 @@
 volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
-uint8_t alarmH[10];
-uint8_t alarmM[10];
-char*  pillNames[10];
-uint64_t pillCodes[10];
 char inputText[13];
 
 volatile i2c_master_state_t				i2cMasterState;
@@ -1908,6 +1904,10 @@ main(void)
 
 	uint8_t uid[5];
 	uint8_t uid2[5];
+	uint8_t alarmH[10];
+uint8_t alarmM[10];
+char*  pillNames[10];
+uint64_t pillCodes[10];
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
