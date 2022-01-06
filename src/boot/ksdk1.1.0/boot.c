@@ -2906,7 +2906,7 @@ main(void)
 						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 			  			fourDig = read4digits();
 						setTimeDS1307(0x00,fourDig%100,fourDig/100);
-						break
+						break;
 					}
 					case '2' :
 					{
@@ -2920,6 +2920,7 @@ main(void)
     					hours = outputTimeDS1307(0x02);
 						warpPrint("%d ,%d",hours,mins);
 						writeTime(hours,mins);
+						break;
 
 					}
 				}
