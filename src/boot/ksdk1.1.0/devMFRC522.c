@@ -80,8 +80,8 @@ writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t payload)
 ///}
 
 
-uint8_t
-read_RFID(uint8_t deviceRegister)
+void
+readSensorRegisterMFRC522(uint8_t deviceRegister)
 {
 	spi_status_t status;
 
@@ -103,10 +103,10 @@ read_RFID(uint8_t deviceRegister)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	return inBuffer[1];
+	//return inBuffer[1];
 }
 
-/*
+
 uint8_t
 read_RFID(uint8_t addr)
 {
@@ -114,12 +114,12 @@ read_RFID(uint8_t addr)
   MFRC uses addresses such that it is 1XXXXXX0 for a read command,
   where XXXXXX is the 6 bit actual address. The MSB is always 1 for a read
   command and 0 for a write
-  *//*
+  */
 	readSensorRegisterMFRC522(((addr<<1)&0x7E) | 0x80);
 
 	return inBuffer[1];
 }
-*/
+
 //
 void
 clearBitMask(uint8_t addr, uint8_t mask)
