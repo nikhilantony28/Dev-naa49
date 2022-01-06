@@ -41,7 +41,7 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 2), //ORANGE WIRE
  };
 
-WarpStatus
+void
 write_RFID(uint8_t deviceRegister, uint8_t payload)
 {
 	spi_status_t status;
@@ -64,7 +64,7 @@ write_RFID(uint8_t deviceRegister, uint8_t payload)
 
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
 
-	return status;
+	//return status;
 }
 
 /*
