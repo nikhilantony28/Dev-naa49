@@ -2936,13 +2936,14 @@ main(void)
 								{
 									warpPrint("\n Name:");
 									read10letter();
-									warpPrint(read10letter);
+									warpPrint(inputText);
 
 								}
 								else
 								{
 									warpPrint("Invalid selection");
 								}
+								break;
 							}
 						}
 					}
