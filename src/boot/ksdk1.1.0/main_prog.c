@@ -152,12 +152,7 @@ uint8_t data[5];
 
 bool
 checkTag(uint64_t savedData)
-{
-    for(int i =0; i <5; i++)
-            {
-			    warpPrint("0x%02x ", savedTag[i]);
-		    }
-    
+{  
     readTag();
     if (lastReadTag == savedData)
     {
