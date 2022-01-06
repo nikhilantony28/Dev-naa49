@@ -137,7 +137,7 @@ writeCommand(uint8_t commandByte)
 	 */
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 	OSA_TimeDelay(10);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
+	//GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
 
 	/*
 	 *	Drive DC low (command).
