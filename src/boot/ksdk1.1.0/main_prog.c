@@ -40,6 +40,7 @@ void main_printTime()
     for (int i = 0 ; i< 100; i++){
     updateTime();
     warpPrint(" 0x%02x 0x%02x,", hours, mins);
+    clearLine(2);
     setLine(2);
     writeTime(hours,mins);
     OSA_TimeDelay(2000);

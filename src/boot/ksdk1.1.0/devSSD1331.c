@@ -647,6 +647,26 @@ void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
 	writeCommand(blue);
 	return 0;
 }
+
+void clearLine(uint8_t line)
+{
+	setLine(line);
+	writeCommand(kSSD1331CommandDRAWRECT);
+	writeCommand(0x00);
+	writeCommand(char_y);
+	writeCommand(0x5F);
+	writeCommand(char_y + Y_height*2);
+
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x00);
+
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x00);
+}
+
+
 /*
 Function: countDigits 
 * Counts the number of digits in the input integer
