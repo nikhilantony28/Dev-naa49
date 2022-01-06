@@ -128,7 +128,7 @@ writeCommand(uint8_t commandByte)
 {
 	spi_status_t status;
 	
-
+	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 	/*
 	 *	Drive /CS low.
 	 *
@@ -141,7 +141,7 @@ writeCommand(uint8_t commandByte)
 	/*
 	 *	Drive DC low (command).
 	 */
-	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
+	
 
 	payloadBytes[0] = commandByte;
 	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
@@ -207,7 +207,6 @@ writeData(uint16_t commandByte)
 	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
 	OSA_TimeDelay(10);
 	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 	payloadBytes[0] = (commandByte >> 8);
 	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
 					NULL		/* spi_master_user_config_t */,
