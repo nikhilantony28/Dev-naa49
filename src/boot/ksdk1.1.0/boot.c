@@ -2822,7 +2822,7 @@ main(void)
 			}
 			case '[':
 			{
-			printSensorDataDS1307();
+			//printSensorDataDS1307();
 			}
 			case '#':
 			{

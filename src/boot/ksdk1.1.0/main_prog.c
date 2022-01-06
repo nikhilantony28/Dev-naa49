@@ -21,6 +21,7 @@
 #include "devSSD1331.h"
 #include "devDS1307.h"
 #include "devMFRC522.h"
+#include "main_prog.h"
 
 
 
@@ -35,5 +36,17 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 void main_printTime()
 {
     setLine(2);
-    writeString("12:45");
+    for (int i = 0 ; i< 100; i++){
+    updateTime;
+    setLine(2);
+    writeTime(hours,mins);
+    OSA_TimeDelay(2000);
+    }
+    
+}
+void updateTime()
+{
+    mins = outputTimeDS1307(0x01);
+    hours = outputTimeDS1307(0x02);
+
 }

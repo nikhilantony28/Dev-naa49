@@ -151,34 +151,22 @@ readSensorRegisterDS1307(uint8_t deviceRegister,  int numberOfBytes)
 	return kWarpStatusOK;
 }
 
-void
-printSensorDataDS1307()
+uint8_t
+outputTimeDS1307(uint8_t reg)
 {
-	uint16_t	readSensorRegisterValueLSB;
-	uint16_t	readSensorRegisterValueMSB;
-	int16_t		readSensorRegisterValueCombined;
-	WarpStatus	i2cReadStatus;
+
+	WarpStatus i2cReadStatus;
+
+	i2cReadStatus = readSensorRegisterDS1307(reg /* Voltage*/ , 1 /* numberOfBytes */);
 	
-
-	warpScaleSupplyVoltage(deviceDS1307State.operatingVoltageMillivolts);
-	/*
-	0x01: Shunt voltage
-	0x02: Bus voltage
-	0x03: Power
-	0x04: Current
-	*/
-
-
-	i2cReadStatus = readSensorRegisterDS1307(0x00 /* Voltage*/ , 2 /* numberOfBytes */);
-	readSensorRegisterValueMSB = deviceDS1307State.i2cBuffer[0];
-	readSensorRegisterValueLSB = deviceDS1307State.i2cBuffer[1];
 	
 
 	if (i2cReadStatus != kWarpStatusOK)
 	{
 		warpPrint(" ----,");
+		return 0;
 	}
 	else{
-		warpPrint(" 0x%02x 0x%02x,", readSensorRegisterValueMSB, readSensorRegisterValueLSB);
+		return deviceDS1307State.i2cBuffer[0];
 	}
 }
