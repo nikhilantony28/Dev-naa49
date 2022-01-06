@@ -401,7 +401,7 @@ devSSD1331init(void)
 	writeCommand(0x00);
 	return 0;
 	*/
-	for (int i=0, i<50, i++){
+	for (int i=0; i<50; i++){
 	bottomRECT(0xff,0x00,0x00);
 	OSA_TimeDelay(1000);
 	bottomRECT(0x00,0x00,0xff);
