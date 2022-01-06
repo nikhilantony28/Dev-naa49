@@ -36,12 +36,25 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 void main_printTime()
 {
     configureSensorDS1307();
+    uint8_t alarmH[20] = {0,0,1};
+    uint8_t alarmM[20] = {2,3,1};
+    uint8_t alarmNum = 100;
     for (int i = 0 ; i< 100; i++){
     if(timeChange())
     {
         showTime();
+        alarmNum = checkAlarm(alarmH,alarmM);
+        if(alarmNum == 100)
+        {
+            warpPrint(" 0x%02x 0x%02x,", hours, mins);
+        }
+        else
+        {
+            warpPrint(" 0x%02x", alarmNum);
+        }
+
     }
-    warpPrint(" 0x%02x 0x%02x,", hours, mins);
+    
     OSA_TimeDelay(2000);
     }
     
@@ -71,4 +84,16 @@ bool timeChange()
 void showTime()
 {
     writeTime(hours,mins);
+}
+
+uint8_t checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
+{
+    for(int i = 0; i<20;i++)
+    {
+        if((alarmH[i] == hours)&&(alarmM[i] == mins))
+        {
+            return i;
+        }
+    }
+    return 100;
 }

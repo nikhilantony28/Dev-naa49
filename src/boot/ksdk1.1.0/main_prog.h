@@ -5,3 +5,4 @@ void		main_printTime();
 void		updateTime();
 bool        timeChange();
 void        showTime();
+uint8_t     checkAlarm(uint8_t *hours, uint8_t *mins);
