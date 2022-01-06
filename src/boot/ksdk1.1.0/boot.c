@@ -198,7 +198,7 @@ uint8_t alarmH[10] = {0,0,1};
 uint8_t alarmM[10] = {2,3,1};
 char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
 uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
-char inputText[10];
+char inputText[12];
 
 volatile i2c_master_state_t				i2cMasterState;
 volatile spi_master_state_t				spiMasterState;
@@ -2936,10 +2936,9 @@ main(void)
 								{
 
 									warpPrint("\n Name:");
-									read10letter();
+									read12letter();
 									warpPrint(inputText);
 									pillNames[key-'0'] = inputText;
-									showTime();
 									writeString(inputText);
 
 								}
@@ -3868,12 +3867,19 @@ read4digits(void)
 	return (digit1 - '0')*1000 + (digit2 - '0')*100 + (digit3 - '0')*10 + (digit4 - '0');
 }
 void
-read10letter(void)
+read12letter(void)
 {
-
-	for(int letter = 0; letter<10; letter++)
+	for(int letter = 0; letter<12; letter++)
 	{
 		inputText[letter] = warpWaitKey();
+		if(inputText[letter] == 10)
+		{
+			for(int j = letter; j < 12; j++)
+			{
+				inputText[j] = ' ';
+			}
+			return;
+		}
 	}
 }
 
