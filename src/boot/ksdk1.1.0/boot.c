@@ -2941,7 +2941,7 @@ main(void)
 								}
 								else
 								{
-									warpPrint("Invalid selection")
+									warpPrint("Invalid selection");
 								}
 							}
 						}
