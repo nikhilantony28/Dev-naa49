@@ -147,19 +147,6 @@ bool
 checkTag(uint64_t savedData)
 {
     readTag();
-    uint8_t savedTag[5];
-    savedTag[4] = lastReadTag;
-    savedTag[3] = lastReadTag >> 8;
-    savedTag[2] = lastReadTag >> 16;
-    savedTag[1] = lastReadTag >> 24;
-    savedTag[0] = lastReadTag >> 32;
-    for(int i =0; i <5; i++)
-            {
-			    warpPrint("0x%02x ", savedTag[i]);
-		    }
-    
-    readTag();
-    //if((savedTag[0] == lastReadTag[0])&&(savedTag[1] == lastReadTag[1])&&(savedTag[2] == lastReadTag[2])&&(savedTag[3] == lastReadTag[3])&&(savedTag[4] == lastReadTag[4]))
     if (lastReadTag == savedData)
     {
         warpPrint("Success!");
