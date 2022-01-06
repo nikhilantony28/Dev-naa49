@@ -82,4 +82,4 @@ void display(uint16_t val, uint16_t prevVal);
 int16_t getCurrentDisplay();
 uint16_t countDigits(uint16_t i);
 void splitInt(int *arr, int num);
-void bottomRECT();
+void bottomRECT(uint8_t red, uint8_t green, uint8_t blue);
