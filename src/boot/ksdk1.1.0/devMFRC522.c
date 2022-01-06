@@ -42,11 +42,11 @@ volatile uint8_t	payloadBytes[32];
  };
 
 WarpStatus
-write_RFID(uint8_t deviceRegister, uint8_t writeValue)
+write_RFID(uint8_t addr, uint8_t writeValue)
 {
 	spi_status_t status;
 
-	payloadBytes[0] = (deviceRegister<<1)&0x7E;
+	payloadBytes[0] = (addr<<1)&0x7E;
 	payloadBytes[1] = writeValue;
 
 
@@ -69,7 +69,7 @@ write_RFID(uint8_t deviceRegister, uint8_t writeValue)
 
 
 void
-writeSensorRegisterMFRC522(uint8_t addr, uint8_t payload)
+writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t payload)
 {
     /*
     MFRC uses addresses such that it is 1XXXXXX0 for a read command,
