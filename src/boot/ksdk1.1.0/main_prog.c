@@ -124,7 +124,7 @@ uint8_t data[5];
     { //checks for a tag
 	    if(mfrc522_get_card_serial(data) == 0)
         {
-		    lastReadTag = (data[0] << 32)
+		    lastReadTag = (data[0] << 32);
             //(data[1] << 24)&(data[2] << 16)&(data[3] << 8)&(data[4]);
             warpPrint("%x" , lastReadTag);
 
