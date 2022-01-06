@@ -2057,6 +2057,7 @@ main(void)
 		}
 	#endif
 	devSSD1331init();
+	warpPrint("hello");
 	main_printTime();
 	while (1)
 	{
