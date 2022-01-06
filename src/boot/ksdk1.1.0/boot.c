@@ -194,10 +194,10 @@
 volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
-uint8_t alarmH[10] = {0,0,1};
-uint8_t alarmM[10] = {2,3,1};
-char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
-uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
+uint8_t alarmH[10];
+uint8_t alarmM[10];
+char*  pillNames[10];
+uint64_t pillCodes[10];
 char inputText[13];
 
 volatile i2c_master_state_t				i2cMasterState;
