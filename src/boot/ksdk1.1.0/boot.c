@@ -2925,12 +2925,12 @@ uint64_t pillCodes[2];
 						{
 							case '1':
 							{
-								/*
-								for(int item = 0; item < 10; item++)
+								
+								for(int item = 0; item < 2; item++)
 								{
 									warpPrint(pillNames[item]);
 								}
-								*/
+								
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 								key = warpWaitKey();
