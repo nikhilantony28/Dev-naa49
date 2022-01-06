@@ -460,7 +460,7 @@ void pixel(uint8_t x,uint8_t y, char colour)
 	{
 		unsigned char cmd[7]= {kSSD1331CommandSETCOLUMN,0x00,0x00,kSSD1331CommandSETROW,0x00,0x00};
 
-		if ((x>width)||(y>height)) return ;
+		if ((x>width)||(y>height)) return ; //out of bounds
 
 		cmd[1] = x;
 		cmd[2] = x;
@@ -474,8 +474,9 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
 		uint16_t white = 0xffff;
-
-		writeData(TEXT_COLOUR);
+		writeCommand(0xff);
+		writeCommand(0xff);
+		//writeData(TEXT_COLOUR);
 	}
 	else
 		return;
