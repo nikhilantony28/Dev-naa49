@@ -67,6 +67,8 @@ uint8_t char_x;
 uint8_t char_y;
 uint16_t displayedNumber = 0;
 
+bool DCPin = false;
+
 int	devSSD1331init(void);
 void writeChar(int value);
 void pixel(uint8_t x,uint8_t y,char colour);
