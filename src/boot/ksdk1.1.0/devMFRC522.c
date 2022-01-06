@@ -85,7 +85,7 @@ readSensorRegisterMFRC522(uint8_t deviceRegister)
 {
 	spi_status_t status;
 
-	payloadBytes[0] = (deviceRegister<<1)&0x7E;
+	payloadBytes[0] = ((deviceRegister<<1)&0x7E | 0x80);
 	payloadBytes[1] = 0x00;
 
 
