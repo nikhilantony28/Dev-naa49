@@ -39,6 +39,7 @@ void main_printTime()
     uint8_t alarmH[20] = {0,0,1};
     uint8_t alarmM[20] = {2,3,1};
     char*  pillNames[20] = {"Pill X", "Drug Y" , "Tablet Z"};
+    uint64_t pillCodes[20] = {0x880404D850,0x8804D5BEE7,0x880495829B};
     //0x88 0x04 0x04 0xD8 0x50
     
     uint8_t alarmNum = 100;
@@ -61,14 +62,14 @@ void main_printTime()
             writeString(" Take");
             setLine(2);
             writeString(pillNames[alarmNum]);
-            for (int i =0; i<20;i++)
+            for (int j =0; j<20;j++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            if(checkTag(0x880404D850)){
-                i = 20;
+            if(checkTag(pillCodes[alarmNum])){
+                j = 20;
             }
             }
 
