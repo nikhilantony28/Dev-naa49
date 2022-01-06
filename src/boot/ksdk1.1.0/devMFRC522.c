@@ -68,15 +68,6 @@ writeSensorRegisterMFRC522(uint8_t addr, uint8_t payload)
 
 }
 
-/*
-WarpStatus
-readSensorRegisterMFRC522(uint8_t deviceRegister)
-{
-	return writeSensorRegisterMFRC522(deviceRegister, 0x00);
-}
-*/
-
-
 uint8_t
 readSensorRegisterMFRC522(uint8_t addr)
 {
@@ -145,11 +136,23 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 {
 	int status = MI_ERR;
   	//uint8_t irqEn = 0x70;
-	uint8_t irqEn = 0x77;
-  	uint8_t waitIRq = 0x30;
+	uint8_t irqEn = 0x00;
+  	uint8_t waitIRq = 0x00;
   	uint8_t lastBits, n;
-  	int i;
+    int i;
 
+  	switch (cmd) {
+  	case MFRC522_AUTHENT:
+    	irqEn = 0x12;
+    	waitIRq = 0x10;
+    	break;
+  	case MFRC522_TRANSCEIVE:
+    	irqEn = 0x77;
+    	waitIRq = 0x30;
+    	break;
+  	default:
+    	break;
+  }
 
 	writeSensorRegisterMFRC522(CommIEnReg, irqEn|0x80);    /* IRQ sent to the tag */
 	clearBitMask(CommIrqReg, 0x80);             /* Clear all interrupt requests bits. */
@@ -220,8 +223,8 @@ uint8_t request_tag(uint8_t mode, uint8_t *data)
 {
 	int status, len;
 	writeSensorRegisterMFRC522(BitFramingReg, 0x07);
-	data[0] = mode;
 
+	data[0] = mode;
 	status = commandTag(MFRC522_TRANSCEIVE, data, 1, data, &len);
 
 	if((status != MI_OK) || (len != 0x10)){

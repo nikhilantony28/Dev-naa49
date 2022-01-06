@@ -36,6 +36,7 @@
 	cp ../../src/boot/ksdk1.1.0/devINA219.*				work/demos/Warp/src/
 	cp ../../src/boot/ksdk1.1.0/devMFRC522.*			work/demos/Warp/src/
 	cp ../../src/boot/ksdk1.1.0/devDS1307.*				work/demos/Warp/src/
+	cp ../../src/boot/ksdk1.1.0/main_prog.*				work/demos/Warp/src/
 	cp ../../src/boot/ksdk1.1.0/CMakeLists.txt			work/demos/Warp/armgcc/Warp/
 	cp ../../src/boot/ksdk1.1.0/startup_MKL03Z4.S			work/platform/startup/MKL03Z4/gcc/startup_MKL03Z4.S
 	cp ../../src/boot/ksdk1.1.0/gpio_pins.c				work/boards/Warp
