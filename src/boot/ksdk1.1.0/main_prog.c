@@ -70,12 +70,14 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            if(pillCodes[alarmNum]){
-                j = 20;
-                
+            if(checkTag(pillCodes[alarmNum]))
+            {
+                j = 20;  
             }
+            /*
             pillCode = pillCodes[alarmNum];
             checkTag(pillCode);
+            */
             }
 
         }
