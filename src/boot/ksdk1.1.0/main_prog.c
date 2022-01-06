@@ -112,6 +112,7 @@ bool timeChange()
 
 void showTime()
 {
+    updateTime();
     writeTime(hours,mins);
 }
 
