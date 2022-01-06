@@ -194,10 +194,19 @@ writeCommandMulti(uint8_t *commandByte, uint8_t count)
 }
 
 static int
-writeData(uint16_t commandByte)
+writeData(uint16_t commandByte, bool DCPin)
 {
 	spi_status_t status;
 
+	if(DCPin)
+	{
+		GPIO_DRV_SetPinOutput(kSSD1331PinDC);
+	}
+	else
+	{
+			GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
+
+	}
 	/*
 	 *	Drive /CS low.
 	 *
@@ -476,7 +485,7 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		uint16_t white = 0xffff;
 		//writeCommand(0xff);
 		//writeCommand(0xff);
-		writeData(TEXT_COLOUR);
+		writeData(TEXT_COLOUR, true);
 	}
 	else
 		return;
