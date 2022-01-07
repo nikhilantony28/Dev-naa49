@@ -61,7 +61,7 @@ void main_printTime()
     if(timeChange())
     {
         showTime();
-        /*
+        
         alarmNum = checkAlarm(alarmH,alarmM);
         readTag();
         if(!alarmState)
@@ -69,6 +69,7 @@ void main_printTime()
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
         }
+        /*
         else
         {
            
