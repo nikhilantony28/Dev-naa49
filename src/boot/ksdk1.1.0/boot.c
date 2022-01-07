@@ -2931,6 +2931,7 @@ main(void)
 								}
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+								key = 0;
 								key = warpWaitKey();
 								if((key>47)||(key<58))
 								{
