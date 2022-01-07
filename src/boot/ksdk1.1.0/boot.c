@@ -1905,9 +1905,9 @@ main(void)
 	uint8_t uid[5];
 	uint8_t uid2[5];
 	uint8_t alarmH[2];
-uint8_t alarmM[2];
-char*  pillNames[2];
-uint64_t pillCodes[2];
+	uint8_t alarmM[2];
+	char*  pillNames[2];
+	uint64_t pillCodes[2];
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
@@ -2953,14 +2953,12 @@ uint64_t pillCodes[2];
 							}
 							case '2' :
 							{
-								if(alarmM[0] == 7){
-									warpPrint("5!");
-								}
-								else{
-									warpPrint("not5");
-									alarmM[0] = 7;
-								}
-							}
+								warpPrint("%d", alarmM[0]);
+								warpPrint("\n what num");
+								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+			  					fourDig = read4digits();
+								alarmM[0] = fourDig;
+
 						}
 					}
 					case '3' :
