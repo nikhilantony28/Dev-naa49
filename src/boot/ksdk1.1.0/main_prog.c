@@ -39,11 +39,13 @@ uint64_t pillCodes[10] = {
     0x8804aab395,
     0x8804d5bee7,
     0x880422ba14,
+    /*
     0x8804408b47,
     0x8804938a95,
     0x880454b66e,
     0x88040440c8,
     0x8804b7162d
+    */
 };
 
 
@@ -86,7 +88,7 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            //checkTag(pillCodes[alarmNum]);
+            checkTag(pillCodes[alarmNum]);
                        
             
             }
