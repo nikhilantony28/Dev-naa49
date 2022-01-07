@@ -2829,70 +2829,7 @@ main(void)
 			{
 				warpPrint("\r\tInvalid selection '%c' !\n", key);
 			}
-			case '#':
-			{
-			  warpPrint("\r\n\t1. Save UID for tag: ");
-			  warpPrint("\r\n\t2. Test UID: ");
-			  OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-			  key = warpWaitKey();
-			  switch(key)
-			  {
-					//uint8_t data_rfid[16];
-			    case '1':
-			    {
-					
-						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-						warpPrint("\nSaved UID: ");
-			      if( request_tag(0x26, data_rfid) == 0){
-			        if(mfrc522_get_card_serial(data_rfid) == 0){
-			          for(int datcop =0; datcop <5; datcop++){
-			            uid[datcop] = data_rfid[datcop];
-			            warpPrint("0x%02x ", uid[datcop]);
-			          }
-
-			        }
-			      }
-			      else{
-			        warpPrint("No card present");
-			      }
-			      break;
-			    }
-			    case '2':
-			    {
-						warpPrint("\n2. Saved UID: ");
-						for(int datcop =0; datcop <5; datcop++){
-			      	warpPrint("0x%02x ", uid[datcop]);
-						}
-						warpPrint("\n2. Test UID (1s delay): ");
-						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds*200);
-			      if( request_tag(0x26, data_rfid) == 0){
-			        if(mfrc522_get_card_serial( data_rfid) == 0){
-			          for(int datcop =0; datcop <5; datcop++){
-			            uid2[datcop] = data_rfid[datcop];
-			            warpPrint("0x%02x ", uid2[datcop]);
-			          }
-								int correct = 1;
-								for(int datcop =0; datcop <5; datcop++){
-									if (uid2[datcop] != uid[datcop]){
-										correct = 0;
-									}
-								}
-								if (correct == 1){
-									warpPrint("\r\n\tCorrect card present");
-								}
-								else{
-									warpPrint("\r\n\tIncorrect card present");
-								}
-							}
-			      }
-			      else{
-			        warpPrint("No card present");
-			      }
-			      break;
-			    }
-			  }
-			  break;
-			}
+			
 			case '?':
 			{
 				int fourDig;
@@ -2978,6 +2915,70 @@ main(void)
 
 					}
 				}
+			}
+			case '#':
+			{
+			  warpPrint("\r\n\t1. Save UID for tag: ");
+			  warpPrint("\r\n\t2. Test UID: ");
+			  OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+			  key = warpWaitKey();
+			  switch(key)
+			  {
+					//uint8_t data_rfid[16];
+			    case '1':
+			    {
+					
+						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+						warpPrint("\nSaved UID: ");
+			      if( request_tag(0x26, data_rfid) == 0){
+			        if(mfrc522_get_card_serial(data_rfid) == 0){
+			          for(int datcop =0; datcop <5; datcop++){
+			            uid[datcop] = data_rfid[datcop];
+			            warpPrint("0x%02x ", uid[datcop]);
+			          }
+
+			        }
+			      }
+			      else{
+			        warpPrint("No card present");
+			      }
+			      break;
+			    }
+			    case '2':
+			    {
+						warpPrint("\n2. Saved UID: ");
+						for(int datcop =0; datcop <5; datcop++){
+			      	warpPrint("0x%02x ", uid[datcop]);
+						}
+						warpPrint("\n2. Test UID (1s delay): ");
+						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds*200);
+			      if( request_tag(0x26, data_rfid) == 0){
+			        if(mfrc522_get_card_serial( data_rfid) == 0){
+			          for(int datcop =0; datcop <5; datcop++){
+			            uid2[datcop] = data_rfid[datcop];
+			            warpPrint("0x%02x ", uid2[datcop]);
+			          }
+								int correct = 1;
+								for(int datcop =0; datcop <5; datcop++){
+									if (uid2[datcop] != uid[datcop]){
+										correct = 0;
+									}
+								}
+								if (correct == 1){
+									warpPrint("\r\n\tCorrect card present");
+								}
+								else{
+									warpPrint("\r\n\tIncorrect card present");
+								}
+							}
+			      }
+			      else{
+			        warpPrint("No card present");
+			      }
+			      break;
+			    }
+			  }
+			  break;
 			}
 		}
 	}
