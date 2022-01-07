@@ -32,7 +32,7 @@ extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 uint8_t alarmH[10];
 uint8_t alarmM[10];
-char*  pillNames[10];
+char*  pillNames[10] = {"haha","hoho","hihi"};
 uint64_t pillCodes[10];
 
 
@@ -174,8 +174,9 @@ void
 enterPillName(char *name, uint8_t loc)
 {
     for(int item = 0; item < 10; item++)
-								{
+	{
 									warpPrint(pillNames[item]);
-								}
+	}
+    warpPrint("\n pills");
     pillNames[loc] = name;
 }
