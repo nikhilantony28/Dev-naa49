@@ -173,5 +173,9 @@ checkTag(uint64_t savedData)
 void
 enterPillName(char *name, uint8_t loc)
 {
+    for(int item = 0; item < 10; item++)
+								{
+									warpPrint(pillNames[item]);
+								}
     pillNames[loc] = name;
 }
