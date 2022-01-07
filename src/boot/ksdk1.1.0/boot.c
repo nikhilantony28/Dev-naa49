@@ -2883,7 +2883,7 @@ main(void)
 									warpPrint("%d",(num*13 + item));
 								}
 									
-									enterPillName(inputText,(key - '0'));
+									//enterPillName(inputText,(key - '0'));
 									writeString(inputText);
 
 								}
