@@ -2902,6 +2902,32 @@ main(void)
 								}
 								break;
 							}
+							case '2':
+							{
+													
+								warpPrint(pillNames);
+								int num;
+								warpPrint("\n Enter Selection >");
+								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
+								key = 0;
+								key = warpWaitKey();
+								num = key - '0';
+								if((key>47)&&(key<58))
+								{
+									warpPrint("\n %d", alarmM[num]);
+									warpPrint("\n Name:");
+									fourDig = read4digits();
+									warpPrint(inputText);
+									alarmM[num] = fourDig;
+									
+
+								}
+								else
+								{
+									warpPrint("Invalid selection");
+								}
+								break;
+							}
 						}
 					}
 					case '3' :
@@ -2917,6 +2943,7 @@ main(void)
 
 					}
 				}
+				break;
 			}
 			case '#':
 			{
