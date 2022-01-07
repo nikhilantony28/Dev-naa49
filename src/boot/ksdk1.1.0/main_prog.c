@@ -34,10 +34,11 @@ uint8_t alarmH[10];
 uint8_t alarmM[10];
 char*  pillNames[10] = {"haha","hoho","hihi"};
 uint64_t pillCodes[10];
+char pillName[13];
 
 
 
-void main_printTime()
+void main_printTime(char *names)
 {
     //0x8804D5BEE7,0x880495829;
     uint64_t pillCode; 
@@ -45,7 +46,7 @@ void main_printTime()
     
     int alarmNum = 0;
     checkTag(0x880404D850);
-    while(1){
+    for(int cycle; cycle < 1000; cycle++){
     //checkTag(0x880404D850);
     if(timeChange())
     {
@@ -58,6 +59,11 @@ void main_printTime()
         }
         else
         {
+            for (int i = 0; i < 13; i++)
+            {
+                pillName[i] = names[alarmNum*13 + i];
+            }
+            
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
