@@ -59,7 +59,7 @@ void main_printTime()
     
     int alarmNum = 0;
     checkTag(0x880404D850);
-    for (int i = 0 ; i< 100; i++){
+    while(1){
     checkTag(0x880404D850);
     if(timeChange())
     {
