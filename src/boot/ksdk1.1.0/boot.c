@@ -194,10 +194,7 @@
 volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
-uint8_t alarmH[10] = {0,0,1};
-uint8_t alarmM[10] = {2,3,1};
-char  pillNames[65];
-uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
+
 char inputText[13];
 
 volatile i2c_master_state_t				i2cMasterState;
@@ -2062,7 +2059,6 @@ main(void)
 	#endif
 	devSSD1331init();
 	warpPrint("hello");
-	pillNames[63] = 'j';
 	if(!checkTag(0x880404D850))//Checks to see if debug tag is added on
 	{
 		main_printTime();	
@@ -2864,7 +2860,6 @@ main(void)
 							case '1':
 							{
 													
-								warpPrint(pillNames);
 								int num;
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
@@ -2879,7 +2874,6 @@ main(void)
 									warpPrint(inputText);
 									for(int item = 0; item < 13; item++)
 								{
-									pillNames[(num)*13 + item] = inputText[item];
 									warpPrint("%d",(num*13 + item));
 								}
 									
@@ -2892,7 +2886,7 @@ main(void)
 									warpPrint("\n Name:");
 									read12letter();
 									warpPrint(inputText);
-									pillNames[5] = inputText;
+									//pillNames[5] = inputText;
 									//enterPillName(inputText,(5));
 									//writeString(inputText);
 								}
@@ -2905,7 +2899,6 @@ main(void)
 							case '2':
 							{
 													
-								warpPrint(pillNames);
 								int num;
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
@@ -2914,11 +2907,11 @@ main(void)
 								num = key - '0';
 								if((key>47)&&(key<58))
 								{
-									warpPrint("\n %d", alarmM[num]);
+									//warpPrint("\n %d", alarmM[num]);
 									warpPrint("\n Name:");
 									fourDig = read4digits();
 									warpPrint(inputText);
-									alarmM[num] = fourDig;
+									//alarmM[num] = fourDig;
 									
 
 								}
@@ -2938,7 +2931,7 @@ main(void)
     					hours = outputTimeDS1307(0x02);
 						warpPrint("%d :,%d",hours,mins);
 						writeTime(hours,mins);
-						pillNames[64] = 'h';
+						//pillNames[64] = 'h';
 						break;
 
 					}
