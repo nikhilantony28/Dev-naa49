@@ -3885,7 +3885,7 @@ read4digits(void)
 void
 read12letter(void)
 {
-	inputText[12] = '\0';
+	inputText[12] = ' ';
 	for(int letter = 0; letter<12; letter++)
 	{
 		inputText[letter] = warpWaitKey();
