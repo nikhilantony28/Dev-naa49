@@ -34,8 +34,9 @@ uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
 uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
 char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
 uint64_t pillCodes[10] = {
-    /*
+    
     0x880404D850,
+    /*
     0x880495829b,
     0x8804aab395,
     0x8804d5bee7,
