@@ -2944,7 +2944,7 @@ main(void)
 									writeString(inputText);
 
 								}
-								else if (key == 59)
+								if (key == ':')
 								{
 									warpPrint("\n Name:");
 									read12letter();
@@ -2953,7 +2953,6 @@ main(void)
 									//enterPillName(inputText,(5));
 									//writeString(inputText);
 								}
-								
 								else
 								{
 									warpPrint("Invalid selection");
