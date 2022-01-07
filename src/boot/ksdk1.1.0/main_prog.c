@@ -68,8 +68,7 @@ void main_printTime()
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
-        }
-        
+        }        
         else
         {
            
@@ -87,7 +86,7 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            checkTag(pillCodes[alarmNum]);
+            //checkTag(pillCodes[alarmNum]);
                        
             
             }
