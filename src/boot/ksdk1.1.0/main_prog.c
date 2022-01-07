@@ -36,7 +36,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 void main_printTime()
 {
     setTimeDS1307(0x00,0x30,0x09);
-    showtime();
+    showTime();
     uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
     uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
     char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
@@ -126,6 +126,7 @@ bool timeChange()
 
 void showTime()
 {
+    updateTime();
     writeTime(hours,mins);
 }
 
