@@ -2933,7 +2933,7 @@ main(void)
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 								key = 0;
 								key = warpWaitKey();
-								if((key>47)||(key<58))
+								if((key>47)&&(key<58))
 								{
 
 									warpPrint("\n Name:");
