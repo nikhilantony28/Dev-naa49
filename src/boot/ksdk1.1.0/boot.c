@@ -197,6 +197,7 @@ volatile WarpSPIDeviceState deviceMFRC522State;
 uint8_t alarmH[10] = {0,0,1};
 uint8_t alarmM[10] = {2,3,1};
 char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
+writeString
 uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
 char inputText[13];
 
@@ -2944,6 +2945,16 @@ main(void)
 									writeString(inputText);
 
 								}
+								else if (key == 59)
+								{
+									warpPrint("\n Name:");
+									read12letter();
+									warpPrint(inputText);
+									pillNames[5] = inputText;
+									enterPillName(inputText,(key - '0'));
+									writeString(inputText);
+								}
+								
 								else
 								{
 									warpPrint("Invalid selection");
