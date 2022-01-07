@@ -2950,8 +2950,8 @@ main(void)
 									read12letter();
 									warpPrint(inputText);
 									pillNames[5] = inputText;
-									enterPillName(inputText,(5));
-									writeString(inputText);
+									//enterPillName(inputText,(5));
+									//writeString(inputText);
 								}
 								
 								else
