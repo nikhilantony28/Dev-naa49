@@ -194,6 +194,10 @@
 volatile WarpSPIDeviceState deviceMFRC522State;
 //#endif
 
+uint8_t alarmH[10] = {0,0,1};
+uint8_t alarmM[10] = {2,3,1};
+char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
+uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
 char inputText[13];
 
 volatile i2c_master_state_t				i2cMasterState;
@@ -1902,10 +1906,6 @@ main(void)
 	devMFRC522init(&deviceMFRC522State);
 	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
 
-	uint8_t alarmH[2];
-	uint8_t alarmM[2];
-	char*  pillNames[2];
-	uint64_t pillCodes[2];
 	uint8_t uid[5];
 	uint8_t uid2[5];
 
@@ -2925,13 +2925,10 @@ main(void)
 						{
 							case '1':
 							{
-								
-								for(int item = 0; item < 2; item++)
+								for(int item = 0; item < 10; item++)
 								{
-									warpPrint("\n");
 									warpPrint(pillNames[item]);
 								}
-								
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 								key = warpWaitKey();
@@ -2941,7 +2938,8 @@ main(void)
 									warpPrint("\n Name:");
 									read12letter();
 									warpPrint(inputText);
-									enterPillName(inputText,(key - '0'));
+									pillNames[key-'0'] = inputText;
+									writeString(inputText);
 
 								}
 								else
@@ -2950,15 +2948,6 @@ main(void)
 								}
 								break;
 							}
-							case '2' :
-							{
-								warpPrint("%d", alarmM[0]);
-								warpPrint("\n what num");
-								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-			  					fourDig = read4digits();
-								alarmM[0] = fourDig;
-							}
-
 						}
 					}
 					case '3' :
