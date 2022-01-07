@@ -2925,14 +2925,14 @@ main(void)
 						{
 							case '1':
 							{
-								for(int item = 0; item < 65; item++)
-								{
-									warpPrint(pillNames);
-								}
+													
+								warpPrint(pillNames);
+								int num;
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 								key = 0;
 								key = warpWaitKey();
+								num = key - '0';
 								if((key>47)&&(key<58))
 								{
 
@@ -2941,7 +2941,8 @@ main(void)
 									warpPrint(inputText);
 									for(int item = 0; item < 13; item++)
 								{
-									pillNames[(key-'0')*13 + item] = inputText[item];
+									pillNames[(num)*13 + item] = inputText[item];
+									warpPrint("%d",(num*13 + item));
 								}
 									
 									enterPillName(inputText,(key - '0'));
