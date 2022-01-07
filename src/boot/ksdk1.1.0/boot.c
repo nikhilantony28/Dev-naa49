@@ -2958,6 +2958,7 @@ main(void)
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 			  					fourDig = read4digits();
 								alarmM[0] = fourDig;
+							}
 
 						}
 					}
