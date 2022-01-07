@@ -196,7 +196,8 @@ volatile WarpSPIDeviceState deviceMFRC522State;
 
 uint8_t alarmH[10] = {0,0,1};
 uint8_t alarmM[10] = {2,3,1};
-static char  pillNames[65] = {'P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X','P','i','l','l','X',};
+char  pillNames[65];
+pillNames[63] = 'j';
 uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
 char inputText[13];
 
@@ -2911,6 +2912,7 @@ main(void)
     					hours = outputTimeDS1307(0x02);
 						warpPrint("%d :,%d",hours,mins);
 						writeTime(hours,mins);
+						pillNames[64] = 'h';
 						break;
 
 					}
