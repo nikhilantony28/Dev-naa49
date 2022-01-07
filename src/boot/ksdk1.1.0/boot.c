@@ -2945,9 +2945,9 @@ main(void)
 										if(j = (key-'0')){
 										pillNames[j] = inputText;
 									}
-									warpPrint(inputText[j]);
+									//warpPrint(inputText[j]);
 									}
-									//writeString(pillNames[key - '0']);
+									writeString(pillNames[key - '0']);
 
 								}
 								else
