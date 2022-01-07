@@ -2927,7 +2927,7 @@ main(void)
 							{
 								for(int item = 0; item < 65; item++)
 								{
-									warpPrint(pillNames[item]);
+									warpPrint(pillNames);
 								}
 								warpPrint("\n Enter Selection >");
 								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
