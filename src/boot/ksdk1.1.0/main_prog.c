@@ -87,12 +87,12 @@ void main_printTime()
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            /*
+            
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 20;  
             }
-            */
+            
             
             }
             
@@ -136,7 +136,7 @@ void showTime()
 
 int checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 {
-    for(int i = 0; i<20;i++)
+    for(int i = 0; i<10;i++)
     {
         if((alarmH[i] == hours)&&(alarmM[i] == mins))
         {
