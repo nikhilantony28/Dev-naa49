@@ -30,24 +30,10 @@ extern volatile WarpI2CDeviceState	deviceDS1307State;
 extern volatile uint32_t		gWarpI2cBaudRateKbps;
 extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
-uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
-uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
-char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
-uint64_t pillCodes[10] = {
-    
-    0x880404D850,
-    /*
-    0x880495829b,
-    0x8804aab395,
-    0x8804d5bee7,
-    0x880422ba14,
-    0x8804408b47,
-    0x8804938a95,
-    0x880454b66e,
-    0x88040440c8,
-    0x8804b7162d
-    */
-};
+uint8_t alarmH[10] = {0,0,1};
+uint8_t alarmM[10] = {2,3,1};
+char*  pillNames[10] = {"Pill X", "Drug Y" , "Tablet Z"};
+uint64_t pillCodes[10] = {0x880404D850,0x8804D5BEE7,0x880495829};
 
 
 
@@ -56,45 +42,43 @@ void main_printTime()
     //0x8804D5BEE7,0x880495829;
     uint64_t pillCode; 
     //0x88 0x04 0x04 0xD8 0x50
-    
+    setTimeDS1307(0x00,0x00,0x00);
     int alarmNum = 0;
     checkTag(0x880404D850);
-    for(int cycle; cycle < 1000; cycle++){
-    checkTag(0x880404D850);
+    while(1){
+    //checkTag(0x880404D850);
     if(timeChange())
     {
-        showTime();
-        
         alarmNum = checkAlarm(alarmH,alarmM);
         readTag();
         if(!alarmState)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
-        }        
+        }
         else
         {
-           
-            
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
             clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
-            
             for (int j =0; j<20;j++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
-            checkTag(pillCodes[alarmNum]);
-                       
-            
+            if(checkTag(pillCodes[alarmNum]))
+            {
+                j = 20;  
             }
-            
-        
+            /*
+            pillCode = pillCodes[alarmNum];
+            checkTag(pillCode);
+            */
+            }
 
         }
 
@@ -134,7 +118,7 @@ void showTime()
 
 int checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 {
-    for(int i = 0; i<10;i++)
+    for(int i = 0; i<20;i++)
     {
         if((alarmH[i] == hours)&&(alarmM[i] == mins))
         {
@@ -184,15 +168,4 @@ checkTag(uint64_t savedData)
     {
         return false;
     }
-}
-
-void
-enterPillName(char *name, uint8_t loc)
-{
-    for(int item = 0; item < 10; item++)
-	{
-									warpPrint(pillNames[item]);
-	}
-    warpPrint("\n pills");
-    pillNames[loc] = name;
 }
