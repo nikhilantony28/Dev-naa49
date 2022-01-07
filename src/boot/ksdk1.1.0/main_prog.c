@@ -169,3 +169,9 @@ checkTag(uint64_t savedData)
         return false;
     }
 }
+
+void
+enterPillName(char *name, uint8_t loc)
+{
+    pillNames[loc] = name;
+}

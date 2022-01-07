@@ -2941,13 +2941,7 @@ main(void)
 									warpPrint("\n Name:");
 									read12letter();
 									warpPrint(inputText);
-									for (int j=0;j<2;j++){
-										if(j = (key-'0')){
-										pillNames[j] = inputText;
-									}
-									//warpPrint(inputText[j]);
-									}
-									writeString(pillNames[key - '0']);
+									enterPillName(inputText,(key - '0'));
 
 								}
 								else
