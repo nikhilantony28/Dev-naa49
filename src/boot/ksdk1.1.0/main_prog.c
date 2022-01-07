@@ -35,7 +35,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    setTimeDS1307(0x00,0x30,0x09);
+    setTimeDS1307(0x00,0x35,0x09);
     showTime();
     uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
     uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
