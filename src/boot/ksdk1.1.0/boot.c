@@ -1902,12 +1902,12 @@ main(void)
 	devMFRC522init(&deviceMFRC522State);
 	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
 
-	uint8_t uid[5];
-	uint8_t uid2[5];
 	uint8_t alarmH[2];
 	uint8_t alarmM[2];
 	char*  pillNames[2];
 	uint64_t pillCodes[2];
+	uint8_t uid[5];
+	uint8_t uid2[5];
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
