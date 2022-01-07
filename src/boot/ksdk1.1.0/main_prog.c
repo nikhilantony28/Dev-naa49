@@ -56,8 +56,8 @@ void main_printTime()
     
     int alarmNum = 0;
     checkTag(0x880404D850);
-    for(int cycle; cycle < 1000; cycle++){
-    //checkTag(0x880404D850);
+    while(1){
+    checkTag(0x880404D850);
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
@@ -181,13 +181,4 @@ checkTag(uint64_t savedData)
     }
 }
 
-void
-enterPillName(char *name, uint8_t loc)
-{
-    for(int item = 0; item < 10; item++)
-	{
-									warpPrint(pillNames[item]);
-	}
-    warpPrint("\n pills");
-    pillNames[loc] = name;
-}
+
