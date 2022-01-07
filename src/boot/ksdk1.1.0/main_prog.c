@@ -44,11 +44,11 @@ uint64_t pillCodes[10] = {
     0x880454b66e,
     0x88040440c8,
     0x8804b7162d
-}
+};
 
 
 
-void main_printTime(char *names)
+void main_printTime()
 {
     //0x8804D5BEE7,0x880495829;
     uint64_t pillCode; 
@@ -68,12 +68,7 @@ void main_printTime(char *names)
             showTime();
         }
         else
-        {
-            for (int i = 0; i < 13; i++)
-            {
-                pillName[i] = names[alarmNum*13 + i];
-            }
-            
+        {            
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
