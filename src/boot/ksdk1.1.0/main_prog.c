@@ -30,11 +30,21 @@ extern volatile WarpI2CDeviceState	deviceDS1307State;
 extern volatile uint32_t		gWarpI2cBaudRateKbps;
 extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
-uint8_t alarmH[10];
-uint8_t alarmM[10];
-char*  pillNames[10] = {"haha","hoho","hihi"};
-uint64_t pillCodes[10];
-char pillName[13];
+uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
+uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
+char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
+uint64_t pillCodes[10] = {
+    0x880404D850,
+    0x880495829b,
+    0x8804aab395,
+    0x8804d5bee7,
+    0x880422ba14,
+    0x8804408b47,
+    0x8804938a95,
+    0x880454b66e,
+    0x88040440c8,
+    0x8804b7162d
+}
 
 
 
