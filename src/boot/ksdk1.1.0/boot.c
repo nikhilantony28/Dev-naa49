@@ -2941,7 +2941,7 @@ main(void)
 									warpPrint(inputText);
 									for(int item = 0; item < 13; item++)
 								{
-									pillNames[key*13 + item] = inputText[item];
+									pillNames[(key-'0')*13 + item] = inputText[item];
 								}
 									
 									enterPillName(inputText,(key - '0'));
