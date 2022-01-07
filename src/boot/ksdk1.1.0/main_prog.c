@@ -80,23 +80,22 @@ void main_printTime()
             clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
-            /*
+            
             for (int j =0; j<20;j++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(500);
             bottomRECT(0xff,0xff,0xff);
             OSA_TimeDelay(500);
+            /*
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 20;  
             }
-            
-            pillCode = pillCodes[alarmNum];
-            checkTag(pillCode);
+            */
             
             }
-            */
+            
         
 
         }
