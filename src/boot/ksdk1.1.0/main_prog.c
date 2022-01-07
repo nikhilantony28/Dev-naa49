@@ -69,7 +69,7 @@ void main_printTime()
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
         }
-        /*
+        
         else
         {
            
@@ -80,6 +80,7 @@ void main_printTime()
             clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
+            /*
             for (int j =0; j<20;j++)
             {
             bottomRECT(0x00,0x00,0x00);
@@ -90,14 +91,15 @@ void main_printTime()
             {
                 j = 20;  
             }
-            /*
+            
             pillCode = pillCodes[alarmNum];
             checkTag(pillCode);
+            
+            }
             */
-        //    }
         
 
-        //}
+        }
 
     }
     
