@@ -2950,7 +2950,7 @@ main(void)
 									read12letter();
 									warpPrint(inputText);
 									pillNames[5] = inputText;
-									enterPillName(inputText,(key - '0'));
+									enterPillName(inputText,(5));
 									writeString(inputText);
 								}
 								
