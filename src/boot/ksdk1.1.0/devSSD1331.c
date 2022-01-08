@@ -348,7 +348,6 @@ devSSD1331init(void)
 	writeCommand(0x50);
 	writeCommand(kSSD1331CommandCONTRASTC);		// 0x83
 	writeCommand(0x7D);
-	writeCommand(kSSD1331CommandPOWERMODE);
 	writeCommand(kSSD1331CommandDISPLAYON);		// Turn on oled panel
 
 	/*
@@ -492,7 +491,7 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
 		DCPin = true;
-		writeCommand(0xff);
+		writeCommand(0x88);
 		writeCommand(0xff);
 		DCPin = false;
 	}
