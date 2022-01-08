@@ -491,8 +491,8 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
 		DCPin = true;
-		writeCommand(0x88);
-		writeCommand(0xff);
+		writeCommand(0x08);
+		writeCommand(0x00);
 		DCPin = false;
 	}
 	else
