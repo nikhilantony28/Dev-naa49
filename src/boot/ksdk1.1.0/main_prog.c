@@ -82,7 +82,7 @@ void main_printTime()
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(400);
-            bottomRECT(0xff,0xff,0xff);
+            bottomRECT(0x00,0xff,0x00);
             OSA_TimeDelay(200);
             if(checkTag(pillCodes[alarmNum]))
             {
