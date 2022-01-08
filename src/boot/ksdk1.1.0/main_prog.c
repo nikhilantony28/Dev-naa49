@@ -72,7 +72,7 @@ void main_printTime()
         }
         else
         {
-            //devMFRC522init();
+            devMFRC522init();
             setBrightness(0x0F);
             warpPrint(pillNames[alarmNum]);
             showTime();
@@ -84,7 +84,7 @@ void main_printTime()
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(400);
-            bottomRECT(0x00,0x40,0x00);
+            bottomRECT(0x00,0x80,0x00);
             OSA_TimeDelay(200);
             if(checkTag(pillCodes[alarmNum]))
             {
