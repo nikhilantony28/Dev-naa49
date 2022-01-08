@@ -627,15 +627,19 @@ void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
 }
 void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
 {
-	writeCommand(kSSD1331CommandDRAWRECT);
+	for (int i = 0x2F; i<0x3F; i++)
+	{
+	writeCommand(kSSD1331CommandDRAWLINE);
 	writeCommand(0x00);
-	writeCommand(0x2F);
+	writeCommand(i);
 	writeCommand(0x5F);
-	writeCommand(0x3F);
+	writeCommand(i);
 
 	writeCommand(red);
 	writeCommand(green);
 	writeCommand(blue);
+	i++;
+	}
 	return 0;
 }
 
