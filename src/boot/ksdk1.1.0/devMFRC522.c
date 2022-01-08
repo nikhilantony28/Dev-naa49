@@ -37,7 +37,7 @@ volatile uint8_t	payloadBytes[32];
  	kMFRC522PinMISO	= GPIO_MAKE_PIN(HW_GPIOA, 6), //YELLOW WIRE
  	kMFRC522PinSCK		= GPIO_MAKE_PIN(HW_GPIOA, 9), //BLUE WIRE
  	kMFRC522PinCSn		= GPIO_MAKE_PIN(HW_GPIOA, 5), //WHITE WIRE
- 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIRE
+ 	kMFRC522PinDC		= GPIO_MAKE_PIN(HW_GPIOA, 12), // RED WIREss
  	kMFRC522PinRST		= GPIO_MAKE_PIN(HW_GPIOB, 2), //ORANGE WIRE
  };
 
@@ -291,11 +291,6 @@ devMFRC522init()
 	 *	RST high->low->high.
 	 */
 	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
-	OSA_TimeDelay(100);
-	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
-	OSA_TimeDelay(100);
-	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
-	OSA_TimeDelay(100);
 
 	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
 	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
@@ -306,6 +301,11 @@ devMFRC522init()
 	writeSensorRegisterMFRC522(ModeReg, 0x3D);
 
 	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
-//	SEGGER_RTT_printf(0, "Firmware Version: %d", getFirmwareVersion());
 	return;
+}
+
+void
+powerDown()
+{
+	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
 }
