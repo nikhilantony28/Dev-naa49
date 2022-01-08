@@ -58,7 +58,7 @@ void main_printTime()
     //0x88 0x04 0x04 0xD8 0x50
     powerDown();
     int alarmNum = 0;
-    setBrightness(0x08);
+    setBrightness(0x01);
     checkTag(0x880404D850);
     while(1){
     checkTag(0x880404D850);
