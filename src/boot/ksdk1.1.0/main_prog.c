@@ -56,15 +56,15 @@ void main_printTime()
     //0x8804D5BEE7,0x880495829;
     uint64_t pillCode; 
     //0x88 0x04 0x04 0xD8 0x50
-    
+    powerDown();
     int alarmNum = 0;
+    setBrightness(0x08);
     checkTag(0x880404D850);
     while(1){
     checkTag(0x880404D850);
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
-        readTag();
         if(!alarmState)
         {
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
@@ -72,6 +72,8 @@ void main_printTime()
         }
         else
         {
+            devMFRC522init();
+            setBrightness(0x0F);
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");

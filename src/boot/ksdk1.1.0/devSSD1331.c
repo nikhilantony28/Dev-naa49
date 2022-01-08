@@ -701,3 +701,10 @@ void splitInt(int *arr, int num)
 
 	}
 }
+
+void
+setBrightness(uint8_t level)
+{
+	writeCommand(0x87);
+	writeCommand(level);
+}
