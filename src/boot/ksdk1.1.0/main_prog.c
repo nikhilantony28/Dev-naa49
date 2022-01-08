@@ -72,7 +72,7 @@ void main_printTime()
         }
         else
         {
-            devMFRC522init();
+            //devMFRC522init();
             setBrightness(0x0F);
             warpPrint(pillNames[alarmNum]);
             showTime();
