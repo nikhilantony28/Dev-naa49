@@ -202,7 +202,7 @@ outputTimeDS1307(uint8_t reg)
 		return 0;
 	}
 	else{
-		return convertSexa2Hexa(deviceDS1307State.i2cBuffer[0]);
+		return convertSexaHexa(deviceDS1307State.i2cBuffer[0]);
 	}
 }
 
