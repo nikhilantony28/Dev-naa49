@@ -92,13 +92,34 @@ setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
 
 
 	warpScaleSupplyVoltage(deviceDS1307State.operatingVoltageMillivolts);
-	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /*set seconds value  */,		seconds);
+	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /*set seconds value  */,		convertHexa2Sexa(seconds));
 
-	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /*set minutes value  */,		minutes);
+	i2cWriteStatus2 = writeSensorRegisterDS1307(0x01 /*set minutes value  */,		convertHexa2Sexa(minutes));
 
-	i2cWriteStatus3 = writeSensorRegisterDS1307(0x02 /*set hours value  */,			hours);
+	i2cWriteStatus3 = writeSensorRegisterDS1307(0x02 /*set hours value  */,			convertHexa2Sexa(hours));
 
 	return (i2cWriteStatus1 | i2cWriteStatus2 | i2cWriteStatus3);
+}
+
+uint8_t
+convertHexa2Sexa(uint8_t num)
+{
+	uint8_t upperNibble;
+	upperNibble = num/10;
+	upperNibble <<= 4;
+	return (num + upperNibble);
+}
+
+uint8_t
+convertSexa2Hexa(uint8_t num)
+{
+	uint8_t tens;
+	uint8_t units;
+	uint8_t upperNibble;
+	uint8_t lowerNibble;
+	units = num%16;
+	tens = num >> 4; 
+	return (units + tens*10);
 }
 
 WarpStatus
@@ -169,7 +190,7 @@ outputTimeDS1307(uint8_t reg)
 		return 0;
 	}
 	else{
-		return deviceDS1307State.i2cBuffer[0];
+		return convertSexa2Hexa(deviceDS1307State.i2cBuffer[0]);
 	}
 }
 
