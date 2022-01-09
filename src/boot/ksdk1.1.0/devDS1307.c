@@ -89,9 +89,12 @@ WarpStatus
 setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
 {
 	WarpStatus	i2cWriteStatus1, i2cWriteStatus2, i2cWriteStatus3;
-	uint8_t newSeconds = convertHexaSexa(seconds);
-	uint8_t newMinutes = convertHexaSexa(minutes);
-	uint8_t newHours = convertHexaSexa(hours);
+	uint8_t newSeconds;
+	uint8_t newMinutes;
+	uint8_t newHours;
+	newSeconds = convertHexaSexa(seconds);
+	newMinutes = convertHexaSexa(minutes);
+	newHours = convertHexaSexa(hours);
 
 	warpScaleSupplyVoltage(deviceDS1307State.operatingVoltageMillivolts);
 	i2cWriteStatus1 = writeSensorRegisterDS1307(0x00 /*set seconds value  */,		newSeconds);
