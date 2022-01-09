@@ -303,9 +303,30 @@ devMFRC522init()
 	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
 	return;
 }
+void
+MFRC52PpowerUp()
+{
+	// Set CS pin high
+	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
+	/*
+	 *	RST high->low->high.
+	 */
+	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
+
+	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
+	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
+	writeSensorRegisterMFRC522(TReloadRegL, 30);
+	writeSensorRegisterMFRC522(TReloadRegH, 0);
+
+	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      /* 100%ASK */
+	writeSensorRegisterMFRC522(ModeReg, 0x3D);
+
+	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	return;
+}
 
 void
-powerDown()
+MFRC522powerDown()
 {
 	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
 }
