@@ -330,3 +330,15 @@ MFRC522PowerDown()
 {
 	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
 }
+
+void
+MFRC522SoftPowerDown()
+{
+	writeSensorRegisterMFRC522(CommandReg,0x10);
+}
+
+void
+MFRC522SoftPowerUp()
+{
+	writeSensorRegisterMFRC522(CommandReg,0x00);
+}

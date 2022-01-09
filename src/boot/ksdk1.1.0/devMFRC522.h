@@ -144,5 +144,7 @@ WarpStatus writeSensorRegisterMFRC522(uint8_t deviceRegister, uint8_t writeValue
 void devMFRC522init();
 void MFRC522PowerDown();
 void MFRC522PowerUp();
+void MFRC522SoftPowerDown();
+void MFRC522SoftPowerUp();
 //uint8_t read_RFID(uint8_t addr);
 //void write_RFID(uint8_t addr, uint8_t val);
