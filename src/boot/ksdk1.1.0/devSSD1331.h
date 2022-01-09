@@ -59,7 +59,7 @@ typedef enum
 } SSD1331Commands;
 
 static uint8_t lpx = 1;
-static uint8_t lpy = 1;
+static uint8_t lpy = 2;
 // static void FontSizeConvert();
 
 uint8_t chr_size;
