@@ -83,7 +83,7 @@ void main_printTime()
             OSA_TimeDelay(200);
             if(checkTag(pillCodes[alarmNum]))
             {
-                j = 20;  
+                j = 100;  
                 
             }
             }
