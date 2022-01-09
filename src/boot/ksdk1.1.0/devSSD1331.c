@@ -268,6 +268,8 @@ devSSD1331init(void)
 	 */
 	//...
 	setLine(1);
+	chr_size = HIGH;
+
 
 }
 	
