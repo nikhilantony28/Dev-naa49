@@ -167,113 +167,6 @@ writeCommand(uint8_t commandByte)
 	return status;
 }
 
-writeCommandMulti(uint8_t *commandByte, uint8_t count)
-{
-	spi_status_t status;
-
-	/*
-	 *	Drive /CS low.
-	 *
-	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-	OSA_TimeDelay(10);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
-
-	/*
-	 *	Drive DC low (command).
-	 */
-	GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
-	for(int i=0; i<count; i++) {
-		payloadBytes[0] = commandByte[i];
-		status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
-						NULL		/* spi_master_user_config_t */,
-						(const uint8_t * restrict)&payloadBytes[0],
-						(uint8_t * restrict)&inBuffer[0],
-						1		/* transfer size */,
-						100		/* timeout in microseconds (unlike I2C which is ms) */);
-	}
-	/*
-	 *	Drive /CS high
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-
-	return status;
-}
-
-static int
-writeData(uint16_t commandByte)
-{
-	spi_status_t status;
-
-	if(DCPin)
-	{
-		GPIO_DRV_SetPinOutput(kSSD1331PinDC);
-	}
-	else
-	{
-			GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
-
-	}
-	/*
-	 *	Drive /CS low.
-	 *
-	 *	Make sure there is a high-to-low transition by first driving high, delay, then drive low.
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinDC);
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-	OSA_TimeDelay(10);
-	GPIO_DRV_ClearPinOutput(kSSD1331PinCSn);
-	payloadBytes[0] = (commandByte >> 8);
-	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
-					NULL		/* spi_master_user_config_t */,
-					(const uint8_t * restrict)&payloadBytes[0],
-					(uint8_t * restrict)&inBuffer[0],
-					1		/* transfer size */,
-					1000		/* timeout in microseconds (unlike I2C which is ms) */);
-
-	payloadBytes[0] = (commandByte);
-	status = SPI_DRV_MasterTransferBlocking(0	/* master instance */,
-					NULL		/* spi_master_user_config_t */,
-					(const uint8_t * restrict)&payloadBytes[0],
-					(uint8_t * restrict)&inBuffer[0],
-					1		/* transfer size */,
-					1000		/* timeout in microseconds (unlike I2C which is ms) */);
-	/*
-	 *	Drive /CS high
-	 */
-	GPIO_DRV_SetPinOutput(kSSD1331PinCSn);
-
-	return status;
-}
-
-static void FontSizeConvert()
-{
-    switch( chr_size ) {
-        case WIDE:
-            lpx=2;
-            lpy=1;
-            break;
-        case HIGH:
-            lpx=1;
-            lpy=2;
-            break;
-        case WH  :
-            lpx=2;
-            lpy=2;
-            break;
-        case WHx36:
-            lpx=6;
-            lpy=6;
-            break;
-        case NORMAL:
-        default:
-            lpx=1;
-            lpy=1;
-            break;
-    }
-}
-
 int
 devSSD1331init(void)
 {
@@ -374,65 +267,31 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
-
-	chr_size = HIGH;
-	FontSizeConvert();
-	locate(3,10);
-	setLine(1);
-	//writeString("STEPS are");
-	writeTime(12,45);
-	locate(3,30);
-	int value = 0;
-	uint16_t value2 = 1;
-	//display(value, value2);
-	/*
-	writeCommand(kSSD1331CommandDRAWRECT);
-	writeCommand(0x00);
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0xFF);
-
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
-
-	writeCommand(0x00);
-	writeCommand(0xFF);
-	writeCommand(0x00);
-	return 0;
-	*/
 }
+	
 
 void writeChar(int value)
 {
 	uint8_t chMode = 0;
-	/*
-	if(value == '\n') {
-		char_x = 0;
-		char_y = char_y + Y_height*2;
+	if ((value < 31) || (value > 127))
+	{
+		return;   // test char range
 	}
-	*/
-	if ((value < 31) || (value > 127)) return;   // test char range
-	/*
-	if (char_x + X_width > width) {
-		char_x = 0;
-		char_y = char_y + Y_height*2;
-		if (char_y >= height - Y_height) {
-			char_y = 0;
-		}
-	}
-	*/
 	int i,j,w,k,l,xw;
 	unsigned char Temp=0;
 	j = 0; i = 0;
 	w = X_width;
 	xw = X_width;
 	
-	for(i=0; i<xw; i++) {
-		for ( l=0; l<lpx; l++) {
+	for(i=0; i<xw; i++) 
+	{
+		for ( l=0; l<lpx; l++)
+		{
 			Temp = alphabet[value-32][i];
-			for(j=Y_height-1; j>=0; j--) {
-				for (k=0; k<lpy; k++) {
+			for(j=Y_height-1; j>=0; j--) 
+			{
+				for (k=0; k<lpy; k++) 
+				{
 					chMode = Temp & 0x80? 1 : 0;
 					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*lpy)-1)-k,chMode);
 				}
@@ -545,71 +404,6 @@ void writeInt(int* pString, int size)
 }
 
 /*
-Function: getCurrentDisplay 
-* Get the number currently displayed on the screen
-* returns - displayedNumber: Number on the screen
-*/
-int16_t getCurrentDisplay()
-{
-	return displayedNumber;
-}
-
-/*
-Function: display 
-* Function to write a number to the OLED
-* Overwriting the entire number each time was found to be very slow
-* To overcome this, only the digits that are different between the current number and the
-* previous number are displayed.
-* If the two numbers are different lengths, rewrite the full number, as the position of the digits
-* will need to change on the OLED
-* If the two numbers are the same length, 
-* pString: Character array containing the string to be written
-*/
-void display(uint16_t val, uint16_t prevVal)
-{
-	if (val != prevVal)
-	{
-		unsigned int digitsCurrent=countDigits(val);
-		unsigned int digitsOld=countDigits(prevVal);
-		if (digitsCurrent != digitsOld) // If the length of the numbers are different, rewrite the whole string
-		{
-			int splitCurrent1[6];
-			splitInt(splitCurrent1,val);
-			locate(3,30);
-			clearScreen(char_x, 30 ,char_x+(X_width*lpx),30+Y_height*lpy);
-			writeInt(splitCurrent1,digitsCurrent);
-		}
-		else
-		{
-			int splitCurrent[6];
-			int splitPrev[6];
-			splitInt(splitCurrent, val);
-			splitInt(splitPrev, prevVal);
-
-			for (unsigned int j=0;j<digitsCurrent; j++)
-			{
-				if (splitCurrent[j]!= splitPrev[j])
-				{
-					locate(3,30);
-					char_x += (j)*(X_width*lpx);
-					clearScreen(char_x, 30 ,char_x+(X_width*lpx),30+Y_height*lpy);
-
-					int charAscii = splitCurrent[j]+48;
-					writeChar(charAscii);
-				}
-			}
-		}
-	}
-	if (val==0)
-	{
-		locate(3,30);
-		int charAscii = val + 48;
-		writeChar(charAscii);	
-	}
-	displayedNumber = val;
-}
-
-/*
 Function: clearScreen 
 * Clears portions of the display
 * x_start: X coordinate of the start position
@@ -620,10 +414,10 @@ Function: clearScreen
 void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
 {
 	writeCommand(kSSD1331CommandCLEAR);
-	writeCommand(x_start);
-	writeCommand(y_start);
-	writeCommand(x_end);
-	writeCommand(y_end);
+	writeCommand(0x00);
+	writeCommand(0x00);
+	writeCommand(0x5F);
+	writeCommand(0x3F);
 }
 void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -659,47 +453,6 @@ void clearLine(uint8_t line)
 	writeCommand(0x00);
 	writeCommand(0x00);
 	writeCommand(0x00);
-}
-
-
-/*
-Function: countDigits 
-* Counts the number of digits in the input integer
-* i: Integer
-* returns - digits: Number of digits in the integer
-*/
-uint16_t countDigits(uint16_t i) 
-{
-	uint16_t digits=1;
-	while (i/=10) digits++;
-	return digits;
-}
-
-/*
-Function: splitInt 
-* Splits an integer into digits
-* arr: Array where the digits of the split integer will be stored
-* num: The integer to be split
-*/
-void splitInt(int *arr, int num)
-{
-	int temp,factor=1;
-	int counter =0;
-	temp=num;
-
-	while(temp)
-	{
-		temp=temp/10;
-		factor = factor*10;
-	}
-
-	while(factor>1){
-		factor = factor/10;
-		arr[counter]= num/factor;
-		num = num % factor;
-		counter++;
-
-	}
 }
 
 void

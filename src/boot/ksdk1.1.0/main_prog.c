@@ -92,11 +92,12 @@ void main_printTime()
                 j = 20;  
                 
             }
+            }
             alarmState = false;
             setBrightness(0x01);
             clearScreen(0x00,0x00,0x5F,0x3F);
             lastReadTag = 0;
-            }
+            showTime();
 
         }
 
