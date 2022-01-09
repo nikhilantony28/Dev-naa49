@@ -35,10 +35,10 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    setTimeDS1307(0x00,0x35,0x09);
+    setTimeDS1307(0x00,0x38,0x09);
     showTime();
     uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
-    uint8_t alarmM[10] = {55,0,2,3,4,5,6,7,8,9};
+    uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};
     char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
     uint64_t pillCodes[10] = {
     0x880404D850,
@@ -52,16 +52,10 @@ void main_printTime()
     0x88040440c8,
     0x8804b7162d
     };
-
-    //0x8804D5BEE7,0x880495829;
-    uint64_t pillCode; 
-    //0x88 0x04 0x04 0xD8 0x50
-    powerDown();
     int alarmNum = 0;
     setBrightness(0x01);
-    checkTag(0x880404D850);
     while(1){
-    checkTag(0x880404D850);
+        powerDown();
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
@@ -81,7 +75,7 @@ void main_printTime()
             clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
-            for (int j =0; j<20;j++)
+            for (int j =0; j<100;j++)
             {
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(400);
