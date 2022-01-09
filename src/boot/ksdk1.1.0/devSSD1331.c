@@ -267,6 +267,8 @@ devSSD1331init(void)
 	 *	Any post-initialization drawing commands go here.
 	 */
 	//...
+	setLine(1);
+
 }
 	
 
