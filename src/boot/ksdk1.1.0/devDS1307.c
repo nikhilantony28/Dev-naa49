@@ -88,13 +88,12 @@ writeSensorRegisterDS1307(uint8_t deviceRegister, uint8_t payload)
 uint8_t
 convertHexaSexa(uint8_t num)
 {
-	/*
+	
 	uint8_t upperNibble;
 	upperNibble = num/10;
-	//upperNibble <<= 4;
+	upperNibble <<= 4;
 	uint8_t out = num + upperNibble;
-	*/
-	return num;
+	return out;
 }
 
 
