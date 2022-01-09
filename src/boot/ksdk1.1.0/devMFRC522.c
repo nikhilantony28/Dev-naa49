@@ -304,7 +304,7 @@ devMFRC522init()
 	return;
 }
 void
-MFRC52PpowerUp()
+MFRC522PowerUp()
 {
 	// Set CS pin high
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
@@ -326,7 +326,7 @@ MFRC52PpowerUp()
 }
 
 void
-MFRC522powerDown()
+MFRC522PowerDown()
 {
 	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
 }
