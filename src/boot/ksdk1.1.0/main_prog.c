@@ -90,6 +90,7 @@ void main_printTime()
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 20;  
+                alarmState = false;
             }
             /*
             pillCode = pillCodes[alarmNum];
@@ -109,6 +110,10 @@ void updateTime()
 {
     mins = outputTimeDS1307(0x01);
     hours = outputTimeDS1307(0x02);
+    if(mins > 59)
+    {
+        setTimeDS1307(0x00,0x00,(hours+1)%24);
+    }
 }
 
 bool timeChange()
