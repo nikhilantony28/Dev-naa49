@@ -201,6 +201,7 @@ outputTimeDS1307(uint8_t reg)
 		return 0;
 	}
 	else{
+		warpPrint("%x",deviceDS1307State.i2cBuffer[0]);
 		return convertSexaHexa(deviceDS1307State.i2cBuffer[0]);
 	}
 }
