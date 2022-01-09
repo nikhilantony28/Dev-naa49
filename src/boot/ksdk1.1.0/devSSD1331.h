@@ -58,8 +58,8 @@ typedef enum
 	kSSD1331CommandVCOMH		= 0xBE,
 } SSD1331Commands;
 
-static uint8_t lpx;
-static uint8_t lpy;
+static uint8_t lpx = 1;
+static uint8_t lpy = 1;
 // static void FontSizeConvert();
 
 uint8_t chr_size;
