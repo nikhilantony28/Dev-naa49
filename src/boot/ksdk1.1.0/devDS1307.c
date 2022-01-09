@@ -107,7 +107,8 @@ convertHexa2Sexa(uint8_t num)
 	uint8_t upperNibble;
 	upperNibble = num/10;
 	upperNibble <<= 4;
-	return (num + upperNibble);
+	uint8_t out = num + upperNibble;
+	return out;
 }
 
 uint8_t
@@ -119,7 +120,8 @@ convertSexa2Hexa(uint8_t num)
 	uint8_t lowerNibble;
 	units = num%16;
 	tens = num >> 4; 
-	return (units + tens*10);
+	uint8_t out = (units + tens*10);
+	return out;
 }
 
 WarpStatus
