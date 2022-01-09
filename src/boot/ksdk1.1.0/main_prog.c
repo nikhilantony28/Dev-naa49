@@ -66,7 +66,7 @@ void main_printTime()
         }
         else
         {
-            devMFRC522init();
+            //devMFRC522init();
             devSSD1331init();
             setBrightness(0x0F);
             warpPrint(pillNames[alarmNum]);
@@ -77,6 +77,7 @@ void main_printTime()
             writeString(pillNames[alarmNum]);
             for (int j =0; j<100;j++)
             {
+            devMFRC522init();
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
@@ -86,6 +87,8 @@ void main_printTime()
                 j = 100;  
                 
             }
+            powerDown();
+
             }
             alarmState = false;
             setBrightness(0x01);
