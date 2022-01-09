@@ -104,7 +104,7 @@ setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
 }
 
 uint8_t
-convertHexa2Sexa(uint8_t num)
+convertHexaSexa(uint8_t num)
 {
 	uint8_t upperNibble;
 	upperNibble = num/10;
@@ -114,7 +114,7 @@ convertHexa2Sexa(uint8_t num)
 }
 
 uint8_t
-convertSexa2Hexa(uint8_t num)
+convertSexaHexa(uint8_t num)
 {
 	uint8_t tens;
 	uint8_t units;
