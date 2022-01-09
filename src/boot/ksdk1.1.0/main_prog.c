@@ -90,12 +90,12 @@ void main_printTime()
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 20;  
-                alarmState = false;
+                
             }
-            /*
-            pillCode = pillCodes[alarmNum];
-            checkTag(pillCode);
-            */
+            alarmState = false;
+            setBrightness(0x01);
+            clearScreen(0x00,0x00,0x5F,0x3F);
+            lastReadTag = 0;
             }
 
         }
