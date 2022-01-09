@@ -92,7 +92,7 @@ convertHexaSexa(uint8_t num)
 	uint8_t upperNibble;
 	upperNibble = num/10;
 	upperNibble <<= 4;
-	uint8_t out = num + upperNibble;
+	uint8_t out = num%10 + upperNibble;
 	return out;
 }
 
