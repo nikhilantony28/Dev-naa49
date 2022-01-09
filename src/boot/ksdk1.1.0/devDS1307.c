@@ -84,6 +84,30 @@ writeSensorRegisterDS1307(uint8_t deviceRegister, uint8_t payload)
 
 	return kWarpStatusOK;
 }
+/*
+uint8_t
+convertHexaSexa(uint8_t num)
+{
+	uint8_t upperNibble;
+	upperNibble = num/10;
+	//upperNibble <<= 4;
+	uint8_t out = num + upperNibble;
+	return out;
+}
+*/
+
+uint8_t
+convertSexaHexa(uint8_t num)
+{
+	uint8_t tens;
+	uint8_t units;
+	uint8_t upperNibble;
+	uint8_t lowerNibble;
+	units = num%16;
+	tens = num >> 4; 
+	uint8_t out = (units + tens*10);
+	return out;
+}
 
 WarpStatus
 setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
@@ -106,28 +130,7 @@ setTimeDS1307(uint8_t seconds, uint8_t minutes, uint8_t hours)
 	return (i2cWriteStatus1 | i2cWriteStatus2 | i2cWriteStatus3);
 }
 
-uint8_t
-convertHexaSexa(uint8_t num)
-{
-	uint8_t upperNibble;
-	upperNibble = num/10;
-	//upperNibble <<= 4;
-	uint8_t out = num + upperNibble;
-	return out;
-}
 
-uint8_t
-convertSexaHexa(uint8_t num)
-{
-	uint8_t tens;
-	uint8_t units;
-	uint8_t upperNibble;
-	uint8_t lowerNibble;
-	units = num%16;
-	tens = num >> 4; 
-	uint8_t out = (units + tens*10);
-	return out;
-}
 
 WarpStatus
 readSensorRegisterDS1307(uint8_t deviceRegister,  int numberOfBytes)
