@@ -55,7 +55,7 @@ void main_printTime()
     int alarmNum = 0;
     setBrightness(0x01);
     while(1){
-        MRRC522PowerDown();
+        MFRC522PowerDown();
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
