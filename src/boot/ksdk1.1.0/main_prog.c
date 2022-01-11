@@ -81,13 +81,13 @@ void main_printTime()
             OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
             OSA_TimeDelay(200);
-            MFRC522SoftPowerUp();
+            MFRC522PowerUp();
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 100;  
                 
             }
-            MFRC522SoftPowerDown();
+            MFRC522PowerDown();
 
             }
             alarmState = false;
