@@ -56,7 +56,7 @@ void main_printTime()
     setBrightness(0x01);
     while(1){
         //MFRC522PowerDown();
-        MFRC522SoftPowerDown();
+        //MFRC522SoftPowerDown();
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
@@ -81,13 +81,13 @@ void main_printTime()
             OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
             OSA_TimeDelay(200);
-            MFRC522PowerUp();
+            //MFRC522PowerUp();
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 100;  
                 
             }
-            MFRC522PowerDown();
+            //MFRC522PowerDown();
 
             }
             alarmState = false;
