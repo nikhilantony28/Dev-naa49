@@ -67,7 +67,6 @@ void main_printTime()
         }
         else
         {
-            MFRC522PowerUp();
             devSSD1331init();
             setBrightness(0x0F);
             warpPrint(pillNames[alarmNum]);
@@ -82,13 +81,13 @@ void main_printTime()
             OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
             OSA_TimeDelay(200);
-            MFRC522PowerUp();
+            MFRC522SoftPowerUp();
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 100;  
                 
             }
-            MFRC522PowerDown();
+            MFRC522SoftPowerDown();
 
             }
             alarmState = false;
