@@ -53,10 +53,9 @@ void main_printTime()
     0x8804b7162d
     };
     int alarmNum = 0;
+    MFRC522SoftPowerDown;
     setBrightness(0x01);
     while(1){
-        MFRC522PowerDown();
-        //MFRC522SoftPowerDown();
     if(timeChange())
     {
         alarmNum = checkAlarm(alarmH,alarmM);
@@ -81,14 +80,11 @@ void main_printTime()
             OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
             OSA_TimeDelay(200);
-            MFRC522PowerUp();
             if(checkTag(pillCodes[alarmNum]))
             {
                 j = 100;  
                 
             }
-            MFRC522PowerDown();
-
             }
             alarmState = false;
             setBrightness(0x01);
@@ -154,6 +150,7 @@ void
 readTag()
 {
 warpPrint("reading");
+MFRC522SoftPowerUp();
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
@@ -175,6 +172,7 @@ uint8_t data[5];
 		    warpPrint("No card present");
 	    }   
     }
+MFRC522SoftPowerDown();
 }
 
 bool
