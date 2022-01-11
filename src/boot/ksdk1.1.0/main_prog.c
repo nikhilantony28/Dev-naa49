@@ -35,7 +35,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    setTimeDS1307(0x00,0x38,0x09);
+    setTimeDS1307(0x50,0x39,0x09);
     showTime();
     uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
     uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};
@@ -53,8 +53,11 @@ void main_printTime()
     0x8804b7162d
     };
     int alarmNum = 0;
+    //low power additions
     MFRC522SoftPowerDown;
     setBrightness(0x01);
+
+
     while(1){
     if(timeChange())
     {
@@ -66,8 +69,7 @@ void main_printTime()
         }
         else
         {
-            devSSD1331init();
-            setBrightness(0x0F);
+            setBrightness(0x0F); //low power addition
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
@@ -87,7 +89,9 @@ void main_printTime()
             }
             }
             alarmState = false;
+            //low power addition
             setBrightness(0x01);
+
             clearScreen(0x00,0x00,0x5F,0x3F);
             lastReadTag = 0;
             showTime();
@@ -150,7 +154,7 @@ void
 readTag()
 {
 warpPrint("reading");
-MFRC522SoftPowerUp();
+MFRC522SoftPowerUp(); //low power addition
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
@@ -172,7 +176,7 @@ uint8_t data[5];
 		    warpPrint("No card present");
 	    }   
     }
-MFRC522SoftPowerDown();
+MFRC522SoftPowerDown(); // low power addition
 }
 
 bool
