@@ -79,7 +79,7 @@ void main_printTime()
             for (int j =0; j<100;j++)
             {
             //bottomRECT(0x00,0x90,0x00);
-            bottomRECT(0xFF,0xFF,0xFF);
+            bottomRECT(0xA0,0xA0,0xA0);
             OSA_TimeDelay(200);
             bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(200);
