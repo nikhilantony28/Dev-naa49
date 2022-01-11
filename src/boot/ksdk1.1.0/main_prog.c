@@ -54,8 +54,8 @@ void main_printTime()
     };
     int alarmNum = 0;
     //low power additions
-    MFRC522SoftPowerDown;
-    setBrightness(0x01);
+    //MFRC522SoftPowerDown;
+    //setBrightness(0x01);
 
 
     while(1){
@@ -69,7 +69,7 @@ void main_printTime()
         }
         else
         {
-            setBrightness(0x0F); //low power addition
+            //setBrightness(0x0F); //low power addition
             warpPrint(pillNames[alarmNum]);
             showTime();
             writeString(" Take");
@@ -78,9 +78,9 @@ void main_printTime()
             writeString(pillNames[alarmNum]);
             for (int j =0; j<100;j++)
             {
-            bottomRECT(0x00,0x00,0x00);
-            OSA_TimeDelay(400);
             bottomRECT(0x00,0x90,0x00);
+            OSA_TimeDelay(200);
+            bottomRECT(0x00,0x00,0x00);
             OSA_TimeDelay(200);
             if(checkTag(pillCodes[alarmNum]))
             {
@@ -90,7 +90,7 @@ void main_printTime()
             }
             alarmState = false;
             //low power addition
-            setBrightness(0x01);
+            //setBrightness(0x01);
 
             clearScreen(0x00,0x00,0x5F,0x3F);
             lastReadTag = 0;
@@ -154,7 +154,7 @@ void
 readTag()
 {
 warpPrint("reading");
-MFRC522SoftPowerUp(); //low power addition
+//MFRC522SoftPowerUp(); //low power addition
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
@@ -176,7 +176,7 @@ uint8_t data[5];
 		    warpPrint("No card present");
 	    }   
     }
-MFRC522SoftPowerDown(); // low power addition
+//MFRC522SoftPowerDown(); // low power addition
 }
 
 bool
