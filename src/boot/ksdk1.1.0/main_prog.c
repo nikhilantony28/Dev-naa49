@@ -159,6 +159,8 @@ warpPrint("reading");
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
+    mfrc522_get_card_serial(data) == lastReadTag;
+    /*
 	    if(mfrc522_get_card_serial(data) == 0)
         {
 		    lastReadTag = data[0];
@@ -175,7 +177,8 @@ uint8_t data[5];
 	    else
         {
 		    warpPrint("No card present");
-	    }   
+	    }
+    */   
     }
 //MFRC522SoftPowerDown(); // low power addition
 }
