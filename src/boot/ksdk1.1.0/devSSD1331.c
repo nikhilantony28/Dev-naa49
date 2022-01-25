@@ -280,7 +280,7 @@ devSSD1331init(void)
 }
 	
 
-void writeChar(int value)
+void writeChar(char value)
 {
 	uint8_t chMode = 0;
 	if ((value < 31) || (value > 127))
@@ -380,22 +380,19 @@ void pixel(uint8_t x,uint8_t y, char colour)
 }
 
 /*
-Function: writeString 
-* Writes a string to the OLED diplay
-* pString: Character array containing the string to be written
-This function was adapted from: 
-https://electropeak.com/learn/the-beginners-guide-to-display-text-image-animation-on-oled-display-by-arduino/
+	writeString is given a 
 */
 void writeString(const char *pString)
 {
 
     while (*pString != '\0') 
 	{       
-		//int charAscii = (int)*pString;
-        writeChar((int)*pString);
+        writeChar(*pString);
         pString++;
     }
 }
+
+
 
 void writeTime(uint8_t hours, uint8_t mins)
 {
@@ -407,21 +404,6 @@ void writeTime(uint8_t hours, uint8_t mins)
 	writeChar((mins/10) + 48);
 	writeChar((mins%10) + 48);
 	
-}
-
-/*
-Function: writeInt 
-* Writes a multi-digit number to the OLED diplay
-* pString: Array where each element contains one digit of the number
-* 		   eg. Number: 103 -> pString=[1,0,3]
-*/
-void writeInt(int* pString, int size)
-{
-    for (int i=0; i<size;i++) 
-	{       
-		int charAscii = pString[i]+48;
-        writeChar(charAscii);
-    }
 }
 
 /*

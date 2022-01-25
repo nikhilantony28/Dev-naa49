@@ -70,7 +70,7 @@ uint16_t displayedNumber = 0;
 bool DCPin = false;
 
 int	devSSD1331init(void);
-void writeChar(int value);
+void writeChar(char value);
 void pixel(uint8_t x,uint8_t y,char colour);
 void locate(uint8_t column, uint8_t row);
 void setLine(uint8_t Line);
