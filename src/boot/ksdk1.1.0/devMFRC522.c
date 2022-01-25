@@ -92,16 +92,6 @@ readSensorRegisterMFRC522(uint8_t addr)
 	return inBuffer[1];
 }
 
-//
-void
-clearBitMask(uint8_t addr, uint8_t mask)
-{
-	uint8_t current;
-	current = readSensorRegisterMFRC522(addr);
-	writeSensorRegisterMFRC522(addr, current & (~mask));
-}
-
-
 void
 setBitMask(uint8_t addr, uint8_t mask)
 {
@@ -109,19 +99,13 @@ setBitMask(uint8_t addr, uint8_t mask)
 	writeSensorRegisterMFRC522(addr, current | mask);
 }
 
-
-
-/* 0x91 = software version 1.0, 0x92 = software version 2.0
-   my tags return 0x92 i.e. version 2.0 */
-uint8_t
-getFirmwareVersion(void)
+void
+clearBitMask(uint8_t addr, uint8_t mask)
 {
-	volatile uint8_t response;
-	response = readSensorRegisterMFRC522(VersionReg);
-	return response;
-
+	uint8_t current;
+	current = readSensorRegisterMFRC522(addr);
+	writeSensorRegisterMFRC522(addr, current & (~mask));
 }
-
 
 /*
 * Send a command to the tag. CMD = command, data = sent data, dlen = data length, result = received data, rlen = result length (i.e. received data length)
@@ -133,83 +117,95 @@ Returns: MI_ERR if an error occurs
 uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *rlen)
 {
 	int status = MI_ERR;
-  	//uint8_t irqEn = 0x70;
 	uint8_t irqEn = 0x00;
   	uint8_t waitIRq = 0x00;
   	uint8_t lastBits, n;
     int i;
 
-  	switch (cmd) {
-  	case MFRC522_AUTHENT:
-    	irqEn = 0x12;
-    	waitIRq = 0x10;
-    	break;
-  	case MFRC522_TRANSCEIVE:
-    	irqEn = 0x77;
-    	waitIRq = 0x30;
-    	break;
-  	default:
-    	break;
-  }
+  	switch (cmd) 
+	{
+		case MFRC522_AUTHENT:
+			irqEn = 0x12;
+			waitIRq = 0x10;
+			break;
+		case MFRC522_TRANSCEIVE:
+			irqEn = 0x77;
+			waitIRq = 0x30;
+			break;
+		default:
+			break;
+  	}
 
-	writeSensorRegisterMFRC522(CommIEnReg, irqEn|0x80);    /* IRQ sent to the tag */
-	clearBitMask(CommIrqReg, 0x80);             /* Clear all interrupt requests bits. */
-	setBitMask(FIFOLevelReg, 0x80);             /* FlushBuffer=1, FIFO initialization */
+	writeSensorRegisterMFRC522(CommIEnReg, irqEn|0x80);    	// interrupt request
+  	clearBitMask(CommIrqReg, 0x80);             			// Clear all interrupt requests bits.
+  	setBitMask(FIFOLevelReg, 0x80);            				// FlushBuffer=1, FIFO initialization
 
-	writeSensorRegisterMFRC522(CommandReg, MFRC522_IDLE);  // Cancel current command - no action
+	writeSensorRegisterMFRC522(CommandReg, MFRC522_IDLE);   // No action, cancel the current command.
 
-	/* Write data to FIFO */
-	for (i=0; i < dlen; i++) {
+	// Write to FIFO
+	for (i=0; i < dlen; i++) 
+	{
 		writeSensorRegisterMFRC522(FIFODataReg, data[i]);
 	}
 
-	/* Execute the command. */
+	//Execute the command.
 	writeSensorRegisterMFRC522(CommandReg, cmd);
-	if (cmd == MFRC522_TRANSCEIVE) {
+	if (cmd == MFRC522_TRANSCEIVE) 
+	{
 		setBitMask(BitFramingReg, 0x80);  // StartSend=1, transmission of data starts
 	}
 
-	/* Waiting for the command to complete so we can receive data. */
-	i = 25;
-	do {
-		OSA_TimeDelay(1); // added in additional 1ms time delay - need to wait for command to finish
+	//Waiting for the command to complete so we can receive data.
+	i = 25; // Max wait time is 25ms.
+	do 
+	{
+		OSA_TimeDelay(1);
 		n = readSensorRegisterMFRC522(CommIrqReg);
 		i--;
 	} while ((i!=0) && !(n&0x01) && !(n&waitIRq));
 
-	clearBitMask(BitFramingReg, 0x80);  /* StartSend=0 */
+	clearBitMask(BitFramingReg, 0x80);  // StartSend=0 
 
-	if (i != 0) { /* Request receieved a reply from tag reader. */
-		if(!(readSensorRegisterMFRC522(ErrorReg) & 0x1B)) {  /* No errors were generated in the command */
-		status = MI_OK;
-		if (n & irqEn & 0x01) {
-			status = MI_NOTAGERR;
-		}
+	if (i != 0) 
+	{ // Request did not time out.
+		if(!(readSensorRegisterMFRC522(ErrorReg) & 0x1B)) 
+		{  // BufferOvfl Collerr CRCErr ProtocolErr
+			status = MI_OK;
+			if (n & irqEn & 0x01) 
+			{
+				status = MI_NOTAGERR;
+			}
 
-		if (cmd == MFRC522_TRANSCEIVE) {
-			n = readSensorRegisterMFRC522(FIFOLevelReg);
-			lastBits = readSensorRegisterMFRC522(ControlReg) & 0x07;
-			if (lastBits) {
-				*rlen = (n-1)*8 + lastBits;
+			if (cmd == MFRC522_TRANSCEIVE) 
+			{
+				n = readSensorRegisterMFRC522(FIFOLevelReg);
+				lastBits = readSensorRegisterMFRC522(ControlReg) & 0x07;
+				if (lastBits) 
+				{
+					*rlen = (n-1)*8 + lastBits;
+				} else 
+				{
+					*rlen = n*8;
+				}
+
+				if (n == 0) 
+				{
+					n = 1;
+				}
+
+				if (n > MAX_LEN) 
+				{
+					n = MAX_LEN;
+				}
+
+				// Read the recieved data from FIFO
+				for (i=0; i<n; i++) 
+				{
+				result[i] = readSensorRegisterMFRC522(FIFODataReg);
+				}
+			}
 			} else {
-				*rlen = n*8;
-			}
-
-			if (n == 0) {
-				n = 1;
-			}
-
-			if (n > MAX_LEN) {
-				n = MAX_LEN;
-			}
-
-			/* Read the recieved data from FIFO */
-			for (i=0; i<n; i++) {
-			result[i] = readSensorRegisterMFRC522(FIFODataReg);
-			}
-		}
-		} else {
-		status = MI_ERR;
+			status = MI_ERR;
 		}
 	}
 	return status;
@@ -220,12 +216,14 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 uint8_t request_tag(uint8_t mode, uint8_t *data)
 {
 	int status, len;
-	writeSensorRegisterMFRC522(BitFramingReg, 0x07);
+	writeSensorRegisterMFRC522(BitFramingReg, 0x07); // TxLastBists = BitFramingReg[2..0]
 
 	data[0] = mode;
 	status = commandTag(MFRC522_TRANSCEIVE, data, 1, data, &len);
 
-	if((status != MI_OK) || (len != 0x10)){
+	if((status != MI_OK) || (len != 0x10))
+	{
+		//something has gone wrong
 		status = MI_ERR;
 	};
 
@@ -285,43 +283,28 @@ devMFRC522init()
 
 	// Set CS pin high
 	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-	/*
-	 *	RST high->low->high.
-	 */
+	// Set RST pin high
 	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
 
-	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
+	/* Initialising sensor*/
+
+	writeSensorRegisterMFRC522(TModeReg, 0x8D);       
 	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
 	writeSensorRegisterMFRC522(TReloadRegL, 30);
 	writeSensorRegisterMFRC522(TReloadRegH, 0);
 
-	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      /* 100%ASK */
+	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      
 	writeSensorRegisterMFRC522(ModeReg, 0x3D);
 
-	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	setBitMask(TxControlReg, 0x03);        // Turn antenna on
 	return;
 }
-void
-MFRC522PowerUp()
-{
-	// Set CS pin high
-	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
-	/*
-	 *	RST high->low->high.
-	 */
-	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
 
-	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
-	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
-	writeSensorRegisterMFRC522(TReloadRegL, 30);
-	writeSensorRegisterMFRC522(TReloadRegH, 0);
-
-	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      /* 100%ASK */
-	writeSensorRegisterMFRC522(ModeReg, 0x3D);
-
-	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
-	return;
-}
+/* 
+	This functions is used to power off the device via the reset pins. 
+	This function is not used in the final design as the soft power down 
+	and up are much more effective.
+*/
 
 void
 MFRC522PowerDown()
@@ -329,11 +312,51 @@ MFRC522PowerDown()
 	GPIO_DRV_ClearPinOutput(kMFRC522PinRST);
 }
 
+/* 
+	This functions is used to power up the device via the reset pins. 
+	This function is not used in the final design as the soft power down 
+	and up are much more effective. The device needs reinitialsing as it 
+	has been reset.
+*/
+
+void
+MFRC522PowerUp()
+{
+	// Set CS pin high
+	GPIO_DRV_SetPinOutput(kMFRC522PinCSn);
+	// Set RST pin high
+	GPIO_DRV_SetPinOutput(kMFRC522PinRST);
+	
+	/* Initialising sensor*/
+
+
+	writeSensorRegisterMFRC522(TModeReg, 0x8D);       // These 4 lines input the prescaler to the timer - see datasheet for why these values
+	writeSensorRegisterMFRC522(TPrescalerReg, 0x3E);
+	writeSensorRegisterMFRC522(TReloadRegL, 30);
+	writeSensorRegisterMFRC522(TReloadRegH, 0);
+
+	writeSensorRegisterMFRC522(TxAutoReg, 0x40);      /* 100%ASK */
+	writeSensorRegisterMFRC522(ModeReg, 0x3D);
+
+	setBitMask(TxControlReg, 0x03);        /* Turn antenna on */
+	return;
+}
+
+/* 
+	This functions is used to 'soft' power down the device via the command 
+	register and power saving mode. 
+*/
+
 void
 MFRC522SoftPowerDown()
 {
 	writeSensorRegisterMFRC522(CommandReg,0x10);
 }
+
+/* 
+	This functions is used to 'soft' power up the device via the command 
+	register and power saving mode. There is no need for reinitialsing
+*/
 
 void
 MFRC522SoftPowerUp()

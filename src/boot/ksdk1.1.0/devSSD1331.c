@@ -16,6 +16,9 @@
 volatile uint8_t	inBuffer[1];
 volatile uint8_t	payloadBytes[1];
 
+
+//Array containing pixels used to display each character. Each character is 6*8 pixels
+
 static const char alphabet[0x60][6] = {
     { 0x00,0x00,0x00,0x00,0x00,0x00 } , /*SPC */
     { 0x00,0x00,0x5F,0x00,0x00,0x00 } , /* !  */
@@ -128,15 +131,19 @@ writeCommand(uint8_t commandByte)
 {
 	spi_status_t status;
 	
+	/*
+		Certain commands require the interrupt pin to be high when writing
+	*/
 	if(DCPin)
 	{
 		GPIO_DRV_SetPinOutput(kSSD1331PinDC);
 	}
 	else
 	{
-			GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
+		GPIO_DRV_ClearPinOutput(kSSD1331PinDC);
 
 	}
+
 	/*
 	 *	Drive /CS low.
 	 *
@@ -266,7 +273,6 @@ devSSD1331init(void)
 	/*
 	 *	Any post-initialization drawing commands go here.
 	 */
-	//...
 	setLine(1);
 	chr_size = HIGH;
 
@@ -309,14 +315,18 @@ void writeChar(int value)
 /*
 Function: locate 
 * Sets the position on the display
-* column: Column index
-* row: Row index 
+
+This function is based on a similar driver function in 
+https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
+
 */
 void locate(uint8_t column, uint8_t row)
 {
     char_x  = column;
     char_y = row;
 }
+
+
 void setLine(uint8_t Line)
 {
 	char_y = 10 + (Line-1)* Y_height*2;
@@ -328,10 +338,9 @@ Function: pixel
 * Writes a single pixel to the OLED diplay
 * x: X location where the pixel must be placed
 * y: Y location where the pixel must be placed
-* colour: Flag indicating whether the current pixel is background or foreground. 
-*		  Only the foreground pixels are drawn to increase the speed of writing
-*		  to the display
-This function was adapted from: 
+
+
+This function is based on a similar driver function in 
 https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
 */
 void pixel(uint8_t x,uint8_t y, char colour)
@@ -346,18 +355,24 @@ void pixel(uint8_t x,uint8_t y, char colour)
 		cmd[2] = x;
 		cmd[4] = y;
 		cmd[5] = y;
-		//writeCommandMulti(cmd,6);
+
 		writeCommand(cmd[0]);
 		writeCommand(cmd[1]);
 		writeCommand(cmd[2]);
 		writeCommand(cmd[3]);
 		writeCommand(cmd[4]);
 		writeCommand(cmd[5]);
-		DCPin = true;
-		//writeCommand(0x01);
-		//writeCommand(0xE0);
+
+		DCPin = true; // next two lines need interrupt pin to be high
+		
+		writeCommand(0xFF); //colour is white for high power
 		writeCommand(0xFF);
-		writeCommand(0xFF);
+
+		/*
+		writeCommand(0x01); //colour is green for low power (2 byte RGB values picked are from datasheet)
+		writeCommand(0xE0);
+		*/
+
 		DCPin = false;
 	}
 	else
@@ -373,11 +388,11 @@ https://electropeak.com/learn/the-beginners-guide-to-display-text-image-animatio
 */
 void writeString(const char *pString)
 {
-	// int lpx,lpy;
-	// FontSizeConvert(&lpx, &lpy);
-    while (*pString != '\0') {       
-		int charAscii = (int)*pString;
-        writeChar(charAscii);
+
+    while (*pString != '\0') 
+	{       
+		//int charAscii = (int)*pString;
+        writeChar((int)*pString);
         pString++;
     }
 }
