@@ -280,7 +280,8 @@ devSSD1331init(void)
 }
 	
 
-void writeChar(char value)
+void 
+writeChar(char value)
 {
 	uint8_t chMode = 0;
 	if ((value < 31) || (value > 127))
@@ -320,14 +321,16 @@ This function is based on a similar driver function in
 https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
 
 */
-void locate(uint8_t column, uint8_t row)
+void 
+locate(uint8_t column, uint8_t row)
 {
     char_x  = column;
     char_y = row;
 }
 
 
-void setLine(uint8_t Line)
+void 
+setLine(uint8_t Line)
 {
 	char_y = 10 + (Line-1)* Y_height*2;
 	char_x = 3;
@@ -343,7 +346,8 @@ Function: pixel
 This function is based on a similar driver function in 
 https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
 */
-void pixel(uint8_t x,uint8_t y, char colour)
+void 
+pixel(uint8_t x,uint8_t y, char colour)
 {
 	if (colour)
 	{
@@ -382,7 +386,8 @@ void pixel(uint8_t x,uint8_t y, char colour)
 /*
 	writeString is given a 
 */
-void writeString(const char *pString)
+void 
+writeString(const char *pString)
 {
 
     while (*pString != '\0') 
@@ -394,7 +399,8 @@ void writeString(const char *pString)
 
 
 
-void writeTime(uint8_t hours, uint8_t mins)
+void 
+writeTime(uint8_t hours, uint8_t mins)
 {
 	clearLine(1);
 	setLine(1);
@@ -407,14 +413,10 @@ void writeTime(uint8_t hours, uint8_t mins)
 }
 
 /*
-Function: clearScreen 
-* Clears portions of the display
-* x_start: X coordinate of the start position
-* y_start: Y coordinate of the start position
-* x_end: X coordinate of the end position
-* y_end: Y coordinate of the end position
+	devSSD1331Clear makes the whole screen go black
 */
-void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
+void 
+devSSD1331Clear()
 {
 	writeCommand(kSSD1331CommandCLEAR);
 	writeCommand(0x00);
@@ -422,7 +424,13 @@ void clearScreen(uint8_t x_start, uint8_t y_start,uint8_t x_end,uint8_t y_end)
 	writeCommand(0x5F);
 	writeCommand(0x3F);
 }
-void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
+
+/*
+	devSSD1331BottomRect creates a coloured rectangle on the third line. 
+	The colours depend on the values of input parameters.
+*/
+void 
+devSSD1331BottomRect(uint8_t red, uint8_t green, uint8_t blue)
 {
 
 	writeCommand(kSSD1331CommandDRAWRECT);
@@ -442,7 +450,12 @@ void bottomRECT(uint8_t red, uint8_t green, uint8_t blue)
 	return 0;
 }
 
-void clearLine(uint8_t line)
+/*
+	devSSD1331ClearLine clears one of the lines requested.
+*/
+
+void 
+devSSD1331ClearLine(uint8_t line)
 {
 	setLine(line);
 	writeCommand(kSSD1331CommandDRAWRECT);
@@ -460,8 +473,11 @@ void clearLine(uint8_t line)
 	writeCommand(0x00);
 }
 
+/*
+	devSSD1331ClearLine clears one of the lines requested.
+*/
 void
-setBrightness(uint8_t level)
+devSSD1331setBrightness(uint8_t level)
 {
 	writeCommand(0x87);
 	writeCommand(level);

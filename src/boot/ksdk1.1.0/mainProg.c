@@ -44,7 +44,7 @@ void mainProgram()
     showTime();
     uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10}; // medication alarm times : hours
     uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};// medication alarm times : minutes
-    char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};// medication alarm names
+    char*  pillNames[10] = {"Pill1","Pill2","Pill3","Pill4","Pill5","Pill6","Pill7","Pill8","Pill9","Pill10"};// medication alarm names
     uint64_t pillCodes[10] = {
     0x880404D850,
     0x880495829b,
@@ -91,7 +91,7 @@ void mainProgram()
             {
                 //flashing bottom reactangle
 
-                bottomRECT(0xA0,0xA0,0xA0);
+                bottomRECT(0xF0,0xF0,0xF0);
                 OSA_TimeDelay(200);
                 bottomRECT(0x00,0x00,0x00);
                 OSA_TimeDelay(200);
