@@ -23,9 +23,7 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
-//extern volatile uint32_t		gWarpSpiTimeoutMicroseconds;
-//extern volatile uint32_t		gWarpSPIBaudRateKbps;
-#define _BV(bit) (1<<(bit))
+//#define _BV(bit) (1<<(bit))
 
 
 /*

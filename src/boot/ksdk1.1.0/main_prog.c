@@ -32,14 +32,19 @@ extern volatile uint32_t		gWarpI2cTimeoutMilliseconds;
 extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
+/*
+Main code to run program. Program has infinite loop.
 
-void main_printTime()
+*/
+
+
+void mainProgram()
 {
-    setTimeDS1307(0x50,0x39,0x09);
+    setTimeDS1307(0x50,0x39,0x09); // for demo delete in real code
     showTime();
-    uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
-    uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};
-    char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
+    uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10}; // medication alarm times : hours
+    uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};// medication alarm times : minutes
+    char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};// medication alarm names
     uint64_t pillCodes[10] = {
     0x880404D850,
     0x880495829b,
@@ -51,48 +56,58 @@ void main_printTime()
     0x880454b66e,
     0x88040440c8,
     0x8804b7162d
-    };
+    };// codes of the nfc tags
     int alarmNum = 0;
-    //low power additions
-    //MFRC522SoftPowerDown;
-    //setBrightness(0x01);
-
+    /* //low power additions remove comment if low power mode is set
+        MFRC522SoftPowerDown;
+        setBrightness(0x01);
+    */
 
     while(1){
-    if(timeChange())
+    if(timeChange()) //below code is excutecuted everytime the minute changes
     {
         alarmNum = checkAlarm(alarmH,alarmM);
         if(!alarmState)
         {
+            // updates display to show new time
+
             warpPrint(" 0x%02x 0x%02x,", hours, mins);
             showTime();
         }
         else
         {
             //setBrightness(0x0F); //low power addition
-            warpPrint(pillNames[alarmNum]);
+            //warpPrint(pillNames[alarmNum]); debug print statement
+
+            //updates display to tell user to take the correct medication
             showTime();
             writeString(" Take");
             clearLine(2);
             setLine(2);
             writeString(pillNames[alarmNum]);
-            for (int j =0; j<100;j++)
+
+
+            for (int j =0; j<200;j++)
             {
-            //bottomRECT(0x00,0x90,0x00);
-            bottomRECT(0xA0,0xA0,0xA0);
-            OSA_TimeDelay(200);
-            bottomRECT(0x00,0x00,0x00);
-            OSA_TimeDelay(200);
-            if(checkTag(pillCodes[alarmNum]))
-            {
-                j = 100;  
-                
-            }
+                //flashing bottom reactangle
+
+                bottomRECT(0xA0,0xA0,0xA0);
+                OSA_TimeDelay(200);
+                bottomRECT(0x00,0x00,0x00);
+                OSA_TimeDelay(200);
+
+                if(checkTag(pillCodes[alarmNum]))//checks to see if tag matches alarm's preset tag code
+                {
+                    j = 200;  //exit loop
+                    
+                }
             }
             alarmState = false;
-            //low power addition
-            //setBrightness(0x01);
 
+
+            //setBrightness(0x01);//low power addition
+
+            //reset
             clearScreen(0x00,0x00,0x5F,0x3F);
             lastReadTag = 0;
             showTime();
@@ -105,17 +120,18 @@ void main_printTime()
     }
     
 }
+/*
+    ipdateTime checks the DS1307 minutes and hours registers and sets the variables mins and hours to the value in the registers
+*/
+
 void updateTime()
 {
     mins = outputTimeDS1307(0x01);
     hours = outputTimeDS1307(0x02);
-    /*
-    if(mins > 59)
-    {
-        setTimeDS1307(0x00,0x00,(hours+1)%24);
-    }
-    */
 }
+/*
+    timeChanges returns true if time now is different to what was previously saved
+*/
 
 bool timeChange()
 {
@@ -133,11 +149,19 @@ bool timeChange()
     }
 }
 
+/*
+    showTime writes the time to the OLED display using the writeTime function in the driver
+*/
+
 void showTime()
 {
     updateTime();
     writeTime(hours,mins);
 }
+
+/*
+    checkAlarm looks if the time matches any of the preset alarm times
+*/
 
 int checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
 {
@@ -151,16 +175,27 @@ int checkAlarm(uint8_t *alarmH, uint8_t *alarmM)
     }
     return 0;
 }
+
+/*
+    readTag trys to read a tag code if there is one present
+*/
+
 void
 readTag()
 {
-warpPrint("reading");
+
+//warpPrint("reading"); //debug print statement
+
 //MFRC522SoftPowerUp(); //low power addition
+
 uint8_t data[5];
-    if(request_tag(0x26, data) == 0)
-    { //checks for a tag
-	    if(mfrc522_get_card_serial(data) == 0)
+    if(request_tag(0x26, data) == 0)//checks for a tag
+    { 
+	    if(mfrc522_get_card_serial(data) == 0)//checks to see if tagRead was okay. Output is saved as data.
         {
+            //converts data into a single uint64 number
+
+
 		    lastReadTag = data[0];
             lastReadTag <<= 8;
             lastReadTag += data[1];
@@ -179,6 +214,10 @@ uint8_t data[5];
     }
 //MFRC522SoftPowerDown(); // low power addition
 }
+
+/*
+    checkTag compares the last read tag to the parsed one.
+*/
 
 bool
 checkTag(uint64_t savedData)
