@@ -2061,7 +2061,7 @@ main(void)
 	warpPrint("hello");
 	if(!checkTag(0x880404D850))//Checks to see if debug tag is added on
 	{
-		main_printTime();	
+		mainProgram();	
 	}
 	while (1)
 	{
