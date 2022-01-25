@@ -181,7 +181,7 @@ uint8_t data[5];
     */   
     }
 //MFRC522SoftPowerDown(); // low power addition
-warpPrint("0x", lastReadTag);
+warpPrint(lastReadTag);
 }
 
 bool
