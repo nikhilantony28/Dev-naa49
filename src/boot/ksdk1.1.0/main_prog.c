@@ -35,11 +35,10 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void main_printTime()
 {
-    setTimeDS1307(0x50,0x39,0x09);
     showTime();
-    uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10};
-    uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9};
-    char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"};
+    uint8_t alarmH[10] = {9,10,10,11,12,13,14,15,16,10}; // sets the hour for the medication alarms
+    uint8_t alarmM[10] = {58,0,2,3,4,5,6,7,8,9}; // sets the minutes for the medication alarms
+    char*  pillNames[10] = {"pill1","pill2","pill3","pill4","pill5","pill6","pill7","pill8","pill9","pill10"}; // gives the names to display when alarm rings
     uint64_t pillCodes[10] = {
     0x880404D850,
     0x880495829b,
@@ -51,7 +50,7 @@ void main_printTime()
     0x880454b66e,
     0x88040440c8,
     0x8804b7162d
-    };
+    }; // corresponding code for when alarm rings
     int alarmNum = 0;
     //low power additions
     //MFRC522SoftPowerDown;
@@ -159,8 +158,10 @@ warpPrint("reading");
 uint8_t data[5];
     if(request_tag(0x26, data) == 0)
     { //checks for a tag
+    /*
 	    if(mfrc522_get_card_serial(data) == 0)
         {
+            
 		    lastReadTag = data[0];
             lastReadTag <<= 8;
             lastReadTag += data[1];
@@ -175,8 +176,12 @@ uint8_t data[5];
 	    else
         {
 		    warpPrint("No card present");
-	    }   
+	    } 
+        */
+        lastReadTag = mfrc522_get_card_serial(data);
+        warpPrint(lastReadTag);
     }
+    
 //MFRC522SoftPowerDown(); // low power addition
 }
 
