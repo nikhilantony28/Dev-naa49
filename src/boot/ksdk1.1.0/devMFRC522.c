@@ -235,9 +235,10 @@ uint8_t request_tag(uint8_t mode, uint8_t *data)
 }
 
 
-uint64_t mfrc522_get_card_serial(uint8_t* serial_out, uint64_t word)
+uint64_t mfrc522_get_card_serial(uint8_t* serial_out)
 {
 	int status, i, len;
+	uint64_t word;
 	uint8_t check = 0x00;
 
 	writeSensorRegisterMFRC522(BitFramingReg, 0x00);
