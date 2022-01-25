@@ -120,8 +120,9 @@ void mainProgram()
     }
     
 }
+
 /*
-    ipdateTime checks the DS1307 minutes and hours registers and sets the variables mins and hours to the value in the registers
+    updateTime checks the DS1307 minutes and hours registers and sets the variables mins and hours to the value in the registers
 */
 
 void updateTime()
