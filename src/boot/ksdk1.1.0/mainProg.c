@@ -21,7 +21,7 @@
 #include "devSSD1331.h"
 #include "devDS1307.h"
 #include "devMFRC522.h"
-#include "main_prog.h"
+#include "mainProg.h"
 
 
 
