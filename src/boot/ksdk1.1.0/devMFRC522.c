@@ -235,10 +235,9 @@ uint8_t request_tag(uint8_t mode, uint8_t *data)
 }
 
 
-uint64_t mfrc522_get_card_serial(uint8_t* serial_out)
+uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
 {
 	int status, i, len;
-	uint64_t word;
 	uint8_t check = 0x00;
 
 	writeSensorRegisterMFRC522(BitFramingReg, 0x00);
@@ -257,9 +256,8 @@ uint64_t mfrc522_get_card_serial(uint8_t* serial_out)
 			status = MI_ERR;
 		}
 	}
-	word = serial_out[1]*0x1000000 + serial_out[2]*0x10000 + serial_out[3]*0x100 +serial_out[4];
 
-	return word;
+	return status;
 
 }
 
