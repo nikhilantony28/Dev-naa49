@@ -309,7 +309,7 @@ writeChar(char value)
 				Temp = Temp << 1;
 			}
 	}
-	char_x++;
+	char_x += (lpx);
 }
 
 
