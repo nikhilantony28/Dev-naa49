@@ -273,7 +273,8 @@ devSSD1331init(void)
 	/*
 	 *	Any post-initialization drawing commands go here.
 	 */
-	setLine(1);
+
+	devSSD1331SetLine(1);
 	chr_size = HIGH;
 
 
@@ -296,41 +297,23 @@ writeChar(char value)
 	
 	for(i=0; i<xw; i++) 
 	{
-		for ( l=0; l<lpx; l++)
-		{
 			Temp = alphabet[value-32][i];
 			for(j=Y_height-1; j>=0; j--) 
 			{
-				for (k=0; k<lpy; k++) 
+				for (k=0; k<2; k++) 
 				{
 					chMode = Temp & 0x80? 1 : 0;
-					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*lpy)-1)-k,chMode);
+					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*2)-1)-k,chMode);
 				}
 				Temp = Temp << 1;
 			}
-		}
 	}
 	char_x += (w*lpx);
 }
 
-/*
-Function: locate 
-* Sets the position on the display
-
-This function is based on a similar driver function in 
-https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
-
-*/
-void 
-locate(uint8_t column, uint8_t row)
-{
-    char_x  = column;
-    char_y = row;
-}
-
 
 void 
-setLine(uint8_t Line)
+devSSD1331SetLine(uint8_t Line)
 {
 	char_y = 10 + (Line-1)* Y_height*2;
 	char_x = 3;
@@ -387,7 +370,7 @@ pixel(uint8_t x,uint8_t y, char colour)
 	writeString is given a 
 */
 void 
-writeString(const char *pString)
+devSSD1331WriteString(const char *pString)
 {
 
     while (*pString != '\0') 
@@ -400,13 +383,13 @@ writeString(const char *pString)
 
 
 void 
-writeTime(uint8_t hours, uint8_t mins)
+devSSD1331WriteTime(uint8_t hours, uint8_t mins)
 {
 	clearLine(1);
 	setLine(1);
 	writeChar((hours/10) + 48);
 	writeChar((hours%10) + 48);
-	writeString(":");
+	devSSD1331WriteString(":");
 	writeChar((mins/10) + 48);
 	writeChar((mins%10) + 48);
 	
@@ -477,7 +460,7 @@ devSSD1331ClearLine(uint8_t line)
 	devSSD1331ClearLine clears one of the lines requested.
 */
 void
-devSSD1331setBrightness(uint8_t level)
+devSSD1331SetBrightness(uint8_t level)
 {
 	writeCommand(0x87);
 	writeCommand(level);

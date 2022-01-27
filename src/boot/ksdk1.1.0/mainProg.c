@@ -60,7 +60,7 @@ void mainProgram()
     int alarmNum = 0;
     /* //low power additions remove comment if low power mode is set
         MFRC522SoftPowerDown;
-        setBrightness(0x01);
+        devSSD1331SetBrightness(0x01);
     */
 
     while(1){
@@ -76,24 +76,24 @@ void mainProgram()
         }
         else
         {
-            //setBrightness(0x0F); //low power addition
+            //devSSD1331SetBrightness(0x0F); //low power addition
             //warpPrint(pillNames[alarmNum]); debug print statement
 
             //updates display to tell user to take the correct medication
             showTime();
-            writeString(" Take");
-            clearLine(2);
-            setLine(2);
-            writeString(pillNames[alarmNum]);
+            devSSD1331WriteString(" Take");
+            devSSD1331ClearLine(2);
+            devSSD1331SetLine(2);
+            devSSD1331WriteString(pillNames[alarmNum]);
 
 
             for (int j =0; j<200;j++)
             {
                 //flashing bottom reactangle
 
-                bottomRECT(0xF0,0xF0,0xF0);
+                devSSD1331BottomRect(0xF0,0xF0,0xF0);
                 OSA_TimeDelay(200);
-                bottomRECT(0x00,0x00,0x00);
+                devSSD1331BottomRect(0x00,0x00,0x00);
                 OSA_TimeDelay(200);
 
                 if(checkTag(pillCodes[alarmNum]))//checks to see if tag matches alarm's preset tag code
@@ -105,10 +105,10 @@ void mainProgram()
             alarmState = false;
 
 
-            //setBrightness(0x01);//low power addition
+            //devSSD1331SetBrightness(0x01);      //low power addition
 
             //reset
-            clearScreen(0x00,0x00,0x5F,0x3F);
+            devSSD1331Clear();
             lastReadTag = 0;
             showTime();
 
@@ -151,13 +151,13 @@ bool timeChange()
 }
 
 /*
-    showTime writes the time to the OLED display using the writeTime function in the driver
+    showTime writes the time to the OLED display using the devSSD1331WriteTime function in the driver
 */
 
 void showTime()
 {
     updateTime();
-    writeTime(hours,mins);
+    devSSD1331WriteTime(hours,mins);
 }
 
 /*
