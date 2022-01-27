@@ -309,7 +309,7 @@ writeChar(char value)
 				Temp = Temp << 1;
 			}
 	}
-	char_x += lpx*X_width;
+	char_x += X_width;
 }
 
 

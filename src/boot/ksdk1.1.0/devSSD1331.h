@@ -2,21 +2,8 @@
  *	See https://github.com/adafruit/Adafruit-SSD1331-OLED-Driver-Library-for-Arduino for the Arduino driver.
  */
 
-#define NORMAL  0
-#define WIDE    1
-#define HIGH    2
-#define WH      3
-#define WHx36   4
-#define X_width 6 
-#define Y_height 8
-#define TEXT_COLOUR 0xffff
-#define WHITE 0xffff
-#define GREEN 0xffff
-// Screen Settings
-#define WIDTH   96       // Max X axial direction in screen
-#define HEIGHT  64      // Max Y axial direction in screen
-#define width   96-1       // Max X axial direction in screen
-#define height  64-1       // Max Y axial direction in screen
+
+   
 
 typedef enum
 {
@@ -58,15 +45,16 @@ typedef enum
 	kSSD1331CommandVCOMH		= 0xBE,
 } SSD1331Commands;
 
-static uint8_t lpx = 1;
-static uint8_t lpy = 2;
-// static void FontSizeConvert();
+#define X_width 6 
+#define Y_height 8
+#define WIDTH   96       
+#define HEIGHT  64     
+#define width   96-1      
+#define height  64-1  
 
-uint8_t chr_size;
+
 uint8_t char_x;
 uint8_t char_y;
-uint16_t displayedNumber = 0;
-
 bool DCPin = false;
 
 int	devSSD1331init(void);
