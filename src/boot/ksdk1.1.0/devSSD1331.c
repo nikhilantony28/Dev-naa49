@@ -1,3 +1,12 @@
+/*
+	This driver is based on code from:
+
+	Physical Computation Laboratory, Cambridge	 (https://github.com/physical-computation/Warp-firmware)
+	Paul Staron 	(https://os.mbed.com/users/star297/code/ssd1331//file/4385fd242db0/ssd1331.cpp/)
+
+
+ */
+
 #include <stdint.h>
 
 /*
@@ -345,13 +354,14 @@ pixel(uint8_t x,uint8_t y)
 
 		DCPin = true; // next two lines need interrupt pin to be high
 		
+		/*
 		writeCommand(0xFF); //colour is white for high power
 		writeCommand(0xFF);
-
-		/*
+		*/
+		
 		writeCommand(0x01); //colour is green for low power (2 byte RGB values picked are from datasheet)
 		writeCommand(0xE0);
-		*/
+		
 
 		DCPin = false;
 }

@@ -91,7 +91,7 @@ void mainProgram()
             {
                 //flashing bottom reactangle
 
-                devSSD1331BottomRect(0xF0,0xF0,0xF0);
+                devSSD1331BottomRect(0x00,0xA0,0x00);
                 OSA_TimeDelay(200);
                 devSSD1331BottomRect(0x00,0x00,0x00);
                 OSA_TimeDelay(200);

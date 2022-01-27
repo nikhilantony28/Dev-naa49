@@ -1,9 +1,13 @@
+/*
+	This driver is based on code from:
 
-/**************************************************************************/
-/*!
-Adaptation of MFRC522 RFID sensor to the Warp firmware using https://github.com/ljos/MFRC522/blob/master/MFRC522.cpp 
-*/
-/**************************************************************************/
+	Physical Computation Laboratory, Cambridge (https://github.com/physical-computation/Warp-firmware)
+	Miguel Balboa (https://github.com/miguelbalboa/rfid)
+	Asif Mahmud Shimon (https://github.com/asif-mahmud/MIFARE-RFID-with-AVR)
+
+ */
+
+
 
 
 #include <stdint.h>
@@ -90,12 +94,20 @@ readSensorRegisterMFRC522(uint8_t addr)
 	return inBuffer[1];
 }
 
+/*
+	setBitMask is a function from  https://github.com/miguelbalboa/rfid/blob/master/src/MFRC522.cpp
+*/
+
 void
 setBitMask(uint8_t addr, uint8_t mask)
 {
 	uint8_t current = readSensorRegisterMFRC522(addr);
 	writeSensorRegisterMFRC522(addr, current | mask);
 }
+
+/*
+	clearBitMask is a function from  https://github.com/miguelbalboa/rfid/blob/master/src/MFRC522.cpp 
+*/
 
 void
 clearBitMask(uint8_t addr, uint8_t mask)
@@ -104,6 +116,10 @@ clearBitMask(uint8_t addr, uint8_t mask)
 	current = readSensorRegisterMFRC522(addr);
 	writeSensorRegisterMFRC522(addr, current & (~mask));
 }
+
+/*
+	commandTag is a function from  https://github.com/miguelbalboa/rfid/blob/master/src/MFRC522.cpp
+*/
 
 uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *rlen)
 {
@@ -202,7 +218,9 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 	return status;
 }
 
-
+/*
+	requestTag is a function from https://github.com/miguelbalboa/rfid/blob/master/src/MFRC522.cpp which checks to set if a tag is present
+*/
 
 uint8_t requestTag(uint8_t mode, uint8_t *data)
 {
@@ -221,6 +239,10 @@ uint8_t requestTag(uint8_t mode, uint8_t *data)
 	return status;
 }
 
+/*
+	getCode is based on https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-library/lib to read the code of a tag
+	The input array serial_out is loaded with the tag's code
+*/
 
 uint8_t getCode(uint8_t *serial_out)
 {
