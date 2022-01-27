@@ -62,6 +62,7 @@ void mainProgram()
         MFRC522SoftPowerDown;
         devSSD1331SetBrightness(0x01);
     */
+   devSSD1331SetBrightness(0x01);
 
     while(1){
     if(timeChange()) //below code is excutecuted everytime the minute changes
@@ -105,7 +106,7 @@ void mainProgram()
             alarmState = false;
 
 
-            //devSSD1331SetBrightness(0x01);      //low power addition
+            devSSD1331SetBrightness(0x01);      //low power addition
 
             //reset
             devSSD1331Clear();
