@@ -57,11 +57,10 @@ void mainProgram()
     0x8804b7162d
     };// codes of the nfc tags
     int alarmNum = 0;
-    /* //low power additions remove comment if low power mode is set
+     //low power additions remove comment if low power mode is set
         MFRC522SoftPowerDown;
         devSSD1331SetBrightness(0x01);
-    */
-   devSSD1331SetBrightness(0x01);
+    
 
     while(1){
     if(timeChange()) //below code is excutecuted everytime the minute changes
@@ -76,7 +75,7 @@ void mainProgram()
         }
         else
         {
-            //devSSD1331SetBrightness(0x0F); //low power addition
+            devSSD1331SetBrightness(0x0F); //low power addition
             //warpPrint(pillNames[alarmNum]); debug print statement
 
             //updates display to tell user to take the correct medication
@@ -93,7 +92,7 @@ void mainProgram()
 
                 devSSD1331BottomRect(0x00,0xA0,0x00);
                 OSA_TimeDelay(200);
-                //devSSD1331BottomRect(0x00,0x00,0x00);
+                devSSD1331BottomRect(0x00,0x00,0x00);
                 OSA_TimeDelay(200);
 
                 if(checkTag(pillCodes[alarmNum]))//checks to see if tag matches alarm's preset tag code
