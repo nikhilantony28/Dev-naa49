@@ -306,8 +306,10 @@ writeChar(char value)
 			{
 				for (k=0; k<2; k++) 
 				{
-					chMode = Temp & 0x80? 1 : 0;
-					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*2)-1)-k,chMode);
+					if(Temp & 0x80)
+					{
+					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*2)-1)-k);
+					}
 				}
 				Temp = Temp << 1;
 			}
@@ -328,10 +330,9 @@ devSSD1331SetLine(uint8_t Line)
 	https://os.mbed.com/users/star297/code/ssd1331//file/4385fd242db0/ssd1331.cpp/
 */
 void 
-pixel(uint8_t x,uint8_t y, char colour)
+pixel(uint8_t x,uint8_t y)
 {
-	if (colour)
-	{
+	
 		unsigned char cmd[7]= {kSSD1331CommandSETCOLUMN,0x00,0x00,kSSD1331CommandSETROW,0x00,0x00};
 
 		if ((x>width)||(y>height)) return ; //out of bounds
@@ -359,9 +360,6 @@ pixel(uint8_t x,uint8_t y, char colour)
 		*/
 
 		DCPin = false;
-	}
-	else
-		return;
 }
 
 /*
