@@ -190,9 +190,9 @@ readTag()
 //MFRC522SoftPowerUp(); //low power addition
 
 uint8_t data[5];
-    if(request_tag(0x26, data) == 0)//checks for a tag
+    if(requestTag(0x26, data) == 0)//checks for a tag
     { 
-	    if(mfrc522_get_card_serial(data) == 0)//checks to see if tagRead was okay. Output is saved as data.
+	    if(getCode(data) == 0)//checks to see if tagRead was okay. Output is saved as data.
         {
             //converts data into a single uint64 number
 

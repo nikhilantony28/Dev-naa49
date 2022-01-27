@@ -280,6 +280,10 @@ devSSD1331init(void)
 
 }
 	
+/*
+	writeChar is used to display a character by using pixel multiple times. It is modified from 
+	https://os.mbed.com/users/star297/code/ssd1331//file/4385fd242db0/ssd1331.cpp/
+*/
 
 void 
 writeChar(char value)
@@ -320,14 +324,8 @@ devSSD1331SetLine(uint8_t Line)
 }
 
 /*
-Function: pixel 
-* Writes a single pixel to the OLED diplay
-* x: X location where the pixel must be placed
-* y: Y location where the pixel must be placed
-
-
-This function is based on a similar driver function in 
-https://os.mbed.com/users/star297/code/ssd1331/docs/tip/ssd1331_8h_source.html
+	Pixel is used to set an individual pixel to a certain colour. It is used by writeChar to write the characters. It is modified from 
+	https://os.mbed.com/users/star297/code/ssd1331//file/4385fd242db0/ssd1331.cpp/
 */
 void 
 pixel(uint8_t x,uint8_t y, char colour)
@@ -367,7 +365,7 @@ pixel(uint8_t x,uint8_t y, char colour)
 }
 
 /*
-	writeString is given a 
+	devSSD1331writeString is given a input string and iterates through it to display the string on the OLED
 */
 void 
 devSSD1331WriteString(const char *pString)
@@ -380,7 +378,9 @@ devSSD1331WriteString(const char *pString)
     }
 }
 
-
+/*
+	devSSD1331writeTime is given a input time in hours and minutes and displays the time on the OLED
+*/
 
 void 
 devSSD1331WriteTime(uint8_t hours, uint8_t mins)

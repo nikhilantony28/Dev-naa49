@@ -62,7 +62,7 @@
 #include "gpio_pins.h"
 #include "SEGGER_RTT.h"
 #include "devSSD1331.h"
-#include "mainProg.h"
+#include "main_prog.h"
 
 #define							kWarpConstantStringI2cFailure		"\rI2C failed, reg 0x%02x, code %d\n"
 #define							kWarpConstantStringErrorInvalidVoltage	"\rInvalid supply voltage [%d] mV!"
@@ -2094,9 +2094,7 @@ main(void)
 		warpPrint("\r- 's': power up all sensors.\n");
 		warpPrint("\r- 't': dump processor state.\n");
 		warpPrint("\r- 'u': set I2C address.\n");
-		warpPrint("\r '#': RFID Menu.\n");
-		warpPrint("\r '[': Timecheck.\n");
-		warpPrint("\r '?': Pill tracker settings.\n");
+		warpPrint("\r '?': Medication tracker settings.\n");
 
 
 		#if (WARP_BUILD_ENABLE_DEVAT45DB)
@@ -2831,8 +2829,7 @@ main(void)
 			{
 				int fourDig;
 				warpPrint("\n '1' : Set time");
-				warpPrint("\n '2' : Edit pill data");
-				warpPrint("\n '3' : View time");
+				warpPrint("\n '2' : Show time");
 				warpPrint("\n Enter Selection >");
 				OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
 			  	key = warpWaitKey();
@@ -2846,84 +2843,8 @@ main(void)
 						setTimeDS1307(0x00,fourDig%100,fourDig/100);
 						break;
 					}
+					
 					case '2' :
-					{
-						warpPrint("\n '1' : Edit name of existing pill");
-						warpPrint("\n '2' : Edit Alarm time of existing pill");
-						warpPrint("\n '3' : Add new pill");
-						warpPrint("\n '3' : Note only one alarm allow per pill. If needed to be taken more than once a day please add the second time as another entry");
-						warpPrint("\n Enter Selection >");
-						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-			  			key = warpWaitKey();
-			  			switch(key)
-						{
-							case '1':
-							{
-													
-								int num;
-								warpPrint("\n Enter Selection >");
-								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-								key = 0;
-								key = warpWaitKey();
-								num = key - '0';
-								if((key>47)&&(key<58))
-								{
-
-									warpPrint("\n Name:");
-									read12letter();
-									warpPrint(inputText);
-									for(int item = 0; item < 13; item++)
-								{
-									warpPrint("%d",(num*13 + item));
-								}
-									
-									//enterPillName(inputText,(key - '0'));
-									writeString(inputText);
-
-								}
-								if (key == ':')
-								{
-									warpPrint("\n Name:");
-									read12letter();
-									warpPrint(inputText);
-									//pillNames[5] = inputText;
-									//enterPillName(inputText,(5));
-									//writeString(inputText);
-								}
-								else
-								{
-									warpPrint("Invalid selection");
-								}
-								break;
-							}
-							case '2':
-							{
-													
-								int num;
-								warpPrint("\n Enter Selection >");
-								OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-								key = 0;
-								key = warpWaitKey();
-								num = key - '0';
-								if((key>47)&&(key<58))
-								{
-									//warpPrint("\n %d", alarmM[num]);
-									warpPrint("\n Name:");
-									fourDig = read4digits();
-									warpPrint(inputText);
-									//alarmM[num] = fourDig;
-									
-
-								}
-								else
-								{
-									warpPrint("Invalid selection");
-								}
-								break;
-							}
-						}
-					}
-					case '3' :
 					{
 						uint8_t mins;
 						uint8_t hours;
@@ -2937,70 +2858,6 @@ main(void)
 					}
 				}
 				break;
-			}
-			case '#':
-			{
-			  warpPrint("\r\n\t1. Save UID for tag: ");
-			  warpPrint("\r\n\t2. Test UID: ");
-			  OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds);
-			  key = warpWaitKey();
-			  switch(key)
-			  {
-					//uint8_t data_rfid[16];
-			    case '1':
-			    {
-					
-						//uint8_t data_rfid[MAX_LEN] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
-						warpPrint("\nSaved UID: ");
-			      if( request_tag(0x26, data_rfid) == 0){
-			        if(mfrc522_get_card_serial(data_rfid) == 0){
-			          for(int datcop =0; datcop <5; datcop++){
-			            uid[datcop] = data_rfid[datcop];
-			            warpPrint("0x%02x ", uid[datcop]);
-			          }
-
-			        }
-			      }
-			      else{
-			        warpPrint("No card present");
-			      }
-			      break;
-			    }
-			    case '2':
-			    {
-						warpPrint("\n2. Saved UID: ");
-						for(int datcop =0; datcop <5; datcop++){
-			      	warpPrint("0x%02x ", uid[datcop]);
-						}
-						warpPrint("\n2. Test UID (1s delay): ");
-						OSA_TimeDelay(gWarpMenuPrintDelayMilliseconds*200);
-			      if( request_tag(0x26, data_rfid) == 0){
-			        if(mfrc522_get_card_serial( data_rfid) == 0){
-			          for(int datcop =0; datcop <5; datcop++){
-			            uid2[datcop] = data_rfid[datcop];
-			            warpPrint("0x%02x ", uid2[datcop]);
-			          }
-								int correct = 1;
-								for(int datcop =0; datcop <5; datcop++){
-									if (uid2[datcop] != uid[datcop]){
-										correct = 0;
-									}
-								}
-								if (correct == 1){
-									warpPrint("\r\n\tCorrect card present");
-								}
-								else{
-									warpPrint("\r\n\tIncorrect card present");
-								}
-							}
-			      }
-			      else{
-			        warpPrint("No card present");
-			      }
-			      break;
-			    }
-			  }
-			  break;
 			}
 		}
 	}

@@ -1,8 +1,7 @@
 
 /**************************************************************************/
 /*!
-Adaptation of MFRC522 RFID sensor to the Warp firmware using https://github.com/ljos/MFRC522/blob/master/MFRC522.cpp and
-https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-library/lib for 4B25 Coursework - rlj36
+Adaptation of MFRC522 RFID sensor to the Warp firmware using https://github.com/ljos/MFRC522/blob/master/MFRC522.cpp 
 */
 /**************************************************************************/
 
@@ -23,7 +22,6 @@ https://github.com/asif-mahmud/MIFARE-RFID-with-AVR/tree/master/lib/avr-rfid-lib
 
 volatile uint8_t	inBuffer[32];
 volatile uint8_t	payloadBytes[32];
-//#define _BV(bit) (1<<(bit))
 
 
 /*
@@ -106,13 +104,6 @@ clearBitMask(uint8_t addr, uint8_t mask)
 	current = readSensorRegisterMFRC522(addr);
 	writeSensorRegisterMFRC522(addr, current & (~mask));
 }
-
-/*
-* Send a command to the tag. CMD = command, data = sent data, dlen = data length, result = received data, rlen = result length (i.e. received data length)
-Returns: MI_ERR if an error occurs
-         MI_NOTAGERR if no tag to send command to
-         MI_ OK if everything worked
-*/
 
 uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *rlen)
 {
@@ -213,7 +204,7 @@ uint8_t commandTag(uint8_t cmd, uint8_t *data, int dlen, uint8_t *result, int *r
 
 
 
-uint8_t request_tag(uint8_t mode, uint8_t *data)
+uint8_t requestTag(uint8_t mode, uint8_t *data)
 {
 	int status, len;
 	writeSensorRegisterMFRC522(BitFramingReg, 0x07); // TxLastBists = BitFramingReg[2..0]
@@ -231,7 +222,7 @@ uint8_t request_tag(uint8_t mode, uint8_t *data)
 }
 
 
-uint8_t mfrc522_get_card_serial(uint8_t *serial_out)
+uint8_t getCode(uint8_t *serial_out)
 {
 	int status, i, len;
 	uint8_t check = 0x00;
