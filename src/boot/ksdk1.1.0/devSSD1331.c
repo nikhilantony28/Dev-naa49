@@ -275,7 +275,6 @@ devSSD1331init(void)
 	 */
 
 	devSSD1331SetLine(1);
-	chr_size = HIGH;
 
 
 }
