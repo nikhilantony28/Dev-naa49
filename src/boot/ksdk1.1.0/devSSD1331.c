@@ -385,8 +385,8 @@ devSSD1331WriteString(const char *pString)
 void 
 devSSD1331WriteTime(uint8_t hours, uint8_t mins)
 {
-	clearLine(1);
-	setLine(1);
+	devSSD1331ClearLine(1);
+	devSSD1331SetLine(1);
 	writeChar((hours/10) + 48);
 	writeChar((hours%10) + 48);
 	devSSD1331WriteString(":");
@@ -440,7 +440,7 @@ devSSD1331BottomRect(uint8_t red, uint8_t green, uint8_t blue)
 void 
 devSSD1331ClearLine(uint8_t line)
 {
-	setLine(line);
+	devSSD1331SetLine(line);
 	writeCommand(kSSD1331CommandDRAWRECT);
 	writeCommand(0x00);
 	writeCommand(char_y);

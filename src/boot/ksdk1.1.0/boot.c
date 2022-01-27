@@ -2851,7 +2851,7 @@ main(void)
 						mins = outputTimeDS1307(0x01);
     					hours = outputTimeDS1307(0x02);
 						warpPrint("%d :,%d",hours,mins);
-						devSSD1331writeTime(hours,mins);
+						devSSD1331WriteTime(hours,mins);
 						//pillNames[64] = 'h';
 						break;
 
