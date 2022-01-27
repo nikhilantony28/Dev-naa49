@@ -71,7 +71,7 @@ bool DCPin = false;
 
 int	devSSD1331init(void);
 void writeChar(char value);
-void pixel(uint8_t x,uint8_t y,char colour);
+void pixel(uint8_t x,uint8_t y);
 void locate(uint8_t column, uint8_t row);
 void devSSD1331SetLine(uint8_t Line);
 void devSSD1331WriteString(const char *pString);
