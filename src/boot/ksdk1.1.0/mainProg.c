@@ -33,8 +33,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 
 /*
-Main code to run program. Program has infinite loop.
-
+    Main code to run program. Program has infinite loop.
 */
 
 

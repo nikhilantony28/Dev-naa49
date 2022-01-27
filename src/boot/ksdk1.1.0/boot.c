@@ -1837,7 +1837,6 @@ main(void)
 		}
 	#endif
 
-
 	#if (WARP_BUILD_ENABLE_DEVAT45DB)
 		/*
 		 *	Only supported in main Warp variant.
@@ -1897,14 +1896,7 @@ main(void)
 	 */
 	gWarpBooted = true;
 	warpPrint("Boot done.\n");
-	warpPrint(warpBootDate.day);
-	RTC_DRV_GetDatetime(0,&warpBootDate);
-	warpPrint(warpBootDate.day);
 	devMFRC522init(&deviceMFRC522State);
-	SEGGER_RTT_WriteString(0, "\nRFID Initialised\n");
-
-	uint8_t uid[5];
-	uint8_t uid2[5];
 
 	#if (WARP_BUILD_BOOT_TO_CSVSTREAM)
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
@@ -2023,13 +2015,9 @@ main(void)
 
 		warpDisableI2Cpins();
 
-		warpPrint("About to loop with printSensorDataBME680()...\n");
-		
+		warpPrint("About to loop with printSensorDataBME680()...\n");	
 		while (1)
 		{
-
-
-
 			blinkLED(kGlauxPinLED);
 			for (int i = 0; i < kGlauxSensorRepetitionsPerSleepIteration; i++)
 			{
@@ -2070,7 +2058,6 @@ main(void)
 		 *	want to use menu to progressiveley change the machine state with various
 		 *	commands.
 		 */
-		uint8_t data_rfid[16];
 		printBootSplash(gWarpCurrentSupplyVoltage, menuRegisterAddress, &powerManagerCallbackStructure);
 
 		warpPrint("\rSelect:\n");
@@ -2095,7 +2082,6 @@ main(void)
 		warpPrint("\r- 't': dump processor state.\n");
 		warpPrint("\r- 'u': set I2C address.\n");
 		warpPrint("\r '?': Medication tracker settings.\n");
-
 
 		#if (WARP_BUILD_ENABLE_DEVAT45DB)
 			warpPrint("\r- 'R': read bytes from Flash.\n");
@@ -2852,7 +2838,6 @@ main(void)
     					hours = outputTimeDS1307(0x02);
 						warpPrint("%d :,%d",hours,mins);
 						devSSD1331WriteTime(hours,mins);
-						//pillNames[64] = 'h';
 						break;
 
 					}
