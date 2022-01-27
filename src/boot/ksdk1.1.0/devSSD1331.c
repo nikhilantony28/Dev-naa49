@@ -288,33 +288,28 @@ devSSD1331init(void)
 void 
 writeChar(char value)
 {
-	uint8_t chMode = 0;
 	if ((value < 31) || (value > 127))
 	{
 		return;   // test char range
 	}
-	int i,j,w,k,l,xw;
 	unsigned char Temp=0;
-	j = 0; i = 0;
-	w = X_width;
-	xw = X_width;
 	
-	for(i=0; i<xw; i++) 
+	for(int i=0; i<X_width; i++) 
 	{
 			Temp = alphabet[value-32][i];
-			for(j=Y_height-1; j>=0; j--) 
+			for(int j=Y_height-1; j>=0; j--) 
 			{
-				for (k=0; k<2; k++) 
+				for (int k=0; k<2; k++) 
 				{
 					if(Temp & 0x80)
 					{
-					pixel(char_x+(i*lpx)+l, char_y+(((j+1)*2)-1)-k);
+					pixel(char_x+(i), char_y+(((j+1)*2)-1)-k);
 					}
 				}
 				Temp = Temp << 1;
 			}
 	}
-	char_x += (w*lpx);
+	char_x++;
 }
 
 
