@@ -46,11 +46,9 @@ typedef enum
 } SSD1331Commands;
 
 #define X_width 6 
-#define Y_height 8
-#define WIDTH   96       
-#define HEIGHT  64     
-#define width   96-1      
-#define height  64-1  
+#define Y_height 8  
+#define width   95      
+#define height  63 
 
 
 uint8_t char_x;
