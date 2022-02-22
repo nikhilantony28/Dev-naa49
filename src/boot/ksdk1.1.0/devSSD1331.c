@@ -354,14 +354,14 @@ pixel(uint8_t x,uint8_t y)
 
 		DCPin = true; // next two lines need interrupt pin to be high
 		
-		/*
+		
 		writeCommand(0xFF); //colour is white for high power
 		writeCommand(0xFF);
-		*/
 		
+		/*
 		writeCommand(0x01); //colour is green for low power (2 byte RGB values picked are from datasheet)
 		writeCommand(0xE0);
-		
+		*/
 
 		DCPin = false;
 }

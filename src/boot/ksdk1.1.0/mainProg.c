@@ -58,8 +58,8 @@ void mainProgram()
     };// codes of the nfc tags
     int alarmNum = 0;
      //low power additions remove comment if low power mode is set
-        MFRC522SoftPowerDown();
-        devSSD1331SetBrightness(0x01);
+        //MFRC522SoftPowerDown();
+        //devSSD1331SetBrightness(0x01);
     
 
     while(1){
@@ -98,13 +98,13 @@ void mainProgram()
                     j = 200;  //exit loop
                     
                 }
-                devSSD1331BottomRect(0x00,0xA0,0x00);
+                devSSD1331BottomRect(0xFF,0xFF,0xFF);
                 OSA_TimeDelay(200);
             }
             alarmState = false;
 
 
-            devSSD1331SetBrightness(0x01);      //low power addition
+            //devSSD1331SetBrightness(0x01);      //low power addition
 
             //reset
             devSSD1331Clear();
@@ -186,7 +186,7 @@ readTag()
 
 //warpPrint("reading"); //debug print statement
 
-MFRC522SoftPowerUp(); //low power addition
+//MFRC522SoftPowerUp(); //low power addition
 
 uint8_t data[5];
     if(requestTag(0x26, data) == 0)//checks for a tag
@@ -212,7 +212,7 @@ uint8_t data[5];
 		    warpPrint("No card present");
 	    }   
     }
-MFRC522SoftPowerDown(); // low power addition
+//MFRC522SoftPowerDown(); // low power addition
 }
 
 /*
