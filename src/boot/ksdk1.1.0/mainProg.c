@@ -92,7 +92,7 @@ void mainProgram()
 
                 devSSD1331BottomRect(0x00,0xA0,0x00);
                 OSA_TimeDelay(200);
-                devSSD1331BottomRect(0x00,0x00,0x00);
+                devSSD1331BottomRect(0xA0,0x00,0xA0);
                 OSA_TimeDelay(200);
 
                 if(checkTag(pillCodes[alarmNum]))//checks to see if tag matches alarm's preset tag code
