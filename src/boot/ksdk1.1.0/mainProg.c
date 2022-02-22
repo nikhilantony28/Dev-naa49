@@ -98,7 +98,7 @@ void mainProgram()
                     j = 200;  //exit loop
                     
                 }
-                devSSD1331BottomRect(0xA0,0x00,0xA0);
+                devSSD1331BottomRect(0xFF,0x00,0xFF);
                 OSA_TimeDelay(200);
             }
             alarmState = false;
