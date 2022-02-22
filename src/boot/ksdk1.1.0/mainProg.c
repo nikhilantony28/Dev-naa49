@@ -90,7 +90,7 @@ void mainProgram()
             {
                 //flashing bottom reactangle
 
-                devSSD1331BottomRect(0x00,0xA0,0x00);
+                devSSD1331BottomRect(0x00,0x00,0x00);
                 OSA_TimeDelay(200);
 
                 if(checkTag(pillCodes[alarmNum]))//checks to see if tag matches alarm's preset tag code
@@ -98,7 +98,7 @@ void mainProgram()
                     j = 200;  //exit loop
                     
                 }
-                devSSD1331BottomRect(0xFF,0x00,0xFF);
+                devSSD1331BottomRect(0x00,0xA0,0x00);
                 OSA_TimeDelay(200);
             }
             alarmState = false;
