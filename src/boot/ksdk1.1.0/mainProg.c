@@ -39,7 +39,7 @@ extern volatile uint32_t		gWarpSupplySettlingDelayMilliseconds;
 
 void mainProgram()
 {
-    setTimeDS1307(0x50,0x00,0x12); // for demo delete in real code
+    setTimeDS1307(0x50,0x00,0x0C); // for demo delete in real code
     showTime();
     uint8_t alarmH[10] = {12,12,10,12,12,12,14,15,16,10}; // medication alarm times : hours
     uint8_t alarmM[10] = {1,2,2,3,3,5,6,7,8,9};// medication alarm times : minutes
